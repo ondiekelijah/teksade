@@ -1,0 +1,33 @@
+{
+  "name": "hiredly-tw",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write src/**/*.{css,scss,ts,tsx}",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@tailwindcss/forms": "^0.4.0",
+    "clsx": "^1.1.1",
+    "next": "12.0.8",
+    "next-themes": "^0.0.15",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "swiper": "^7.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "17.0.8",
+    "@types/react": "17.0.38",
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.6.0",
+    "eslint-config-next": "12.0.8",
+    "postcss": "^8.4.5",
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.7",
+    "tailwindcss": "^3.0.13",
+    "typescript": "4.5.4"
+  }
+}
