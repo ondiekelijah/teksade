@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper";
@@ -6,8 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "@/components/Button";
 import { Chip } from "@/components/Chip";
 
-import { GraphQLClient } from 'graphql-request';
-import { gql } from 'graphql-request';
 
 
 const communitiesCategories = [
