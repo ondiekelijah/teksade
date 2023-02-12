@@ -142,36 +142,36 @@ const Communities = () => {
   };
 
   // Sorting
-  const handleCityOrder = (col) => {
-    if (order === "asc") {
-      const sortedEvents = [...events].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setEvents(sortedEvents);
-      setOrder("desc");
-    }
+  const handleCityOrder = () => {
+    // if (order === "asc") {
+    //   const sortedEvents = [...events].sort((a, b) =>
+    //     a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+    //   );
+    //   setEvents(sortedEvents);
+    //   setOrder("desc");
+    // }
 
-    if (order === "desc") {
-      const sortedEvents = [...events].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setEvents(sortedEvents);
-      setOrder("asc");
-    }
+    // if (order === "desc") {
+    //   const sortedEvents = [...events].sort((a, b) =>
+    //     a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+    //   );
+    //   setEvents(sortedEvents);
+    //   setOrder("asc");
+    // }
   };
 
-  const handlePriceOrder = (col) => {
-    if (order === "asc") {
-      const sortedEvents = [...events].sort((a, b) => a[col] - b[col]);
-      setEvents(sortedEvents);
-      setOrder("desc");
-    }
+  const handlePriceOrder = () => {
+    // if (order === "asc") {
+    //   const sortedEvents = [...events].sort((a, b) => a[col] - b[col]);
+    //   setEvents(sortedEvents);
+    //   setOrder("desc");
+    // }
 
-    if (order === "desc") {
-      const sortedEvents = [...events].sort((a, b) => b[col] - a[col]);
-      setEvents(sortedEvents);
-      setOrder("asc");
-    }
+    // if (order === "desc") {
+    //   const sortedEvents = [...events].sort((a, b) => b[col] - a[col]);
+    //   setEvents(sortedEvents);
+    //   setOrder("asc");
+    // }
   };
 
   return (
