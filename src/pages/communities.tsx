@@ -55,8 +55,8 @@ const Communities = () => {
 
   // UseEffect to fetch the events from the json file
   useEffect(() => {
-    setEvents(Events);
-  }, []);
+    setEvents(Events as never[]);
+    }, []);
 
   // Function to handle the custom filters
   const handleFilters = (e) => {
