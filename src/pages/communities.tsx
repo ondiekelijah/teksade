@@ -70,8 +70,8 @@ const Communities = () => {
       if (searchBarVal === "" && dropPriceVal !== "") {
         return (
           event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
-          event.minPrice >= min &&
-          event.minPrice <= max
+          parseInt(event.minPrice, 10) >= minPrice &&
+          parseInt(event.minPrice, 10) <= max
         );
       }
 
