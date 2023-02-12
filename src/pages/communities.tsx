@@ -63,44 +63,44 @@ const Communities = () => {
     e.preventDefault();
     // Filter to filter with city name and price range, if searchBarVal is empty, use dropCityVal and dropPriceVal
     let filteredEvents = Events.filter((event) => {
-      const [min, max] = dropPriceVal.split("-");
+      // const [min, max] = dropPriceVal.split("-");
 
-      const minPrice = parseInt(min, 10);
-      const maxPrice = parseInt(max, 10);
+      // const minPrice = parseInt(min, 10);
+      // const maxPrice = parseInt(max, 10);
 
-      if (searchBarVal === "" && dropPriceVal !== "") {
-        return (
-          event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
-          parseInt(event.minPrice, 10) >= minPrice &&
-          parseInt(event.minPrice, 10) <= maxPrice
-        );
-      }
+      // if (searchBarVal === "" && dropPriceVal !== "") {
+      //   return (
+      //     event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
+      //     parseInt(event.minPrice, 10) >= minPrice &&
+      //     parseInt(event.minPrice, 10) <= maxPrice
+      //   );
+      // }
 
-      if (searchBarVal !== "" && dropPriceVal !== "") {
-        return (
-          event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-          parseInt(event.minPrice, 10) >= minPrice &&
-          parseInt(event.minPrice, 10) <= maxPrice
-        );
-      }
+      // if (searchBarVal !== "" && dropPriceVal !== "") {
+      //   return (
+      //     event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+      //     parseInt(event.minPrice, 10) >= minPrice &&
+      //     parseInt(event.minPrice, 10) <= maxPrice
+      //   );
+      // }
       // if dropCityVal is not empty
-      if (dropCityVal !== "") {
-        return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
-      }
+      // if (dropCityVal !== "") {
+      //   return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
+      // }
       // if searchBarVal is not empty
       if (searchBarVal !== "") {
         return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
       }
-      // if all filters are empty, return all events
-      if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
-        return event;
-      }
-      // If searchBarVal is not empty, use searchBarVal and dropPriceVal
-      return (
-        event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-        parseInt(event.minPrice, 10) >= minPrice &&
-        parseInt(event.minPrice, 10) <= maxPrice
-      );
+      // // if all filters are empty, return all events
+      // if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
+      //   return event;
+      // }
+      // // If searchBarVal is not empty, use searchBarVal and dropPriceVal
+      // return (
+      //   event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+      //   parseInt(event.minPrice, 10) >= minPrice &&
+      //   parseInt(event.minPrice, 10) <= maxPrice
+      // );
     });
 
     setEvents(filteredEvents);
