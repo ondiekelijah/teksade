@@ -66,20 +66,21 @@ const Communities = () => {
       const [min, max] = dropPriceVal.split("-");
 
       const minPrice = parseInt(min, 10);
+      const maxPrice = parseInt(max, 10);
 
       if (searchBarVal === "" && dropPriceVal !== "") {
         return (
           event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
           parseInt(event.minPrice, 10) >= minPrice &&
-          parseInt(event.minPrice, 10) <= max
+          parseInt(event.minPrice, 10) <= maxPrice
         );
       }
 
       if (searchBarVal !== "" && dropPriceVal !== "") {
         return (
           event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-          parseInt(event.minPrice, 10) >= min &&
-          parseInt(event.minPrice, 10) <= max
+          parseInt(event.minPrice, 10) >= minPrice &&
+          parseInt(event.minPrice, 10) <= maxPrice
         );
       }
       // if dropCityVal is not empty
@@ -97,8 +98,8 @@ const Communities = () => {
       // If searchBarVal is not empty, use searchBarVal and dropPriceVal
       return (
         event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-        event.minPrice >= min &&
-        event.minPrice <= max
+        parseInt(event.minPrice, 10) >= minPrice &&
+        parseInt(event.minPrice, 10) <= maxPrice
       );
     });
 
