@@ -62,83 +62,83 @@ const Communities = () => {
   const handleFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Filter to filter with city name and price range, if searchBarVal is empty, use dropCityVal and dropPriceVal
-    let filteredEvents = Events.filter((event) => {
-      const [min, max] = dropPriceVal.split("-");
+    // let filteredEvents = Events.filter((event) => {
+    //   const [min, max] = dropPriceVal.split("-");
 
-      const minPrice = parseInt(min, 10);
-      const maxPrice = parseInt(max, 10);
+    //   const minPrice = parseInt(min, 10);
+    //   const maxPrice = parseInt(max, 10);
 
-      if (searchBarVal === "" && dropPriceVal !== "") {
-        return (
-          event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
-          parseInt(event.minPrice, 10) >= minPrice &&
-          parseInt(event.minPrice, 10) <= maxPrice
-        );
-      }
+    //   if (searchBarVal === "" && dropPriceVal !== "") {
+    //     return (
+    //       event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
+    //       parseInt(event.minPrice, 10) >= minPrice &&
+    //       parseInt(event.minPrice, 10) <= maxPrice
+    //     );
+    //   }
 
-      if (searchBarVal !== "" && dropPriceVal !== "") {
-        return (
-          event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-          parseInt(event.minPrice, 10) >= minPrice &&
-          parseInt(event.minPrice, 10) <= maxPrice
-        );
-      }
-      // if dropCityVal is not empty
-      if (dropCityVal !== "") {
-        return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
-      }
-      // if searchBarVal is not empty
-      if (searchBarVal !== "") {
-        return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
-      }
-      // if all filters are empty, return all events
-      if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
-        return event;
-      }
-      // If searchBarVal is not empty, use searchBarVal and dropPriceVal
-      return (
-        event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-        parseInt(event.minPrice, 10) >= minPrice &&
-        parseInt(event.minPrice, 10) <= maxPrice
-      );
-    });
+    //   if (searchBarVal !== "" && dropPriceVal !== "") {
+    //     return (
+    //       event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+    //       parseInt(event.minPrice, 10) >= minPrice &&
+    //       parseInt(event.minPrice, 10) <= maxPrice
+    //     );
+    //   }
+    //   // if dropCityVal is not empty
+    //   if (dropCityVal !== "") {
+    //     return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
+    //   }
+    //   // if searchBarVal is not empty
+    //   if (searchBarVal !== "") {
+    //     return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
+    //   }
+    //   // if all filters are empty, return all events
+    //   if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
+    //     return event;
+    //   }
+    //   // If searchBarVal is not empty, use searchBarVal and dropPriceVal
+    //   return (
+    //     event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+    //     parseInt(event.minPrice, 10) >= minPrice &&
+    //     parseInt(event.minPrice, 10) <= maxPrice
+    //   );
+    // });
 
     //   setEvents(filteredEvents as never[]);
 
-    setEvents(filteredEvents as never[]);
+    // setEvents(filteredEvents as never[]);
 
   };
 
   // Handle search via toggle
   const handleToggle = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-    if (toggleState === false) {
-      // show all events with the lowest price out of all the events
-      const filteredEvents = Events.filter((event) => {
-        return (
-          event.minPrice === Math.min(...Events.map((event) => event.minPrice))
-        );
-      });
-        setEvents(filteredEvents as never[]);
+    // if (toggleState === false) {
+    //   // show all events with the lowest price out of all the events
+    //   const filteredEvents = Events.filter((event) => {
+    //     return (
+    //       event.minPrice === Math.min(...Events.map((event) => event.minPrice))
+    //     );
+    //   });
+    //     setEvents(filteredEvents as never[]);
 
-      setToggleState(true);
-    } else {
-      // show all events
-      setEvents(Events);
-      setToggleState(false);
-    }
+    //   setToggleState(true);
+    // } else {
+    //   // show all events
+    //   setEvents(Events);
+    //   setToggleState(false);
+    // }
   };
 
   // Reset all filters and show all events
   const handleReset = () => {
-    setEvents(Events);
-    setSearchBarVal("");
-    setDropCityVal("");
-    setDropPriceVal("");
-    // get toggle by classname and uncheck it
-    const toggle = document.querySelector(".toggle");
-    toggle.checked = false;
-    setToggleState(false);
+    // setEvents(Events);
+    // setSearchBarVal("");
+    // setDropCityVal("");
+    // setDropPriceVal("");
+    // // get toggle by classname and uncheck it
+    // const toggle = document.querySelector(".toggle");
+    // toggle.checked = false;
+    // setToggleState(false);
   };
 
   // Sorting
