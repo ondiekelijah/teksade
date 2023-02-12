@@ -13,7 +13,7 @@ const Communities = () => {
   const [dropPriceVal, setDropPriceVal] = useState("");
 
   // find all cities for the select menu
-  const cities = [...Array.from(new Set(Events.map((event) => event.city)))];
+  const cities = [...new Set(Events.map((event) => event.city))];
 
   const tags = [
     "Android",
