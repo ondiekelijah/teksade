@@ -65,6 +65,8 @@ const Communities = () => {
     let filteredEvents = Events.filter((event) => {
       const [min, max] = dropPriceVal.split("-");
 
+      const minPrice = parseInt(min, 10);
+
       if (searchBarVal === "" && dropPriceVal !== "") {
         return (
           event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
@@ -76,8 +78,8 @@ const Communities = () => {
       if (searchBarVal !== "" && dropPriceVal !== "") {
         return (
           event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-          event.minPrice >= min &&
-          event.minPrice <= max
+          parseInt(event.minPrice, 10) >= min &&
+          parseInt(event.minPrice, 10) <= max
         );
       }
       // if dropCityVal is not empty
