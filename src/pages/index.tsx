@@ -22,7 +22,6 @@ export default function Home() {
           <Contrib />
         </div>
       </main>
-      <Footer />
     </>
   );
 }

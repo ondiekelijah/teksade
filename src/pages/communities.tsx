@@ -162,7 +162,7 @@ const Communities = () => {
             type="text"
             id="voice-search"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-[9px]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search by city ..."
+            placeholder="Search community by name, tech, or location"
             value={searchBarVal}
             onChange={(e) => setSearchBarVal(e.target.value)}
           />
@@ -180,7 +180,9 @@ const Communities = () => {
            dark:focus:ring-blue-500 dark:focus:border-blue-500
             md:mt-0 mt-2"
         >
-          <option defaultValue>City</option>
+          {/* <option defaultValue>City</option> */}
+          <option defaultValue>Any distance</option>
+
           {cities.map((city, index) => (
             <option value={city} key={index}>{city}</option>
           ))}
@@ -198,7 +200,9 @@ const Communities = () => {
           dark:focus:ring-blue-500 dark:focus:border-blue-500
            md:mt-0 mt-2"
         >
-          <option defaultValue>Price</option>
+          <option defaultValue>Topic</option>
+          {/* <option defaultValue>Price</option> */}
+
           {priceRanges.map((priceRange, index) => (
             <option value={priceRange.value} key={index}>{priceRange.label}</option>
           ))}
@@ -224,8 +228,11 @@ const Communities = () => {
             after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
           />
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-            Min price
+            All
           </span>
+          {/* <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Min price
+          </span> */}
         </label>
 
         <button
@@ -243,7 +250,7 @@ const Communities = () => {
         </button>
       </form>
 
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm sm:rounded-lg">
+      {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm sm:rounded-lg">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th className="px-2 py-3">#</th>
@@ -310,7 +317,7 @@ const Communities = () => {
             </tr>
           )}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 }

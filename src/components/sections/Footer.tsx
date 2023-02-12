@@ -6,7 +6,7 @@ import Logo from '../Logo';
 export const Footer = () => {
   return (
 
-<footer className="p-4 rounded-lg shadow md:px-6 md:py-8 dark:bg-gray-900">
+<footer className="p-4 shadow md:px-6 md:py-8 dark:bg-gray-900">
     <div className="sm:flex sm:items-center sm:justify-between">
     <Link href='/#'>
             <a className='my-auto flex w-[140px] md:ml-0'>

@@ -6,6 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "@/components/Button";
 import { Chip } from "@/components/Chip";
 
+import { GraphQLClient } from 'graphql-request';
+import { gql } from 'graphql-request';
+
+
 const communitiesCategories = [
   "Android",
   "Angular",
@@ -41,8 +45,9 @@ const communitiesCategories = [
   "TypeScript",
   "Vue.js",
   "Web Development",
-  "WordPress",  
+  "WordPress",
 ];
+
 const featuredJobsItems = [
   {
     companyName: "Kerluke Group",
@@ -81,8 +86,12 @@ const featuredJobsItems = [
   },
 ];
 
+// flex fixed top-0 z-10 w-full items-center gap-4 bg-white/80 py-1 px-5 shadow
+
 export const PopularCommunities = () => {
+  
   return (
+
     <section id="featured-jobs">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Popular Communities</h2>
@@ -132,7 +141,7 @@ export const PopularCommunities = () => {
             },
           }}
         >
-          {featuredJobsItems.map((item, i) => (
+          {featuredJobsItems.map((item, i ) => (
             <SwiperSlide key={i}>
               <Link href="/#">
                 <a className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-700">
@@ -163,3 +172,5 @@ export const PopularCommunities = () => {
     </section>
   );
 };
+
+

@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
             </a>
           </Link>
           <div className='hidden gap-2 md:ml-2 md:flex'>
-            <Link href='/#' passHref>
+            <Link href='/communities' passHref>
               <Button variant='ghost' as='a'>
                 Communities
               </Button>
