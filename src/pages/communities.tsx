@@ -207,7 +207,7 @@ const Communities = () => {
         </div>
         <select
           id="countries"
-          value={dropCityVal}
+          // value={dropCityVal}
           onChange={(e) => setDropCityVal(e.target.value)}
           onClick={handleFilters}
           className="bg-gray-50 border border-gray-300 
