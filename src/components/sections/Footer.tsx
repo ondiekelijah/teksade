@@ -21,7 +21,7 @@ export const Footer = () => {
                 <a href="#" className="mr-4 hover:underline md:mr-6 ">Communities</a>
             </li>
             <li>
-                <a href="#" className="mr-4 hover:underline md:mr-6 ">Contribute</a>
+                <a href="https://github.com/ondiekelijah/teksade/blob/master/contribution.md" target="_blank" rel="noreferrer" className="mr-4 hover:underline md:mr-6 ">Contribute</a>
             </li>
             <li>
                 <a href="#" className="hover:underline">Contact</a>
@@ -29,7 +29,7 @@ export const Footer = () => {
         </ul>
     </div>
     <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400"><a href="https://flowbite.com/" className="hover:underline">Teksade™</a>. All Rights Reserved.
+    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400"><a href="https://github.com/ondiekelijah/teksade" className="hover:underline">Teksade™</a>. All Rights Reserved.
     </span>
 </footer>
 

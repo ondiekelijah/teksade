@@ -1,9 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import { Button } from '../Button';
-
+import { useRouter } from 'next/router';
 
 export const About = () => {
+
+    const route = useRouter().push;
+    
     return (
         <div className='relative w-full min-h-screen font-sans text-gray-900 
         '>
@@ -30,7 +33,7 @@ export const About = () => {
                         There is strength in numbers. Teksade connects you with your tech tribe and even helps you discover more. We can all help to make the world a better place. Join in the fun!
                     </p>
                     <div className="flex pt-8">
-                        <Button variant='solid' as='a' className='cursor-pointer space-x-1'>
+                        <Button variant='solid' as='a' className='cursor-pointer space-x-1' onClick={() => route('/communities')}>
                             <span>Explore Communities</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
