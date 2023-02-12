@@ -114,7 +114,7 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
             <ul className='mt-8 space-y-3'>
               <li className='group relative flex h-9 items-center overflow-hidden rounded-md hover:bg-slate-200/50'>
                 <span className='absolute h-full w-2 bg-indigo-700 opacity-0 transition-all group-hover:opacity-100' />
-                <Link href='/#' passHref>
+                <Link href='/communities' passHref>
                   <a className='w-full font-medium transition-all group-hover:pl-3'>
                     Communities
                   </a>
