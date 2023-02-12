@@ -219,7 +219,7 @@ const Communities = () => {
             md:mt-0 mt-2"
         >
           {/* <option defaultValue>City</option> */}
-          <option defaultValue>Any distance</option>
+          <option>Country</option>
 
           {cities.map((city, index) => (
             <option value={city} key={index}>{city}</option>
