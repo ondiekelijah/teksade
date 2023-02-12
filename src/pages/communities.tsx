@@ -230,7 +230,7 @@ const Communities = () => {
           id="prices"
           value={dropPriceVal}
           onChange={(e) => setDropPriceVal(e.target.value)}
-          onClick={handleFilters}
+          // onClick={handleFilters}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
           focus:border-blue-500 block 
           md:w-[20%] w-[full] p-2 dark:bg-gray-700 
