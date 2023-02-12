@@ -59,7 +59,7 @@ const Communities = () => {
     }, []);
 
   // Function to handle the custom filters
-  const handleFilters = (e) => {
+  const handleFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Filter to filter with city name and price range, if searchBarVal is empty, use dropCityVal and dropPriceVal
     let filteredEvents = Events.filter((event) => {
@@ -104,7 +104,8 @@ const Communities = () => {
   };
 
   // Handle search via toggle
-  const handleToggle = (e) => {
+  const handleToggle = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
     if (toggleState === false) {
       // show all events with the lowest price out of all the events
       const filteredEvents = Events.filter((event) => {
