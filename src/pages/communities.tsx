@@ -15,12 +15,42 @@ const Communities = () => {
   // find all cities for the select menu
   const cities = [...new Set(Events.map((event) => event.city))];
 
-  // Values for display to show the price ranges, example $0 - $20 uniformly
-  const priceRanges = [
-    { value: "0-50", label: "$0 - $50" },
-    { value: "50-100", label: "$50-$100" },
-    { value: "100-200", label: "$100 - $200" },
-    { value: "200-500", label: "$200 - $500" },
+  const tags = [
+    "Android",
+    "Angular",
+    "Artificial Intelligence",
+    "Blockchain",
+    "C#",
+    "C++",
+    "CSS",
+    "Data Science",
+    "DevOps",
+    "Django",
+    "Elixir",
+    "Flutter",
+    "Go",
+    "GraphQL",
+    "HTML",
+    "iOS",
+    "Java",
+    "JavaScript",
+    "Kotlin",
+    "Laravel",
+    "Machine Learning",
+    "Node.js",
+    "PHP",
+    "Python",
+    "React",
+    "React Native",
+    "Ruby",
+    "Rust",
+    "Salesforce",
+    "Scala",
+    "Swift",
+    "TypeScript",
+    "Vue.js",
+    "Web Development",
+    "WordPress",
   ];
 
   // UseEffect to fetch the events from the json file
@@ -203,8 +233,8 @@ const Communities = () => {
           <option defaultValue>Topic</option>
           {/* <option defaultValue>Price</option> */}
 
-          {priceRanges.map((priceRange, index) => (
-            <option value={priceRange.value} key={index}>{priceRange.label}</option>
+          {tags.map((tag, index) => (
+            <option value={tag} key={index}>{tag}</option>
           ))}
         </select>
 

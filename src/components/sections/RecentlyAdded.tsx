@@ -46,7 +46,6 @@ const communitiesCategories = [
   "WordPress",
 ];
 
-
 const featuredGroups = [
   {
     id: 1, // Unique ID for the group
@@ -94,13 +93,13 @@ const featuredGroups = [
 
 // flex fixed top-0 z-10 w-full items-center gap-4 bg-white/80 py-1 px-5 shadow
 
-export const PopularCommunities = () => {
+export const RecentlyAdded = () => {
   
   return (
 
     <section id="featured-jobs">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Popular Communities</h2>
+        <h2 className="text-2xl font-bold">Recently Added</h2>
         <Button variant="outline" className="hidden xs:inline-flex">
           Show All
         </Button>

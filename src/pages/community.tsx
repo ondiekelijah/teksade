@@ -2,16 +2,16 @@ import React from 'react'
 
 const community = () => {
     return (
-        <main className="py-6 px-4 sm:p-6 md:py-10 md:px-8">
+        <main className="py-6 px-4 sm:p-6 md:py-10">
             <div className="max-w-4xl mx-auto grid grid-cols-1 lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
                 <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
-                    <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">Lux Tech Academy</h1>
-                    <p className="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">General</p>
+                    <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">Space Ya Tech</h1>
+                    <p className="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">All Tech</p>
                 </div>
                 <div className="grid gap-4 col-start-1 col-end-3 row-start-1 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0">
-                    <img src="/beach-house.jpg" alt="" className="w-full h-60 object-cover rounded-lg sm:h-52 sm:col-span-2 lg:col-span-full" loading="lazy" />
-                    <img src="/beach-house-interior-1.jpg" alt="" className="hidden w-full h-52 object-cover rounded-lg sm:block sm:col-span-2 md:col-span-1 lg:row-start-2 lg:col-span-2 lg:h-32" loading="lazy" />
-                    <img src="/beach-house-interior-2.jpg" alt="" className="hidden w-full h-52 object-cover rounded-lg md:block lg:row-start-2 lg:col-span-2 lg:h-32" loading="lazy" />
+                    <img src="/img/groups/space-ya-tech/space-ya-tech.jpg" alt="" className="w-full h-60 object-cover rounded-lg sm:h-52 sm:col-span-2 lg:col-span-full" loading="lazy" />
+                    <img src="/img/groups/space-ya-tech/space-ya-tech-2.jpg" alt="" className="hidden w-full h-52 object-cover rounded-lg sm:block sm:col-span-2 md:col-span-1 lg:row-start-2 lg:col-span-2 lg:h-32" loading="lazy" />
+                    <img src="/img/groups/space-ya-tech/space-ya-tech-3.jpg" alt="" className="hidden w-full h-52 object-cover rounded-lg md:block lg:row-start-2 lg:col-span-2 lg:h-32" loading="lazy" />
                 </div>
                 <dl className="mt-4 text-xs font-medium flex items-center row-start-2 sm:mt-1 sm:row-start-3 md:mt-2.5 lg:row-start-2">
                     <dt className="sr-only">Reviews</dt>
@@ -37,10 +37,13 @@ const community = () => {
                     <button type="button" className="bg-indigo-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg">Join Community</button>
                 </div>
                 <p className="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
-                    A community by developer for developers where you can learn software engineering, data science, data structures, algorithms, and developer relations the right way from top industry experts and a community of peers
+                    {/* A community by developer for developers where you can learn software engineering, data science, data structures, algorithms, and developer relations the right way from top industry experts and a community of peers */}
+                    SpaceYaTech is Mentoring 10,000 Young Africans Into Technology.
+                    We are the fastest growing Africa Open-Source Community Looking To Change The Way Young Africans Get Started In Technology.
+                    We have a place for everyone looking to grow their careers in technology in Africa. Join our channels to get started today.
                 </p>
 
-                
+
             </div>
         </main>
     )
