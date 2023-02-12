@@ -209,7 +209,7 @@ const Communities = () => {
           id="countries"
           // value={dropCityVal}
           onChange={(e) => setDropCityVal(e.target.value)}
-          onClick={handleFilters}
+          // onClick={handleFilters}
           className="bg-gray-50 border border-gray-300 
           text-gray-900 text-sm rounded-lg focus:ring-blue-500
            focus:border-blue-500 block 
@@ -255,7 +255,7 @@ const Communities = () => {
             type="checkbox"
             id="default-toggle"
             className="sr-only peer toggle"
-            onClick={handleToggle}
+            // onClick={handleToggle}
           />
           <div
             className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4
@@ -275,7 +275,7 @@ const Communities = () => {
 
         <button
           type="button"
-          onClick={handleReset}
+          // onClick={handleReset}
           className="py-2 text-sm font-medium
           text-white bg-blue-700 rounded-full border
            border-blue-700 hover:bg-blue-800 focus:ring-4 
