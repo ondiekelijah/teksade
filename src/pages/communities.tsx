@@ -238,7 +238,7 @@ const Communities = () => {
           dark:focus:ring-blue-500 dark:focus:border-blue-500
            md:mt-0 mt-2"
         >
-          <option defaultValue>Topic</option>
+          <option>Topic</option>
           {/* <option defaultValue>Price</option> */}
 
           {tags.map((tag, index) => (
