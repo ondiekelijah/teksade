@@ -1,4 +1,4 @@
-// This intializes and connect to our supabase backend
+// This intializes to our supabase backend
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "./schematypes";
 

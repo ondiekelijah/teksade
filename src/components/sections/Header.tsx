@@ -6,8 +6,9 @@ import { Button, IconButton } from "../Button";
 import { ThemeSelect, ThemeToggle } from "../ThemeToggle";
 import Logo from "../Logo";
 import { AuthenticationDialog } from "../AuthenticationDialog";
-import { supabase } from "@/supabase";
+
 import { User } from "@supabase/supabase-js";
+import { supabase } from "@/supabase";
 
 export const Header: React.FC = () => {
   const [showAuth, setShowAuth] = useState(true);
