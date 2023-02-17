@@ -76,7 +76,8 @@ const Communities = () => {
         return event;
       }
       //// Filter places
-      if (dropCityVal.length && dropCityVal.length) {
+      if (dropCityVal.length) {
+        console.log(dropCityVal)
         return dropCityVal.includes(event.city);
       }
 
@@ -124,6 +125,10 @@ const Communities = () => {
 
     setEvents(filteredEvents);
   };
+
+  useEffect(() => {
+    handleFilters();
+  }, [dropCityVal.length])
 
   // Handle search via toggle
   const handleToggle = (e: React.FormEvent<HTMLFormElement>) => {
@@ -190,7 +195,6 @@ const Communities = () => {
 
   const handleRemoveTag = (cityName: string) => {
     setDropCityVal(dropCityVal.filter((city) => city !== cityName));
-    handleFilters();
   };
 
   return (
@@ -226,12 +230,7 @@ const Communities = () => {
         </div>
         <select
           id="countries"
-          // value={dropCityVal}
           onChange={(e) => setDropCityVal((prev) => [...prev, e.target.value])}
-          onClick={(e) => {
-            e.preventDefault();
-            handleFilters();
-          }}
           className="mt-2 block w-[full]
           rounded-lg border border-gray-300 bg-gray-50
            p-2 text-sm
@@ -316,7 +315,7 @@ const Communities = () => {
         </button>
       </form>
       {
-     dropCityVal.length ? (<div className="pb-2">
+     true ? (<div className="pb-2">
         <h5 className="pb-2">Selected countries</h5>
         <div className="flex flex-wrap items-start justify-start gap-2">
           {dropCityVal.map((city) => (
