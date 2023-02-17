@@ -1,15 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEventHandler, ChangeEvent } from "react";
 // import "boxicons";
 import Events from "../mock-data/Events.json";
+import FilterTag from "@/components/FilterTag";
 
 // Create the required typescript type defs
 
+interface EventTypes {
+  id: number;
+  name: string;
+  city: string;
+  minPrice: number;
+}
+
 const Communities = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<EventTypes[]>([]);
   const [searchBarVal, setSearchBarVal] = useState("");
   const [order, setOrder] = useState("asc");
   const [toggleState, setToggleState] = useState(false);
-  const [dropCityVal, setDropCityVal] = useState("");
+  const [dropCityVal, setDropCityVal] = useState<string[]>([]);
   const [dropPriceVal, setDropPriceVal] = useState("");
 
   // find all cities for the select menu
@@ -55,63 +63,71 @@ const Communities = () => {
 
   // UseEffect to fetch the events from the json file
   useEffect(() => {
-    setEvents(Events as never[]);
-    }, []);
+    setEvents(Events);
+  }, []);
 
   // Function to handle the custom filters
-  const handleFilters = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleFilters = () => {
     // Filter to filter with city name and price range, if searchBarVal is empty, use dropCityVal and dropPriceVal
-    // let filteredEvents = Events.filter((event) => {
-    //   const [min, max] = dropPriceVal.split("-");
 
-    //   const minPrice = parseInt(min, 10);
-    //   const maxPrice = parseInt(max, 10);
+    let filteredEvents = Events.filter((event) => {
+      //// No filters applied
+      if (dropPriceVal === "" && !dropCityVal.length) {
+        return event;
+      }
+      //// Filter places
+      if (dropCityVal.length && dropCityVal.length) {
+        return dropCityVal.includes(event.city);
+      }
 
-    //   if (searchBarVal === "" && dropPriceVal !== "") {
-    //     return (
-    //       event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
-    //       parseInt(event.minPrice, 10) >= minPrice &&
-    //       parseInt(event.minPrice, 10) <= maxPrice
-    //     );
-    //   }
+      // const [min, max] = dropPriceVal.split("-");
 
-    //   if (searchBarVal !== "" && dropPriceVal !== "") {
-    //     return (
-    //       event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-    //       parseInt(event.minPrice, 10) >= minPrice &&
-    //       parseInt(event.minPrice, 10) <= maxPrice
-    //     );
-    //   }
-    //   // if dropCityVal is not empty
-    //   if (dropCityVal !== "") {
-    //     return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
-    //   }
-    //   // if searchBarVal is not empty
-    //   if (searchBarVal !== "") {
-    //     return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
-    //   }
-    //   // if all filters are empty, return all events
-    //   if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
-    //     return event;
-    //   }
-    //   // If searchBarVal is not empty, use searchBarVal and dropPriceVal
-    //   return (
-    //     event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-    //     parseInt(event.minPrice, 10) >= minPrice &&
-    //     parseInt(event.minPrice, 10) <= maxPrice
-    //   );
-    // });
+      //   const minPrice = parseInt(min, 10);
+      //   const maxPrice = parseInt(max, 10);
+
+      //   if (searchBarVal === "" && dropPriceVal !== "") {
+      //     return (
+      //       event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
+      //       parseInt(event.minPrice, 10) >= minPrice &&
+      //       parseInt(event.minPrice, 10) <= maxPrice
+      //     );
+      //   }
+
+      //   if (searchBarVal !== "" && dropPriceVal !== "") {
+      //     return (
+      //       event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+      //       parseInt(event.minPrice, 10) >= minPrice &&
+      //       parseInt(event.minPrice, 10) <= maxPrice
+      //     );
+      //   }
+      //   // if dropCityVal is not empty
+      //   if (dropCityVal !== "") {
+      //     return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
+      //   }
+      //   // if searchBarVal is not empty
+      //   if (searchBarVal !== "") {
+      //     return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
+      //   }
+      //   // if all filters are empty, return all events
+      //   if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
+      //     return event;
+      //   }
+      //   // If searchBarVal is not empty, use searchBarVal and dropPriceVal
+      //   return (
+      //     event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
+      //     parseInt(event.minPrice, 10) >= minPrice &&
+      //     parseInt(event.minPrice, 10) <= maxPrice
+      //   );
+    });
 
     //   setEvents(filteredEvents as never[]);
 
-    // setEvents(filteredEvents as never[]);
-
+    setEvents(filteredEvents);
   };
 
   // Handle search via toggle
   const handleToggle = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+    e.preventDefault();
     // if (toggleState === false) {
     //   // show all events with the lowest price out of all the events
     //   const filteredEvents = Events.filter((event) => {
@@ -131,9 +147,9 @@ const Communities = () => {
 
   // Reset all filters and show all events
   const handleReset = () => {
-    // setEvents(Events);
+    // setEvents(Events as never[]);
     // setSearchBarVal("");
-    // setDropCityVal("");
+    // setDropCityVal([]);
     // setDropPriceVal("");
     // // get toggle by classname and uncheck it
     // const toggle = document.querySelector(".toggle");
@@ -142,7 +158,7 @@ const Communities = () => {
   };
 
   // Sorting
-  const handleCityOrder = () => {
+  const handleCityOrder = (order: string) => {
     // if (order === "asc") {
     //   const sortedEvents = [...events].sort((a, b) =>
     //     a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -150,7 +166,6 @@ const Communities = () => {
     //   setEvents(sortedEvents);
     //   setOrder("desc");
     // }
-
     // if (order === "desc") {
     //   const sortedEvents = [...events].sort((a, b) =>
     //     a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
@@ -160,13 +175,12 @@ const Communities = () => {
     // }
   };
 
-  const handlePriceOrder = () => {
+  const handlePriceOrder = (order: string) => {
     // if (order === "asc") {
     //   const sortedEvents = [...events].sort((a, b) => a[col] - b[col]);
     //   setEvents(sortedEvents);
     //   setOrder("desc");
     // }
-
     // if (order === "desc") {
     //   const sortedEvents = [...events].sort((a, b) => b[col] - a[col]);
     //   setEvents(sortedEvents);
@@ -174,17 +188,22 @@ const Communities = () => {
     // }
   };
 
+  const handleRemoveTag = (cityName: string) => {
+    setDropCityVal(dropCityVal.filter((city) => city !== cityName));
+    handleFilters();
+  };
+
   return (
-    <div className="overflow-x-auto relative py-6 px-4 sm:p-6 md:py-10 md:px-8">
+    <div className="relative overflow-x-auto py-6 px-4 sm:p-6 md:py-10 md:px-8">
       <form
-        className="flex flex-col md:flex-row md:items-center md:justify-between mb-4
-      md:space-x-4 md:mr-4 mr-0 font-base"
+        className="font-base mb-4 mr-0 flex flex-col md:mr-4
+      md:flex-row md:items-center md:justify-between md:space-x-4"
       >
         <div className="relative w-full">
-          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
               aria-hidden="true"
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="h-5 w-5 text-gray-500 dark:text-gray-400"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +218,7 @@ const Communities = () => {
           <input
             type="text"
             id="voice-search"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-[9px]  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-[9px] pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
             placeholder="Search community by name, tech, or location"
             value={searchBarVal}
             onChange={(e) => setSearchBarVal(e.target.value)}
@@ -208,62 +227,71 @@ const Communities = () => {
         <select
           id="countries"
           // value={dropCityVal}
-          // onChange={(e) => setDropCityVal(e.target.value)}
-          // onClick={handleFilters}
-          className="bg-gray-50 border border-gray-300 
-          text-gray-900 text-sm rounded-lg focus:ring-blue-500
-           focus:border-blue-500 block 
-           md:w-[20%] w-[full] p-2 dark:bg-gray-700 
-           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
-           dark:focus:ring-blue-500 dark:focus:border-blue-500
-            md:mt-0 mt-2"
+          onChange={(e) => setDropCityVal((prev) => [...prev, e.target.value])}
+          onClick={(e) => {
+            e.preventDefault();
+            handleFilters();
+          }}
+          className="mt-2 block w-[full]
+          rounded-lg border border-gray-300 bg-gray-50
+           p-2 text-sm
+           text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600
+           dark:bg-gray-700 dark:text-white dark:placeholder-gray-400
+           dark:focus:border-blue-500 dark:focus:ring-blue-500
+            md:mt-0 md:w-[20%]"
         >
           {/* <option defaultValue>City</option> */}
           <option>Country</option>
 
-          {cities.map((city, index) => (
-            <option value={city} key={index}>{city}</option>
-          ))}
+          {cities.map((city, index) =>
+            dropCityVal.find((val) => val === city) ? null : (
+              <option value={city} key={index}>
+                {city}
+              </option>
+            )
+          )}
         </select>
 
         <select
           id="prices"
-          value={dropPriceVal}
-          onChange={(e) => setDropPriceVal(e.target.value)}
+          // value={dropPriceVal}
+          // onChange={(e) => setDropPriceVal(e.target.value)}
           // onClick={handleFilters}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-          focus:border-blue-500 block 
-          md:w-[20%] w-[full] p-2 dark:bg-gray-700 
-          dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
-          dark:focus:ring-blue-500 dark:focus:border-blue-500
-           md:mt-0 mt-2"
+          className="mt-2 block w-[full] rounded-lg border border-gray-300 bg-gray-50 
+          p-2 text-sm 
+          text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 
+          dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
+          dark:focus:border-blue-500 dark:focus:ring-blue-500
+           md:mt-0 md:w-[20%]"
         >
           <option>Topic</option>
           {/* <option defaultValue>Price</option> */}
 
           {tags.map((tag, index) => (
-            <option value={tag} key={index}>{tag}</option>
+            <option value={tag} key={index}>
+              {tag}
+            </option>
           ))}
         </select>
 
         <label
           htmlFor="default-toggle"
-          className="inline-flex relative content-center cursor-pointer 
-          md:w-[25%] w-[full] md:mt-0 mt-2"
+          className="relative mt-2 inline-flex w-[full] 
+          cursor-pointer content-center md:mt-0 md:w-[25%]"
         >
           <input
             type="checkbox"
             id="default-toggle"
-            className="sr-only peer toggle"
+            className="toggle peer sr-only"
             // onClick={handleToggle}
           />
           <div
-            className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4
-           peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer 
-           dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white
-            after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white 
-            after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 
-            after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+            className="peer h-6 w-11 rounded-full bg-gray-200
+           after:absolute after:top-[2px] after:left-[2px] after:h-5 
+           after:w-5 after:rounded-full after:border
+            after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 
+            peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 
+            dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
           />
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
             All
@@ -276,20 +304,29 @@ const Communities = () => {
         <button
           type="button"
           // onClick={handleReset}
-          className="py-2 text-sm font-medium
-          text-white bg-blue-700 rounded-full border
-           border-blue-700 hover:bg-blue-800 focus:ring-4 
-           focus:outline-none focus:ring-blue-300 dark:bg-blue-600 
-           dark:hover:bg-blue-700 dark:focus:ring-blue-800
-           md:w-[15%] w-[full] md:mt-0 mt-2
+          className="mt-2 w-[full] rounded-full
+          border border-blue-700 bg-blue-700 py-2
+           text-sm font-medium text-white 
+           hover:bg-blue-800 focus:outline-none focus:ring-4 
+           focus:ring-blue-300 dark:bg-blue-600
+           dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mt-0 md:w-[15%]
            "
         >
           Clear
         </button>
       </form>
-
-      {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-sm sm:rounded-lg">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      {
+     dropCityVal.length ? (<div className="pb-2">
+        <h5 className="pb-2">Selected countries</h5>
+        <div className="flex flex-wrap items-start justify-start gap-2">
+          {dropCityVal.map((city) => (
+            <FilterTag removeTag={handleRemoveTag} cityName={city} key={city} />
+          ))}
+        </div>
+      </div>) : null
+      }
+      <table className="w-full text-left text-sm text-gray-500 shadow-sm dark:text-gray-400 sm:rounded-lg">
+        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th className="px-2 py-3">#</th>
             <th scope="col" className="py-3 px-6">
@@ -334,12 +371,12 @@ const Communities = () => {
               })
               .map((event) => (
                 <tr
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
                   key={event.id}
                 >
                   <th
                     scope="row"
-                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className="whitespace-nowrap py-4 px-6 font-medium text-gray-900 dark:text-white"
                   >
                     {events.indexOf(event) + 1}
                   </th>
@@ -350,14 +387,14 @@ const Communities = () => {
                 </tr>
               ))
           ) : (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr className="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
               <td className="py-3 px-6">No events found</td>
             </tr>
           )}
         </tbody>
-      </table> */}
+      </table>
     </div>
   );
-}
+};
 
 export default Communities;
