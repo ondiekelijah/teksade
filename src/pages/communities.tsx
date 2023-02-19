@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEventHandler, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 // import "boxicons";
 import Events from "../mock-data/Events.json";
 import FilterTag from "@/components/FilterTag";
@@ -11,6 +11,7 @@ interface EventTypes {
   city: string;
   minPrice: number;
 }
+
 
 const Communities = () => {
   const [events, setEvents] = useState<EventTypes[]>([]);
@@ -77,55 +78,16 @@ const Communities = () => {
       }
       //// Filter places
       if (dropCityVal.length) {
-        console.log(dropCityVal)
         return dropCityVal.includes(event.city);
       }
-
-      // const [min, max] = dropPriceVal.split("-");
-
-      //   const minPrice = parseInt(min, 10);
-      //   const maxPrice = parseInt(max, 10);
-
-      //   if (searchBarVal === "" && dropPriceVal !== "") {
-      //     return (
-      //       event.city.toLowerCase().includes(dropCityVal.toLowerCase()) &&
-      //       parseInt(event.minPrice, 10) >= minPrice &&
-      //       parseInt(event.minPrice, 10) <= maxPrice
-      //     );
-      //   }
-
-      //   if (searchBarVal !== "" && dropPriceVal !== "") {
-      //     return (
-      //       event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-      //       parseInt(event.minPrice, 10) >= minPrice &&
-      //       parseInt(event.minPrice, 10) <= maxPrice
-      //     );
-      //   }
-      //   // if dropCityVal is not empty
-      //   if (dropCityVal !== "") {
-      //     return event.city.toLowerCase().includes(dropCityVal.toLowerCase());
-      //   }
-      //   // if searchBarVal is not empty
-      //   if (searchBarVal !== "") {
-      //     return event.city.toLowerCase().includes(searchBarVal.toLowerCase());
-      //   }
-      //   // if all filters are empty, return all events
-      //   if (searchBarVal === "" && dropCityVal === "" && dropPriceVal === "") {
-      //     return event;
-      //   }
-      //   // If searchBarVal is not empty, use searchBarVal and dropPriceVal
-      //   return (
-      //     event.city.toLowerCase().includes(searchBarVal.toLowerCase()) &&
-      //     parseInt(event.minPrice, 10) >= minPrice &&
-      //     parseInt(event.minPrice, 10) <= maxPrice
-      //   );
     });
 
-    //   setEvents(filteredEvents as never[]);
 
     setEvents(filteredEvents);
   };
 
+  // useEffect to handle filter changes
+  
   useEffect(() => {
     handleFilters();
   }, [dropCityVal.length])
@@ -315,7 +277,7 @@ const Communities = () => {
         </button>
       </form>
       {
-     true ? (<div className="pb-2">
+     dropCityVal.length ? (<div className="pb-2">
         <h5 className="pb-2">Selected countries</h5>
         <div className="flex flex-wrap items-start justify-start gap-2">
           {dropCityVal.map((city) => (
@@ -341,6 +303,7 @@ const Communities = () => {
                   className="mr-2 cursor-pointer"
                   onClick={() => handleCityOrder("city")}
                 >
+                  {/* @ts-ignore */}
                   <box-icon name="sort-alt-2"></box-icon>
                 </span>
               </div>
@@ -352,6 +315,7 @@ const Communities = () => {
                   className="mr-2 cursor-pointer"
                   onClick={() => handlePriceOrder("minPrice")}
                 >
+                  {/* @ts-ignore */}
                   <box-icon name="sort-alt-2"></box-icon>
                 </span>
               </div>
