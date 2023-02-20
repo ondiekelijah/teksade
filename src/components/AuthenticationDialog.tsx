@@ -1,14 +1,36 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Logo from "./Logo";
 import { Button, IconButton } from "./Button";
 import Input from "./Input";
+import { supabase } from "../supabase/index";
+
+import { useRouter } from "next/router";
 
 export const AuthenticationDialog: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
+
+  async function loginWithGoogle() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+  }
+
+  async function loginWithFaceBook() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+    });
+  }
+
+  async function loginWithLinkedIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: 'linkedin',
+    });
+  }
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -92,15 +114,15 @@ export const AuthenticationDialog: React.FC<{
                 </div>
 
                 <div className="space-y-3">
-                  <Button fullWidth variant="outline">
+                  <Button fullWidth variant="outline" onClick={loginWithFaceBook}>
                     <FacebookColorfulIcon className="h-6 w-6" />
                     <span className="pl-2"> continue with facebook</span>
                   </Button>
-                  <Button fullWidth variant="outline">
+                  <Button fullWidth variant="outline" onClick={loginWithGoogle}>
                     <GoogleColorfulIcon className="h-6 w-6" />
                     <span className="pl-2"> continue with google</span>
                   </Button>
-                  <Button fullWidth variant="outline">
+                  <Button fullWidth variant="outline" onClick={loginWithLinkedIn}>
                     <LinkedinColorfulIcon className="h-6 w-6" />
                     <span className="pl-2"> continue with linkedin</span>
                   </Button>
@@ -136,10 +158,48 @@ export const AuthenticationDialog: React.FC<{
 };
 
 const SignInForm = () => {
+const router = useRouter();
+
+  const [userData, setUserData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: any) => {
+    setUserData((prevUserData) => {
+      return {
+        ...prevUserData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: userData.email,
+        password: userData.password,
+      });
+      if (error) throw error;
+      console.log(data);
+      await data && router.reload();
+      //   alert('Check your email for verification link')
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="rounded-tr-4xl px-10 pt-4 pb-4">
       <h1 className="text-2xl font-semibold">Welcome back!</h1>
-      <form className="mt-6 space-y-6" autoComplete="off">
+      <form
+        className="mt-6 space-y-6"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         <Input
           name="email"
           id="email"
@@ -147,6 +207,7 @@ const SignInForm = () => {
           placeholder="Email address"
           isInvalid={false}
           errorText="invalid email"
+          onChange={handleChange}
         />
 
         <Input
@@ -156,6 +217,7 @@ const SignInForm = () => {
           placeholder="Password"
           isInvalid={false}
           errorText="invalid password"
+          onChange={handleChange}
         />
 
         <Button type="submit" fullWidth>
@@ -174,10 +236,59 @@ const SignInForm = () => {
 };
 
 const SignUpFrom = () => {
+  const [userData, setUserData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: any) => {
+    setUserData((prevUserData) => {
+      return {
+        ...prevUserData,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            full_name: userData.fullname,
+          },
+        },
+      });
+      if (error) throw error;
+      alert("Check your email for verification link");
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="rounded-tr-4xl px-10 pt-4 pb-4">
       <h1 className="text-2xl font-semibold">Register free!</h1>
-      <form className="mt-6 space-y-6" autoComplete="off">
+      <form
+        className="mt-6 space-y-6"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+      >
+        <Input
+          name="fullname"
+          id="text"
+          type="text"
+          placeholder="fullname"
+          isInvalid={false}
+          errorText="invalid name"
+          onChange={handleChange}
+        />
+
         <Input
           name="email"
           id="email"
@@ -185,6 +296,7 @@ const SignUpFrom = () => {
           placeholder="Email address"
           isInvalid={false}
           errorText="invalid email"
+          onChange={handleChange}
         />
 
         <Input
@@ -194,6 +306,7 @@ const SignUpFrom = () => {
           placeholder="Password"
           isInvalid={false}
           errorText="invalid password"
+          onChange={handleChange}
         />
 
         <Button type="submit" fullWidth>

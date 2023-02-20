@@ -6,9 +6,18 @@ import { Button, IconButton } from '../Button';
 import { ThemeSelect, ThemeToggle } from '../ThemeToggle';
 import Logo from '../Logo';
 import { AuthenticationDialog } from '../AuthenticationDialog';
+import {supabase} from "../../supabase/index";
 
 export const Header: React.FC = () => {
   const [showAuth, setShowAuth] = useState(true);
+  const [loginUser, setLoginUser] = useState("");
+
+  const GetUser = async () => {
+    let { data: { user } }:any = await supabase.auth.getUser();
+    setLoginUser(user?.email);
+  }
+
+  GetUser();
   return (
     <>
       <header className='sticky inset-x-0 top-0 z-20 flex items-center justify-between bg-white py-2 px-2 shadow-lg dark:bg-slate-900/75 sm:py-3 sm:px-8'>
@@ -36,19 +45,21 @@ export const Header: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className='relative flex basis-1/3 justify-end gap-2'>
+        <div className='relative flex basis-1/3 justify-end gap-2 items-center'>
           <Link href='/#' passHref>
             <Button as='a' variant='ghost' className='hidden md:inline-flex'>
               Add Community
             </Button>
           </Link>
-          <Button
+          
+          {loginUser ? (<h3>{loginUser}</h3>) : (<Button
             variant='ghost'
             className='hidden md:inline-flex'
             onClick={() => setShowAuth(true)}
           >
             Sign In
-          </Button>
+          </Button>)} 
+          
           <ThemeToggle />
         </div>
       </header>
@@ -62,6 +73,14 @@ export const Header: React.FC = () => {
 
 const MenuPopOver = ({ className, display, setShowAuth }: any) => {
   let [isOpen, setIsOpen] = useState(false);
+  const [loginUser, setLoginUser] = useState("");
+
+  const GetUser = async () => {
+    let { data: { user } }:any = await supabase.auth.getUser();
+    setLoginUser(user?.email);
+  }
+
+  GetUser();
 
   return (
     <div className={clsx(className, display)}>
@@ -135,13 +154,13 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
             </div>
             <ul className='mt-8 space-y-3 border-t border-gray-200 dark:border-gray-200/10'>
               <li>
-                <Button
-                  variant='solid'
-                  fullWidth
-                  onClick={() => setShowAuth(true)}
-                >
-                  Sign In
-                </Button>
+              {loginUser ? (<h3>{loginUser}</h3>) : (<Button
+            variant='ghost'
+            className='hidden md:inline-flex'
+            onClick={() => setShowAuth(true)}
+          >
+            Sign In
+          </Button>)} 
               </li>
               <li>
                 <Link href='/#' passHref>
