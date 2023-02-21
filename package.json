@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
+    "@supabase/auth-ui-react": "^0.2.7",
+    "@supabase/supabase-js": "^2.7.1",
     "@tailwindcss/forms": "^0.4.0",
     "clsx": "^1.1.1",
+    "graphql": "^16.6.0",
+    "graphql-yoga": "^3.6.0",
     "next": "12.0.8",
     "next-themes": "^0.0.15",
     "react": "17.0.2",
