@@ -72,8 +72,11 @@ When working on a project using Git, it's important to follow a consistent branc
 
 #### Branching Pattern
 **master**: The master branch should always contain your stable code that is ready to be released to production.
+
 **develop**: The develop branch is where you merge in all of your feature branches. This branch should always be in a working state, but may contain incomplete features that are still being developed.
+
 **Feature branches**: Each new feature or bugfix that you work on should be developed on its own feature branch, branched off of develop. These branches should be named in a descriptive way that indicates the feature being developed (e.g. login-page-redesign).
+
 #### Naming Pattern
 When naming your branches, you should follow a consistent naming pattern that is easy to understand and provides information about the contents of the branch. Here are some guidelines to follow:
 
