@@ -1,13 +1,13 @@
 export const Contrib = () => {
     return (
         <>
-            <div className="relative h-full">
+            <div className="relative h-100 align-middle">
                 <div aria-hidden="true" className="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
                     <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
                     <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
                 </div>
                 <div>
-                    <div className="relative md:pb-20">
+                    <div className="relative pb-20">
                         <div className="m-auto space-y-6 md:w-8/12 lg:w-7/12">
                             <h1 className="text-center text-4xl font-bold text-gray-800 dark:text-white md:text-5xl">Help us bring our vision to life</h1>
                             <p className="text-center sm:text-lg font-normal text-gray-600 dark:text-slate-400 leading-relaxed">
