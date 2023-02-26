@@ -1,4 +1,4 @@
-// This are type defination for the backend structure
+// These are type defination for the backend structure
 // They allow end to end type safety when accesing the  API
 
 export type Json =
@@ -14,34 +14,47 @@ export interface Database {
     Tables: {
       communities: {
         Row: {
+          // teckstack can replace category, more descriptive
           category: string[] | null;
+          contacts: string | null;
           country: string[];
+          cover_image: string;
           created_at: string | null;
           created_by: string;
-          describtion: string | null;
+          description: string | null;
           id: string;
           images: string[] | null;
           location: string | null;
           members: string[] | null;
           name: string;
+          rating : number | null;
+          twitter_url:string;
           verified: boolean | null;
+          
         };
+      
         Insert: {
           category?: string[] | null;
+          contacts?: string | null;
           country: string[];
+          cover_image?: string;
           created_at?: string | null;
           created_by: string;
-          describtion?: string | null;
+          description?: string | null;
           id?: string;
           images?: string[] | null;
           location?: string | null;
           members?: string[] | null;
           name: string;
+          rating?: number | null;
+          twitter_url?:string;
           verified?: boolean | null;
         };
         Update: {
           category?: string[] | null;
+          contacts?: string | null;
           country?: string[];
+          cover_image?: string;
           created_at?: string | null;
           created_by?: string;
           describtion?: string | null;
@@ -50,6 +63,8 @@ export interface Database {
           location?: string | null;
           members?: string[] | null;
           name?: string;
+          rating?: number | null;
+          twitter_url?:string;
           verified?: boolean | null;
         };
       };
