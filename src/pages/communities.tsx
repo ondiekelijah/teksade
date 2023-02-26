@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 // import "boxicons";
 import Events from "../mock-data/Events.json";
+import { CommunityCards } from "@/components/sections/CommunityCards";
 
 // Create the required typescript type defs
 
@@ -356,7 +357,11 @@ const Communities = () => {
           )}
         </tbody>
       </table> */}
+          <CommunityCards />
+
     </div>
+
+
   );
 }
 
