@@ -4,9 +4,9 @@ import clsx from "clsx";
 import Logo from "./Logo";
 import { Button, IconButton } from "./Button";
 import Input from "./Input";
+import { SignInForm } from "./auth/LoginForm";
+import { SignUpFrom } from "./auth/RegisterForm";
 import { supabase } from "../supabase/index";
-
-import { useRouter } from "next/router";
 
 export const AuthenticationDialog: React.FC<{
   isOpen: boolean;
@@ -113,8 +113,10 @@ export const AuthenticationDialog: React.FC<{
                   <span className="block h-0.5 w-full bg-slate-400"></span>
                 </div>
 
-                <div className="space-y-3">
-                  <Button fullWidth variant="outline" onClick={loginWithFaceBook}>
+                <div className="flex flex-col items-center justify-center space-y-4
+                
+                ">
+                  {/* <Button fullWidth variant="outline">
                     <FacebookColorfulIcon className="h-6 w-6" />
                     <span className="pl-2"> continue with facebook</span>
                   </Button>
@@ -125,7 +127,19 @@ export const AuthenticationDialog: React.FC<{
                   <Button fullWidth variant="outline" onClick={loginWithLinkedIn}>
                     <LinkedinColorfulIcon className="h-6 w-6" />
                     <span className="pl-2"> continue with linkedin</span>
-                  </Button>
+                  </Button>  */}
+                  <button type="button" className="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2">
+                    <svg className="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.4 151.7c.325 4.548 .325 9.097 .325 13.65 0 138.7-105.6 298.6-298.6 298.6-59.45 0-114.7-17.22-161.1-47.11 8.447 .974 16.57 1.299 25.34 1.299 49.06 0 94.21-16.57 130.3-44.83-46.13-.975-84.79-31.19-98.11-72.77 6.498 .974 12.99 1.624 19.82 1.624 9.421 0 18.84-1.3 27.61-3.573-48.08-9.747-84.14-51.98-84.14-102.1v-1.299c13.97 7.797 30.21 12.67 47.43 13.32-28.26-18.84-46.78-51.01-46.78-87.39 0-19.49 5.197-37.36 14.29-52.95 51.65 63.67 129.3 105.3 216.4 109.8-1.624-7.797-2.599-15.92-2.599-24.04 0-57.83 46.78-104.9 104.9-104.9 30.21 0 57.5 12.67 76.67 33.14 23.72-4.548 46.46-13.32 66.6-25.34-7.798 24.37-24.37 44.83-46.13 57.83 21.12-2.273 41.58-8.122 60.43-16.24-14.29 20.79-32.16 39.31-52.63 54.25z"></path></svg>
+                    Sign in with Twitter
+                  </button>
+                  <button type="button" className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                    <svg className="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+                    Sign in with Github
+                  </button>
+                  <button type="button" className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
+                    <svg className="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
+                    Sign in with Google
+                  </button>
                 </div>
 
                 <IconButton
@@ -156,278 +170,3 @@ export const AuthenticationDialog: React.FC<{
     </>
   );
 };
-
-const SignInForm = () => {
-const router = useRouter();
-
-  const [userData, setUserData] = useState({
-    fullname: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: any) => {
-    setUserData((prevUserData) => {
-      return {
-        ...prevUserData,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  async function handleSubmit(e: any) {
-    e.preventDefault();
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: userData.email,
-        password: userData.password,
-      });
-      if (error) throw error;
-      console.log(data);
-      await data && router.reload();
-      //   alert('Check your email for verification link')
-    } catch (error) {
-      alert(error);
-    }
-  }
-
-  return (
-    <div className="rounded-tr-4xl px-10 pt-4 pb-4">
-      <h1 className="text-2xl font-semibold">Welcome back!</h1>
-      <form
-        className="mt-6 space-y-6"
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
-        <Input
-          name="email"
-          id="email"
-          type="email"
-          placeholder="Email address"
-          isInvalid={false}
-          errorText="invalid email"
-          onChange={handleChange}
-        />
-
-        <Input
-          name="password"
-          id="password"
-          type="password"
-          placeholder="Password"
-          isInvalid={false}
-          errorText="invalid password"
-          onChange={handleChange}
-        />
-
-        <Button type="submit" fullWidth>
-          Sign in
-        </Button>
-      </form>
-
-      <a
-        href="#"
-        className="mt-4 block transition-all duration-150 hover:font-semibold hover:text-indigo-800 hover:underline dark:text-gray-300 dark:hover:text-white"
-      >
-        Forgot your password ?
-      </a>
-    </div>
-  );
-};
-
-const SignUpFrom = () => {
-  const [userData, setUserData] = useState({
-    fullname: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: any) => {
-    setUserData((prevUserData) => {
-      return {
-        ...prevUserData,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  async function handleSubmit(e: any) {
-    e.preventDefault();
-
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email: userData.email,
-        password: userData.password,
-        options: {
-          data: {
-            full_name: userData.fullname,
-          },
-        },
-      });
-      if (error) throw error;
-      alert("Check your email for verification link");
-    } catch (error) {
-      alert(error);
-    }
-  }
-
-  return (
-    <div className="rounded-tr-4xl px-10 pt-4 pb-4">
-      <h1 className="text-2xl font-semibold">Register free!</h1>
-      <form
-        className="mt-6 space-y-6"
-        onSubmit={handleSubmit}
-        autoComplete="off"
-      >
-        <Input
-          name="fullname"
-          id="text"
-          type="text"
-          placeholder="fullname"
-          isInvalid={false}
-          errorText="invalid name"
-          onChange={handleChange}
-        />
-
-        <Input
-          name="email"
-          id="email"
-          type="email"
-          placeholder="Email address"
-          isInvalid={false}
-          errorText="invalid email"
-          onChange={handleChange}
-        />
-
-        <Input
-          name="password"
-          id="password"
-          type="password"
-          placeholder="Password"
-          isInvalid={false}
-          errorText="invalid password"
-          onChange={handleChange}
-        />
-
-        <Button type="submit" fullWidth>
-          Sign Up
-        </Button>
-      </form>
-
-      <p className="mt-4 text-sm">
-        By clicking “Sign Up” above, you acknowledge that you have read and
-        agreed to our{" "}
-        <a
-          href=""
-          className="font-semibold underline hover:text-indigo-700 dark:hover:text-indigo-400"
-        >
-          {" "}
-          Terms & Conditions
-        </a>{" "}
-        and{" "}
-        <a
-          href=""
-          className="font-semibold underline hover:text-indigo-700 dark:hover:text-indigo-400"
-        >
-          {" "}
-          Privacy Policy
-        </a>{" "}
-        .
-      </p>
-    </div>
-  );
-};
-
-function FacebookColorfulIcon(props: React.SVGProps<SVGSVGElement>) {
-  const { height, width, ...otherProps } = props;
-
-  return (
-    <svg viewBox="0 0 512 512" height={height} width={width} {...otherProps}>
-      <g>
-        <path
-          fill="#1877f2"
-          d="M512,256c0,-141.385 -114.615,-256 -256,-256c-141.385,0 -256,114.615 -256,256c0,127.777 93.616,233.685 216,252.89l0,-178.89l-65,0l0,-74l65,0l0,-56.4c0,-64.16 38.219,-99.6 96.695,-99.6c28.009,0 57.305,5 57.305,5l0,63l-32.281,0c-31.801,0 -41.719,19.733 -41.719,39.978l0,48.022l71,0l-11.35,74l-59.65,0l0,178.89c122.385,-19.205 216,-125.113 216,-252.89Z"
-        />
-        <path
-          d="M355.65,330l11.35,-74l-71,0l0,-48.022c0,-20.245 9.917,-39.978 41.719,-39.978l32.281,0l0,-63c0,0 -29.297,-5 -57.305,-5c-58.476,0 -96.695,35.44 -96.695,99.6l0,56.4l-65,0l0,74l65,0l0,178.89c13.033,2.045 26.392,3.11 40,3.11c13.608,0 26.966,-1.065 40,-3.11l0,-178.89l59.65,0Z"
-          fill="#fff"
-        />
-      </g>
-    </svg>
-  );
-}
-function LinkedinColorfulIcon(props: React.SVGProps<SVGSVGElement>) {
-  const { height, width, ...otherProps } = props;
-
-  return (
-    <svg viewBox="0 0 32 32" height={height} width={width} {...otherProps}>
-      <g>
-        <circle
-          clipRule="evenodd"
-          cx="16"
-          cy="16"
-          fill="#007BB5"
-          fillRule="evenodd"
-          r="16"
-        />
-        <g>
-          <rect fill="#FFFFFF" height="14" width="4" x="7" y="11" />
-          <path
-            d="M20.499,11c-2.791,0-3.271,1.018-3.499,2v-2h-4v14h4v-8c0-1.297,0.703-2,2-2c1.266,0,2,0.688,2,2v8h4v-7    C25,14,24.479,11,20.499,11z"
-            fill="#FFFFFF"
-          />
-          <circle cx="9" cy="8" fill="#FFFFFF" r="2" />
-        </g>
-      </g>
-      <g />
-      <g />
-      <g />
-      <g />
-      <g />
-      <g />
-    </svg>
-  );
-}
-function GoogleColorfulIcon(props: React.SVGProps<SVGSVGElement>) {
-  const { height, width, ...otherProps } = props;
-
-  return (
-    <svg viewBox="0 0 128 128" height={height} width={width} {...otherProps}>
-      <g id="_x31__stroke">
-        <g id="Google">
-          <rect
-            clipRule="evenodd"
-            fill="none"
-            fillRule="evenodd"
-            height="128"
-            width="128"
-          />
-          <path
-            clipRule="evenodd"
-            d="M27.585,64c0-4.157,0.69-8.143,1.923-11.881L7.938,35.648    C3.734,44.183,1.366,53.801,1.366,64c0,10.191,2.366,19.802,6.563,28.332l21.558-16.503C28.266,72.108,27.585,68.137,27.585,64"
-            fill="#FBBC05"
-            fillRule="evenodd"
-          />
-          <path
-            clipRule="evenodd"
-            d="M65.457,26.182c9.031,0,17.188,3.2,23.597,8.436L107.698,16    C96.337,6.109,81.771,0,65.457,0C40.129,0,18.361,14.484,7.938,35.648l21.569,16.471C34.477,37.033,48.644,26.182,65.457,26.182"
-            fill="#EA4335"
-            fillRule="evenodd"
-          />
-          <path
-            clipRule="evenodd"
-            d="M65.457,101.818c-16.812,0-30.979-10.851-35.949-25.937    L7.938,92.349C18.361,113.516,40.129,128,65.457,128c15.632,0,30.557-5.551,41.758-15.951L86.741,96.221    C80.964,99.86,73.689,101.818,65.457,101.818"
-            fill="#34A853"
-            fillRule="evenodd"
-          />
-          <path
-            clipRule="evenodd"
-            d="M126.634,64c0-3.782-0.583-7.855-1.457-11.636H65.457v24.727    h34.376c-1.719,8.431-6.397,14.912-13.092,19.13l20.474,15.828C118.981,101.129,126.634,84.861,126.634,64"
-            fill="#4285F4"
-            fillRule="evenodd"
-          />
-        </g>
-      </g>
-    </svg>
-  );
-}
