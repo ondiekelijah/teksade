@@ -10,6 +10,7 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
+import { trpc } from "@/utils/trpc";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,5 +21,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ThemeProvider>
   );
 }
-
-export default MyApp;
+// This wraps the entire application in a our API context
+export default trpc.withTRPC(MyApp);
