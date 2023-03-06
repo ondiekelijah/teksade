@@ -1,6 +1,4 @@
-// These are type defination for the backend structure
-// They allow end to end type safety when accesing the  API
-
+// This file defines the datatypes for the database Schema and is  auto-generated and should therefore not be edited
 export type Json =
   | string
   | number
@@ -14,92 +12,89 @@ export interface Database {
     Tables: {
       communities: {
         Row: {
-          // teckstack can replace category, more descriptive
-          category: string[] | null;
-          contacts: string | null;
-          country: string[];
-          cover_image: string;
+          categories: string[];
+          country: string;
+          coverimage_url: string;
           created_at: string | null;
           created_by: string;
-          description: string | null;
+          description: string;
           id: string;
-          images: string[] | null;
-          location: string | null;
-          members: string[] | null;
+          members: string[];
           name: string;
-          rating : number | null;
-          twitter_url:string;
-          verified: boolean | null;
-          
+          paid: boolean | null;
+          region: string;
+          socials: string[];
+          verifed: boolean | null;
         };
-      
         Insert: {
-          category?: string[] | null;
-          contacts?: string | null;
-          country: string[];
-          cover_image?: string;
+          categories: string[];
+          country: string;
+          coverimage_url: string;
           created_at?: string | null;
           created_by: string;
-          description?: string | null;
+          description: string;
           id?: string;
-          images?: string[] | null;
-          location?: string | null;
-          members?: string[] | null;
+          members: string[];
           name: string;
-          rating?: number | null;
-          twitter_url?:string;
-          verified?: boolean | null;
+          paid?: boolean | null;
+          region: string;
+          socials: string[];
+          verifed?: boolean | null;
         };
         Update: {
-          category?: string[] | null;
-          contacts?: string | null;
-          country?: string[];
-          cover_image?: string;
+          categories?: string[];
+          country?: string;
+          coverimage_url?: string;
           created_at?: string | null;
           created_by?: string;
-          describtion?: string | null;
+          description?: string;
           id?: string;
-          images?: string[] | null;
-          location?: string | null;
-          members?: string[] | null;
+          members?: string[];
           name?: string;
-          rating?: number | null;
-          twitter_url?:string;
-          verified?: boolean | null;
+          paid?: boolean | null;
+          region?: string;
+          socials?: string[];
+          verifed?: boolean | null;
         };
       };
       profiles: {
         Row: {
           avatar_url: string | null;
+          communities: string[] | null;
           full_name: string | null;
           id: string;
           institution: string | null;
           role: string | null;
+          socials: string[] | null;
           updated_at: string | null;
           username: string | null;
-          verified: boolean;
+          verified: boolean | null;
           website: string | null;
         };
         Insert: {
           avatar_url?: string | null;
+          communities?: string[] | null;
           full_name?: string | null;
           id: string;
           institution?: string | null;
           role?: string | null;
+          socials?: string[] | null;
           updated_at?: string | null;
           username?: string | null;
-          verified?: boolean;
+          verified?: boolean | null;
           website?: string | null;
         };
         Update: {
           avatar_url?: string | null;
+          communities?: string[] | null;
           full_name?: string | null;
           id?: string;
           institution?: string | null;
           role?: string | null;
+          socials?: string[] | null;
           updated_at?: string | null;
           username?: string | null;
-          verified?: boolean;
+          verified?: boolean | null;
           website?: string | null;
         };
       };
