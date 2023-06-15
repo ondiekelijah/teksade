@@ -6,10 +6,10 @@ export const Footer = () => {
   return (
     <footer className="p-4 md:px-6 md:py-8">
       <div className="flex flex-col items-center justify-between sm:flex-row">
-        <Link href="/#">
-          <a className="my-auto flex w-[140px] md:ml-0">
-            <Logo />
-          </a>
+        <Link href="/#" className="my-auto flex w-[140px] md:ml-0">
+
+          <Logo />
+
         </Link>
         <ul className="mb-6 flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 sm:mb-0">
           <li>
