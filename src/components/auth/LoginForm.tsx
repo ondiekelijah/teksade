@@ -35,7 +35,7 @@ export const SignInForm = () => {
           });
           if (error) throw error;
           console.log(data);
-          await data && router.reload();
+          (await data) && router.reload();
           //   alert('Check your email for verification link')
         } catch (error) {
           alert(error);
