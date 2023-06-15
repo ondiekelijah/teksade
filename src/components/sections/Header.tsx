@@ -18,57 +18,55 @@ export const Header: React.FC = () => {
   }
 
   GetUser();
-  return (
-    <>
-      <header className='sticky inset-x-0 top-0 z-20 flex items-center justify-between bg-white py-2 px-2 shadow-lg dark:bg-slate-900/75 sm:py-3 sm:px-8'>
-        <MenuPopOver
-          className='grow-0 basis-1/3'
-          display='md:hidden'
-          setShowAuth={setShowAuth}
-        />
-        <div className='flex shrink-0 grow-0 basis-1/3 justify-center md:justify-start'>
-          <Link href='/#'>
-            <a className='my-auto flex w-[140px] md:ml-0'>
-              <Logo />
-            </a>
-          </Link>
-          <div className='hidden gap-2 md:ml-2 md:flex'>
-            <Link href='/communities' passHref>
-              <Button variant='ghost' as='a'>
-                Communities
-              </Button>
-            </Link>
-            <Link href='/#' passHref>
-              <Button variant='ghost' as='a'>
-                About Us
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <div className='relative flex basis-1/3 justify-end gap-2 items-center'>
-          <Link href='/#' passHref>
-            <Button as='a' variant='ghost' className='hidden md:inline-flex'>
-              Add Community
+  return <>
+    <header className='sticky inset-x-0 top-0 z-20 flex items-center justify-between bg-white py-2 px-2 shadow-lg dark:bg-slate-900/75 sm:py-3 sm:px-8'>
+      <MenuPopOver
+        className='grow-0 basis-1/3'
+        display='md:hidden'
+        setShowAuth={setShowAuth}
+      />
+      <div className='flex shrink-0 grow-0 basis-1/3 justify-center md:justify-start'>
+        <Link href='/#' className='my-auto flex w-[140px] md:ml-0'>
+
+          <Logo />
+
+        </Link>
+        <div className='hidden gap-2 md:ml-2 md:flex'>
+          <Link href='/communities' passHref legacyBehavior>
+            <Button variant='ghost' as='a'>
+              Communities
             </Button>
           </Link>
-          
-          {loginUser ? (<h3>{loginUser}</h3>) : (<Button
-            variant='ghost'
-            className='hidden md:inline-flex'
-            onClick={() => setShowAuth(true)}
-          >
-            Sign In
-          </Button>)} 
-          
-          <ThemeToggle />
+          <Link href='/#' passHref legacyBehavior>
+            <Button variant='ghost' as='a'>
+              About Us
+            </Button>
+          </Link>
         </div>
-      </header>
-      <AuthenticationDialog
-        isOpen={showAuth}
-        onClose={() => setShowAuth(false)}
-      />
-    </>
-  );
+      </div>
+      <div className='relative flex basis-1/3 justify-end gap-2 items-center'>
+        <Link href='/#' passHref legacyBehavior>
+          <Button as='a' variant='ghost' className='hidden md:inline-flex'>
+            Add Community
+          </Button>
+        </Link>
+        
+        {loginUser ? (<h3>{loginUser}</h3>) : (<Button
+          variant='ghost'
+          className='hidden md:inline-flex'
+          onClick={() => setShowAuth(true)}
+        >
+          Sign In
+        </Button>)} 
+        
+        <ThemeToggle />
+      </div>
+    </header>
+    <AuthenticationDialog
+      isOpen={showAuth}
+      onClose={() => setShowAuth(false)}
+    />
+  </>;
 };
 
 const MenuPopOver = ({ className, display, setShowAuth }: any) => {
@@ -133,18 +131,24 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
             <ul className='mt-8 space-y-3'>
               <li className='group relative flex h-9 items-center overflow-hidden rounded-md hover:bg-slate-200/50'>
                 <span className='absolute h-full w-2 bg-indigo-700 opacity-0 transition-all group-hover:opacity-100' />
-                <Link href='/communities' passHref>
-                  <a className='w-full font-medium transition-all group-hover:pl-3'>
+                <Link
+                  href='/communities'
+                  passHref
+                  className='w-full font-medium transition-all group-hover:pl-3'>
+                  
                     Communities
-                  </a>
+                  
                 </Link>
               </li>
               <li className='group relative flex h-9 items-center overflow-hidden rounded-md hover:bg-slate-200/50'>
                 <span className='absolute h-full w-2 bg-indigo-700 opacity-0 transition-all group-hover:opacity-100' />
-                <Link href='/#' passHref>
-                  <a className='w-full font-medium transition-all group-hover:pl-3'>
+                <Link
+                  href='/#'
+                  passHref
+                  className='w-full font-medium transition-all group-hover:pl-3'>
+                  
                     About Us
-                  </a>
+                  
                 </Link>
               </li>
             </ul>
@@ -163,7 +167,7 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
           </Button>)} 
               </li>
               <li>
-                <Link href='/#' passHref>
+                <Link href='/#' passHref legacyBehavior>
                   <Button as='a' variant='outline' fullWidth>
                     Add Community
                   </Button>

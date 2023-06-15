@@ -1,5 +1,5 @@
 // import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -97,7 +97,6 @@ const featuredGroups = [
 export const PopularCommunities = () => {
   
   return (
-
     <section id="featured-jobs">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Popular Communities</h2>
@@ -149,31 +148,32 @@ export const PopularCommunities = () => {
         >
           {featuredGroups.map((group, i ) => (
             <SwiperSlide key={i}>
-              <Link href="/community">
-                <a className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-700">
-                  <div className="relative block overflow-hidden  pt-[70%]">
-                    <Image
-                      src={group.images[0].src}
-                      alt={group.images[0].alt}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-all duration-200 group-hover:scale-[102%]"
-                    />
-                  </div>
+              <Link
+                href="/community"
+                className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-700">
 
-                  <div className="flex flex-col border-t p-4 dark:border-slate-600">
-                    <h5 className="block truncate text-xl font-semibold capitalize">
-                      {group.group}
-                    </h5>
-                    <span className="block truncate text-slate-500 dark:text-slate-400 text-sm">
-                      {group.tags.map((tag, i) => (
-                        <span key={i} className="mr-1">
-                          {tag}
-                          </span>
-                      ))}
-                    </span>
-                  </div>
-                </a>
+                <div className="relative block overflow-hidden  pt-[70%]">
+                  <Image
+                    src={group.images[0].src}
+                    alt={group.images[0].alt}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-all duration-200 group-hover:scale-[102%]"
+                  />
+                </div>
+                <div className="flex flex-col border-t p-4 dark:border-slate-600">
+                  <h5 className="block truncate text-xl font-semibold capitalize">
+                    {group.group}
+                  </h5>
+                  <span className="block truncate text-slate-500 dark:text-slate-400 text-sm">
+                    {group.tags.map((tag, i) => (
+                      <span key={i} className="mr-1">
+                        {tag}
+                        </span>
+                    ))}
+                  </span>
+                </div>
+
               </Link>
             </SwiperSlide>
           ))}
