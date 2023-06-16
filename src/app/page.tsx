@@ -8,12 +8,12 @@ import { Contrib } from '@/components/sections/Contrib';
 import SEO from '@/components/SEO';
 import Hero from '@/components/sections/Hero';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <SEO />
       <Hero />
-      <main className='mx-auto px-6 sm:px-8'>
+      <main className='px-6 mx-auto sm:px-8'>
         <>
           <PopularCommunities />
           <About />
