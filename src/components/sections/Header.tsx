@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Link from "next/link";
@@ -7,9 +7,24 @@ import { Button, IconButton } from "../Button";
 import { ThemeSelect, ThemeToggle } from "../ThemeToggle";
 import Logo from "../Logo";
 import { AuthenticationDialog } from "../AuthenticationDialog";
+import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 export const Header: React.FC = () => {
   const [showAuth, setShowAuth] = useState(true);
-  const [loginUser, setLoginUser] = useState("");
+  const [activUser, setActiveUser] = useState<User | null>(null)
+
+
+  const supabase = createClientComponentClient()
+
+  async function activeUserPresent() {
+    const { data } = await supabase.auth.getUser()
+    if (data.user) {
+      setActiveUser(data.user)
+    } else {
+      setActiveUser(null)
+    }
+  }
+  activeUserPresent()
+
 
   return (
     <>
@@ -38,14 +53,20 @@ export const Header: React.FC = () => {
             </div>
           </div>
           <div className="relative flex items-center justify-end gap-2 basis-1/3">
-            <Link href="/#" passHref legacyBehavior>
-              <Button as="a" variant="ghost" className="hidden md:inline-flex">
-                Add Community
-              </Button>
-            </Link>
+            {activUser?.email &&
+              <Link href="/#" passHref legacyBehavior>
 
-            {loginUser ? (
-              <h3>{loginUser}</h3>
+                <Button as="a" variant="ghost" className="hidden md:inline-flex">
+                  Add Community
+                </Button>
+              </Link>
+            }
+
+
+            {activUser?.email ? (
+              <h3>
+                {activUser.email}
+              </h3>
             ) : (
               <Button
                 variant="ghost"
