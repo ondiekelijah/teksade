@@ -96,14 +96,15 @@ const featuredGroups = [
 export const RecentlyAdded = () => {
   
   return (
-    <section id="featured-jobs">
-      <div className="mb-4 flex items-center justify-between">
+    <section id="featured-jobs" className="flex flex-col items-center justify-center min-h-[80vh] mx-auto max-w-screen-xl">
+      {/* relative w-full h-screen font-sans text-gray-900 flex items-center justify-center' */}
+      <div className="mb-5 flex items-center justify-between w-full">
         <h2 className="text-2xl font-bold">Recently Added</h2>
         <Button variant="outline" className="hidden xs:inline-flex">
           Show All
         </Button>
       </div>
-      <div id="featured-jobs__categories" className="mb-4">
+      <div id="featured-jobs__categories" className="mb-10 w-full">
         <Swiper
           modules={[FreeMode, Scrollbar, Mousewheel]}
           direction="horizontal"
@@ -126,7 +127,7 @@ export const RecentlyAdded = () => {
         </Swiper>
       </div>
       {/* !-m-4 to fix box-shadow cropping due to overflow:hidden */}
-      <div id="featured-jobs__items" className="!-m-4">
+      <div id="featured-jobs__items" className="!-m-4 w-full">
         <Swiper
           className="!p-4" // !p-4 to fix box-shadow cropping due to overflow:hidden
           modules={[Navigation]}

@@ -7,7 +7,7 @@ import { Button } from "@/components/Button";
 export const Subscribe = () => {
   return (
     <section>
-      <div className="max-w-6xl mx-auto px-4 sm:px-1">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-1">
         <div className="pb-10 md:pb-20">
           {/* CTA box */}
           <div className="relative py-10 px-8 md:py-16 md:px-12 shadow-none md:shadow-2xl rounded-none md:rounded-lg sm:overflow-visible">

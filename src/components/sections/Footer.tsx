@@ -4,7 +4,7 @@ import Logo from "../Logo";
 
 export const Footer = () => {
   return (
-    <footer className="p-4 md:px-6 md:py-8">
+    <footer className="p-4 md:px-6 md:py-8 mx-auto max-w-screen-xl">
       <div className="flex flex-col items-center justify-between sm:flex-row">
         <Link href="/#" className="my-auto flex w-[140px] md:ml-0">
 
