@@ -1,11 +1,12 @@
+"use client"
 import Image from "next/image";
 import HeroInnerBanner from "./NewsBanner";
 import SearchForm from "./SearchForm";
 import { useState } from "react";
 
 const HeroContent = () => (
-  <div className="mt-5 flex flex-col items-center text-center">
-    <h1 className="text-center text-4xl font-extrabold tracking-tight text-white dark:text-white sm:text-5xl lg:text-6xl">
+  <div className="flex flex-col items-center mt-5 text-center">
+    <h1 className="text-4xl font-extrabold tracking-tight text-center text-white dark:text-white sm:text-5xl lg:text-6xl">
       Discover the most vibrant and engaged tech communities.
     </h1>
     <span className="mt-6 text-xl text-white sm:text-2xl">
@@ -30,12 +31,14 @@ const Hero = () => {
         <Image
           src="/img/hero.jpg"
           alt="corporate"
-          layout="fill"
-          objectFit="cover"
-        />
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover"
+          }} />
       </div>
       <div className="absolute inset-0 z-20 flex items-center justify-center bg-neutral-900/70">
-        <div className="mx-auto h-full max-w-screen-lg flex flex-col items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center h-full max-w-screen-lg px-4 py-6 mx-auto sm:px-6 lg:px-8">
           <div className="min-h-[60px]">
             <HeroInnerBanner
               show={showBanner}

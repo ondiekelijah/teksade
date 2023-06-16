@@ -6,30 +6,11 @@ import { Button, IconButton } from "./Button";
 import Input from "./Input";
 import { SignInForm } from "./auth/LoginForm";
 import { SignUpFrom } from "./auth/RegisterForm";
-import { supabase } from "../supabase/index";
 
 export const AuthenticationDialog: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
-
-  async function loginWithGoogle() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-  }
-
-  async function loginWithFaceBook() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'facebook',
-    });
-  }
-
-  async function loginWithLinkedIn() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'linkedin',
-    });
-  }
 
   return (
     <>
@@ -68,12 +49,12 @@ export const AuthenticationDialog: React.FC<{
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 align-middle shadow-xl transition-all dark:bg-gray-800">
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden align-middle transition-all transform bg-white shadow-xl rounded-2xl dark:bg-gray-800">
                 <span className="mx-auto flex w-[140px] ">
                   <Logo />
                 </span>
                 <Tab.Group>
-                  <Tab.List className="mt-4 flex overflow-hidden rounded-lg bg-indigo-100 dark:text-gray-500">
+                  <Tab.List className="flex mt-4 overflow-hidden bg-indigo-100 rounded-lg dark:text-gray-500">
                     <Tab
                       className={({ selected }) =>
                         clsx(
@@ -105,7 +86,7 @@ export const AuthenticationDialog: React.FC<{
                   </Tab.Panels>
                 </Tab.Group>
 
-                <div className="my-4 flex items-center">
+                <div className="flex items-center my-4">
                   <span className="block h-0.5 w-full bg-slate-400"></span>
                   <span className="relative px-3 text-lg font-semibold">
                     Or
@@ -113,19 +94,17 @@ export const AuthenticationDialog: React.FC<{
                   <span className="block h-0.5 w-full bg-slate-400"></span>
                 </div>
 
-                <div className="flex flex-col items-center justify-center space-y-4
-                
-                ">
+                <div className="flex flex-col items-center justify-center space-y-4 ">
                   {/* <Button fullWidth variant="outline">
-                    <FacebookColorfulIcon className="h-6 w-6" />
+                    <FacebookColorfulIcon className="w-6 h-6" />
                     <span className="pl-2"> continue with facebook</span>
                   </Button>
                   <Button fullWidth variant="outline" onClick={loginWithGoogle}>
-                    <GoogleColorfulIcon className="h-6 w-6" />
+                    <GoogleColorfulIcon className="w-6 h-6" />
                     <span className="pl-2"> continue with google</span>
                   </Button>
                   <Button fullWidth variant="outline" onClick={loginWithLinkedIn}>
-                    <LinkedinColorfulIcon className="h-6 w-6" />
+                    <LinkedinColorfulIcon className="w-6 h-6" />
                     <span className="pl-2"> continue with linkedin</span>
                   </Button>  */}
                   <button type="button" className="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2">
