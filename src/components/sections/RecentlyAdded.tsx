@@ -96,8 +96,10 @@ const featuredGroups = [
 export const RecentlyAdded = () => {
   
   return (
-    <section id="featured-jobs" className="flex flex-col items-center justify-center min-h-[80vh] mx-auto max-w-screen-xl">
-      {/* relative w-full h-screen font-sans text-gray-900 flex items-center justify-center' */}
+    <section
+      id="featured-jobs"
+      className="mx-auto flex min-h-[80vh] max-w-screen-xl flex-col items-center justify-center md:py-20"
+    >      {/* relative w-full h-screen font-sans text-gray-900 flex items-center justify-center' */}
       <div className="mb-5 flex items-center justify-between w-full">
         <h2 className="text-2xl font-bold">Recently Added</h2>
         <Button variant="outline" className="hidden xs:inline-flex">

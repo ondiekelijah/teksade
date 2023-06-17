@@ -3,8 +3,12 @@ import HeroInnerBanner from "./NewsBanner";
 import SearchForm from "./SearchForm";
 import { useState } from "react";
 
-const HeroContent = () => (
-  <div className="mt-5 flex flex-col items-center text-center">
+const HeroContent = ({ notificationIsVisible }) => (
+  <div
+    className={`${
+      !notificationIsVisible ? "-mt-20" : ""
+    } flex flex-col items-center text-center lg:mt-0`}
+  >
     <h1 className="text-center text-4xl font-extrabold tracking-tight text-white dark:text-white sm:text-5xl lg:text-6xl">
       Discover the most vibrant and engaged tech communities.
     </h1>
@@ -35,14 +39,14 @@ const Hero = () => {
         />
       </div>
       <div className="absolute inset-0 z-20 flex items-center justify-center bg-neutral-900/70">
-        <div className="mx-auto h-full max-w-screen-lg flex flex-col items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-full max-w-screen-lg flex-col items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
           <div className="min-h-[60px]">
             <HeroInnerBanner
               show={showBanner}
               onClose={() => setShowBanner(false)}
             />
           </div>
-          <HeroContent />
+          <HeroContent notificationIsVisible={showBanner} />
         </div>
       </div>
     </div>
@@ -50,5 +54,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
-
