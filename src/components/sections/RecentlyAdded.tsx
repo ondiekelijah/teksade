@@ -1,5 +1,5 @@
-// import React from "react";
-import Image from "next/legacy/image";
+"use client"
+import Image from "next/image";
 import Link from "next/link";
 import { FreeMode, Mousewheel, Navigation, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -58,31 +58,31 @@ const featuredGroups = [
     ],
 
   },
-    {
-      id : 2,
-      tags: ["#Open-Source", "#Figma", "#UI/UX", "#TwitterSpaces"],
-      group: "Friends of Figma, Nairobi",
-      images: [ 
-        { id: 1, src: "/img/groups/fof/fof-1.jpg", alt: "image", width: 100, height: 100, },
-        { id: 2, src: "/img/groups/fof/fof-2.jpg", alt: "image", width: 100, height: 100, },
-        { id: 3, src: "/img/groups/fof/fof.jpg", alt: "image", width: 100, height: 100, },
-      ],
+  {
+    id: 2,
+    tags: ["#Open-Source", "#Figma", "#UI/UX", "#TwitterSpaces"],
+    group: "Friends of Figma, Nairobi",
+    images: [
+      { id: 1, src: "/img/groups/fof/fof-1.jpg", alt: "image", width: 100, height: 100, },
+      { id: 2, src: "/img/groups/fof/fof-2.jpg", alt: "image", width: 100, height: 100, },
+      { id: 3, src: "/img/groups/fof/fof.jpg", alt: "image", width: 100, height: 100, },
+    ],
   },
   {
-    id : 3,
+    id: 3,
     tags: ["#PhyicalEvents", "#Mentorship", "#SoftwareEngineeering", "#TwitterSpaces"],
     group: "Lux Tech Academy",
-    images: [ 
+    images: [
       { id: 1, src: "/img/groups/lux-tech/lux-tech-1.jpg", alt: "image", width: 100, height: 100, },
       { id: 2, src: "/img/groups/lux-tech/lux-tech-2.jpg", alt: "image", width: 100, height: 100, },
       { id: 3, src: "/img/groups/lux-tech/lux-tech.jpg", alt: "image", width: 100, height: 100, },
     ],
   },
   {
-    id : 4,
+    id: 4,
     tags: ["#Kotlin", "#Kotlin254", "#Android", "#TwitterSpaces"],
     group: "Kotlin254",
-    images: [ 
+    images: [
       { id: 1, src: "/img/groups/kotlin254/kot-1.webp", alt: "image", width: 100, height: 100, },
       { id: 2, src: "/img/groups/kotlin254/kot-2.webp", alt: "image", width: 100, height: 100, },
       { id: 3, src: "/img/groups/kotlin254", alt: "image", width: 100, height: 100, },
@@ -94,17 +94,17 @@ const featuredGroups = [
 // flex fixed top-0 z-10 w-full items-center gap-4 bg-white/80 py-1 px-5 shadow
 
 export const RecentlyAdded = () => {
-  
+
   return (
     <section id="featured-jobs" className="flex flex-col items-center justify-center min-h-[80vh] mx-auto max-w-screen-xl">
       {/* relative w-full h-screen font-sans text-gray-900 flex items-center justify-center' */}
-      <div className="mb-5 flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full mb-5">
         <h2 className="text-2xl font-bold">Recently Added</h2>
         <Button variant="outline" className="hidden xs:inline-flex">
           Show All
         </Button>
       </div>
-      <div id="featured-jobs__categories" className="mb-10 w-full">
+      <div id="featured-jobs__categories" className="w-full mb-10">
         <Swiper
           modules={[FreeMode, Scrollbar, Mousewheel]}
           direction="horizontal"
@@ -146,30 +146,32 @@ export const RecentlyAdded = () => {
             },
           }}
         >
-          {featuredGroups.map((group, i ) => (
+          {featuredGroups.map((group, i) => (
             <SwiperSlide key={i}>
               <Link
                 href="/community"
-                className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-700">
+                className="block overflow-hidden transition-all duration-150 bg-white border shadow-md group rounded-2xl border-slate-200 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-700">
 
                 <div className="relative block overflow-hidden  pt-[70%]">
                   <Image
                     src={group.images[0].src}
                     alt={group.images[0].alt}
-                    layout="fill"
-                    objectFit="cover"
                     className="transition-all duration-200 group-hover:scale-[102%]"
-                  />
+                    fill
+                    sizes="100vw"
+                    style={{
+                      objectFit: "cover"
+                    }} />
                 </div>
-                <div className="flex flex-col border-t p-4 dark:border-slate-600">
-                  <h5 className="block truncate text-xl font-semibold capitalize">
+                <div className="flex flex-col p-4 border-t dark:border-slate-600">
+                  <h5 className="block text-xl font-semibold capitalize truncate">
                     {group.group}
                   </h5>
-                  <span className="block truncate text-slate-500 dark:text-slate-400 text-sm">
+                  <span className="block text-sm truncate text-slate-500 dark:text-slate-400">
                     {group.tags.map((tag, i) => (
                       <span key={i} className="mr-1">
                         {tag}
-                        </span>
+                      </span>
                     ))}
                   </span>
                 </div>

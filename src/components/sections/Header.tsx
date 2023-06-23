@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+"use client"
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Link from "next/link";
@@ -6,30 +7,35 @@ import { Button, IconButton } from "../Button";
 import { ThemeSelect, ThemeToggle } from "../ThemeToggle";
 import Logo from "../Logo";
 import { AuthenticationDialog } from "../AuthenticationDialog";
-import { supabase } from "../../supabase/index";
-
+import { User, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 export const Header: React.FC = () => {
   const [showAuth, setShowAuth] = useState(true);
-  const [loginUser, setLoginUser] = useState("");
+  const [activUser, setActiveUser] = useState<User | null>(null)
 
-  const GetUser = async () => {
-    let {
-      data: { user },
-    }: any = await supabase.auth.getUser();
-    setLoginUser(user?.email);
-  };
 
-  GetUser();
+  const supabase = createClientComponentClient()
+
+  async function activeUserPresent() {
+    const { data } = await supabase.auth.getUser()
+    if (data.user) {
+      setActiveUser(data.user)
+    } else {
+      setActiveUser(null)
+    }
+  }
+  activeUserPresent()
+
+
   return (
     <>
-      <header className="dark:bg-slate-900/75 sticky inset-x-0 top-0  z-30 bg-white py-2 px-2 shadow-lg sm:py-3 sm:px-5">
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between">
+      <header className="sticky inset-x-0 top-0 z-30 px-2 py-2 bg-white shadow-lg dark:bg-slate-900/75 sm:py-3 sm:px-5">
+        <div className="flex items-center justify-between max-w-screen-xl mx-auto">
           <MenuPopOver
             className="grow-0 basis-1/3"
             display="md:hidden"
             setShowAuth={setShowAuth}
           />
-          <div className="flex shrink-0 grow-0 basis-1/3 justify-center md:justify-start">
+          <div className="flex justify-center shrink-0 grow-0 basis-1/3 md:justify-start">
             <Link href="/#" className="my-auto flex w-[120px] md:ml-0">
               <Logo />
             </Link>
@@ -46,15 +52,21 @@ export const Header: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="relative flex basis-1/3 items-center justify-end gap-2">
-            <Link href="/#" passHref legacyBehavior>
-              <Button as="a" variant="ghost" className="hidden md:inline-flex">
-                Add Community
-              </Button>
-            </Link>
+          <div className="relative flex items-center justify-end gap-2 basis-1/3">
+            {activUser?.email &&
+              <Link href="/#" passHref legacyBehavior>
 
-            {loginUser ? (
-              <h3>{loginUser}</h3>
+                <Button as="a" variant="ghost" className="hidden md:inline-flex">
+                  Add Community
+                </Button>
+              </Link>
+            }
+
+
+            {activUser?.email ? (
+              <h3>
+                {activUser.email}
+              </h3>
             ) : (
               <Button
                 variant="ghost"
@@ -81,15 +93,6 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
   let [isOpen, setIsOpen] = useState(false);
   const [loginUser, setLoginUser] = useState("");
 
-  const GetUser = async () => {
-    let {
-      data: { user },
-    }: any = await supabase.auth.getUser();
-    setLoginUser(user?.email);
-  };
-
-  GetUser();
-
   return (
     <div className={clsx(className, display)}>
       <IconButton
@@ -97,7 +100,7 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
         aria-label="Navigation Menu"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <svg className="h-6 w-6" fill="none" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -131,16 +134,16 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="dark:bg-gray-900/80 fixed inset-0 bg-black/20 backdrop-blur-sm" />
+            <Dialog.Overlay className="fixed inset-0 dark:bg-gray-900/80 bg-black/20 backdrop-blur-sm" />
           </Transition.Child>
 
-          <div className="fixed top-0 bottom-0 left-0 w-full max-w-xs rounded-r-xl bg-white p-6 shadow-lg dark:bg-gray-800 ">
+          <div className="fixed top-0 bottom-0 left-0 w-full max-w-xs p-6 bg-white shadow-lg rounded-r-xl dark:bg-gray-800 ">
             <a className="mx-auto mt-4 flex w-[140px]">
               <Logo />
             </a>
             <ul className="mt-8 space-y-3">
-              <li className="hover:bg-slate-200/50 group relative flex h-9 items-center overflow-hidden rounded-md">
-                <span className="absolute h-full w-2 bg-indigo-700 opacity-0 transition-all group-hover:opacity-100" />
+              <li className="relative flex items-center overflow-hidden rounded-md hover:bg-slate-200/50 group h-9">
+                <span className="absolute w-2 h-full transition-all bg-indigo-700 opacity-0 group-hover:opacity-100" />
                 <Link
                   href="/communities"
                   passHref
@@ -149,8 +152,8 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
                   Communities
                 </Link>
               </li>
-              <li className="hover:bg-slate-200/50 group relative flex h-9 items-center overflow-hidden rounded-md">
-                <span className="absolute h-full w-2 bg-indigo-700 opacity-0 transition-all group-hover:opacity-100" />
+              <li className="relative flex items-center overflow-hidden rounded-md hover:bg-slate-200/50 group h-9">
+                <span className="absolute w-2 h-full transition-all bg-indigo-700 opacity-0 group-hover:opacity-100" />
                 <Link
                   href="/#"
                   passHref
@@ -161,10 +164,10 @@ const MenuPopOver = ({ className, display, setShowAuth }: any) => {
               </li>
             </ul>
 
-            <div className="dark:border-gray-200/10 mt-6 border-t border-gray-200 pt-6">
+            <div className="pt-6 mt-6 border-t border-gray-200 dark:border-gray-200/10">
               <ThemeSelect />
             </div>
-            <ul className="dark:border-gray-200/10 mt-8 space-y-3 border-t border-gray-200">
+            <ul className="mt-8 space-y-3 border-t border-gray-200 dark:border-gray-200/10">
               <li>
                 {loginUser ? (
                   <h3>{loginUser}</h3>
