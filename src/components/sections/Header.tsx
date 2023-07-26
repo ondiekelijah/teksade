@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
                   Communities
                 </Button>
               </Link>
-              <Link href="/#" passHref legacyBehavior>
+              <Link href="/about" passHref legacyBehavior>
                 <Button variant="ghost" as="a">
                   About Us
                 </Button>
