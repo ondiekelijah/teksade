@@ -1,4 +1,4 @@
-- [Welcome to Teksade Open Source Community!](#welcome-to-teksade-open-source-community)
+- [Welcome to Teksade Open Source Community](#welcome-to-teksade-open-source-community)
   - [Contributing Guidelines](#contributing-guidelines)
   - [Coding Standards](#coding-standards)
     - [Coding Standards](#coding-standards-1)
@@ -10,6 +10,7 @@
     - [Git Flow](#git-flow)
       - [Example](#example)
   - [Our Techstack](#our-techstack)
+  - [Onboarding tutorials](#onboarding-tutorials)
   - [Code of Conduct](#code-of-conduct)
     - [Our Pledge](#our-pledge)
     - [Our Ethics](#our-ethics)
@@ -18,15 +19,11 @@
     - [Enforcement](#enforcement)
   - [Communication](#communication)
 
-
-
-# Welcome to Teksade Open Source Community!
+# Welcome to Teksade Open Source Community
 
 We are thrilled to have you as a contributor to the Teksade project. Our goal is to create a friendly and inclusive environment for everyone to collaborate and contribute their skills to the project.
 
 Please take a moment to read the following guidelines before contributing to the project.
-
-
 
 ## Contributing Guidelines
 
@@ -38,39 +35,46 @@ To ensure a smooth contribution process, please follow these guidelines:
 4. **Push** your changes to your forked repository.
 5. **Submit a pull request** to the main repository.
 
-
 When contributing to this repository, first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change. 
+email, or any other method with the owners of this repository before making a change.
 
 Please ensure that your changes are in line with the project's coding standards and requirements. If your changes are substantial, please open an issue to discuss them with the maintainers before submitting a pull request.
 
-Also  adhere to our [Code of Conduct](#code-of-conduct)
+Also adhere to our [Code of Conduct](#code-of-conduct)
 
 ## Coding Standards
+
 When contributing to a project, it's important to follow the established coding standards and best practices to ensure consistency and maintainability of the codebase. Here are some guidelines to follow:
 
 ### Coding Standards
+
 - Use a consistent coding style throughout the project. This includes things like indentation, spacing, and naming conventions.
 - Follow established language-specific coding standards and conventions, such as PEP 8 for Python or PSR standards for PHP.
 - Avoid writing code that is overly complex or difficult to understand.
 - Comment your code to make it easier for others to understand its purpose and functionality.
+
 ### Best Practices
+
 - Use libraries and frameworks whenever possible to avoid reinventing the wheel and improve code quality.
 - Write code that is modular and reusable, with a focus on separation of concerns.
 - Write unit tests to ensure that your code is functioning as expected and to catch bugs early on.
 - Use version control to manage your code changes and collaborate effectively with others.
+
 ### Use of Libraries and Frameworks
+
 When using libraries and frameworks, it's important to follow these guidelines:
 
 - Use libraries and frameworks that are widely used and have a strong community of developers. This can help ensure that the code is reliable and well-maintained.
 - Use libraries and frameworks that are well-documented and have good support resources, such as forums or documentation.
 - Avoid using too many libraries and frameworks, as this can lead to bloated code and performance issues.
 - Use the latest stable versions of libraries and frameworks to take advantage of bug fixes and new features.
- 
+
 ### Git Branching and Naming Pattern
+
 When working on a project using Git, it's important to follow a consistent branching and naming pattern to keep your codebase organized and easy to navigate. Here are some guidelines to follow:
 
 #### Branching Pattern
+
 - **master**: The master branch should always contain your stable code that is ready to be released to production.
 
 - **develop**: The develop branch is where you merge in all of your feature branches. This branch should always be in a working state, but may contain incomplete features that are still being developed.
@@ -78,12 +82,15 @@ When working on a project using Git, it's important to follow a consistent branc
 - **Feature branches**: Each new feature or bugfix that you work on should be developed on its own feature branch, branched off of develop. These branches should be named in a descriptive way that indicates the feature being developed (e.g. login-page-redesign).
 
 #### Naming Pattern
+
 When naming your branches, you should follow a consistent naming pattern that is easy to understand and provides information about the contents of the branch. Here are some guidelines to follow:
 
 - Use lowercase letters and hyphens to separate words (e.g. new-feature).
 - Use descriptive names that indicate the purpose of the branch (e.g. add-login-form).
 - Prefix the branch name with feature/ for feature branches, bugfix/ for bugfix branches, and hotfix/ for emergency hotfixes that need to be applied to production code.
+
 ### Git Flow
+
 Git Flow is a popular branching model that provides a structured approach to managing Git branches. It involves the use of two long-lived branches (master and develop) and a set of short-lived feature branches. Here are the basic steps involved in Git Flow:
 
 - Create a new feature branch off of develop.
@@ -94,10 +101,11 @@ Git Flow is a popular branching model that provides a structured approach to man
 - Merge the release branch back into develop and master.
 - Tag the master branch with the release version number.
 - Deploy the tagged release to production.
-   
+
 Using Git Flow help to keep our codebase organized and make it easier to manage projects with multiple contributors.
 
 #### Example
+
 Here's an example of how Git Flow might look in practice:
 
 ```bash
@@ -134,51 +142,49 @@ git tag -a 1.0.0 -m "Release 1.0.0"
 By following a consistent Git branching and naming pattern and using a structured approach like Git Flow, you can make it easier to collaborate with others and manage your codebase effectively.
 
 ## Our Techstack
+
 1. [Next Js](https://nextjs.org/)
 2. [Tailwind css](https://tailwindcss.com/)
-3.  [Typescript](https://www.typescriptlang.org/)
-4.  [GraphQL](https://graphql.org/)
+3. [Typescript](https://www.typescriptlang.org/)
+4. [Mantine UI](https://mantine.dev/)
+5. [Supabase](https://supabase.com/)
+6. [Supabase](https://trpc.io/)
 
-to  ensire as safe onboarding for contributors  we provide the following links to  helpful material  to get up to  speed with  the techstack . 
-1. [GraphQl Youtube tutorial](https://youtu.be/qux4-yWeZvo)
-2. [Next Js crash course by Academind](https://youtu.be/MFuwkrseXVE)
-3.  [Typescript for React devs playlist](https://www.typescriptlang.org/)
+## Onboarding tutorials
 
+to ensure as safe onboarding for contributors we provide the following links to helpful material to get up to speed with the techstack .
 
-
-
-
-
-
-
+1. [Next Js crash course by Academind](https://youtu.be/MFuwkrseXVE)
+2. [Typescript for React devs playlist](https://www.youtube.com/playlist?list=PLC3y8-rFHvwi1AXijGTKM0BKtHzVC-LSK)
+3. [Supabase crash course](https://www.youtube.com/watch?v=ydz7Dj5QHKY&list=PL4cUxeGkcC9hUb6sHthUEwG7r9VDPBMKO)
+4. [tRPC crash course](https://youtu.be/2LYM8gf184U)
 
 ## Code of Conduct
 
 ### Our Pledge
 
-
 The Teksade Open Source Community is dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, age, religion, or any other characteristic protected by law. We do not tolerate harassment of participants in any form.
 
-###  Our Ethics 
+### Our Ethics
 
 Examples of behavior that contributes to creating a positive environment
 include:
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
-advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
+- The use of sexualized language or imagery and unwelcome sexual attention or
+  advances
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic
   address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
+- Other conduct which could reasonably be considered inappropriate in a
   professional setting
 
 ### Our Responsibilities
@@ -215,11 +221,8 @@ Project maintainers who do not follow or enforce the Code of Conduct in good
 faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
 
-
-
 ## Communication
 
 If you have any questions, concerns, or suggestions, please feel free to join our [Whatsapp forum](https://chat.whatsapp.com/ET94DkTEO1EB5EuSkEXJ4N) or reach out to one of our maintainers. We are always here to help!
 
 Thank you for considering contributing to Teksade! We look forward to working with you.
-
