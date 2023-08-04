@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { countries, popularLanguagesAndTechnologies } from "@/utils/constants";
+import { countries, techFocusAreas } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
 import { ActionIcon, Button, FileInput, LoadingOverlay, MultiSelect, Select, Stepper, TextInput, Textarea } from "@mantine/core";
 import { useUploadFile } from "react-firebase-hooks/storage";
@@ -80,17 +80,17 @@ export default function NewCommunityPage() {
   }
 
   return (
-    <div className=" container mx-auto  ">
-      <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className=" flex flex-col gap-2">
+    <div className="container mx-auto ">
+      <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex flex-col gap-2 ">
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 shadow-xl sm:w-[60vw]">
           <Stepper.Step label="First step" description="General Info" className="">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} />
             <Textarea label="description" withAsterisk required {...form.getInputProps("description")} />
-            <div className=" grid grid-cols-1 items-center gap-2 sm:grid-cols-2 ">
+            <div className="grid items-center grid-cols-1 gap-2 sm:grid-cols-2">
               <Select label="Country" data={countries} withAsterisk required searchable {...form.getInputProps("country")} />
               <TextInput label="Location" withAsterisk required {...form.getInputProps("location")} />
             </div>
-            <MultiSelect searchable data={[...popularLanguagesAndTechnologies.map((communinty) => communinty.focusField), "Others"]} {...form.getInputProps("focusArea")} label="Focus Areas" withAsterisk placeholder="Select multiple if applicable" />
+            <MultiSelect searchable data={[...techFocusAreas, "others"]} {...form.getInputProps("focusArea")} label="Focus Areas" withAsterisk placeholder="Select multiple if applicable" />
             <MultiSelect
               label="Related Technologies"
               data={technologies}
@@ -104,7 +104,7 @@ export default function NewCommunityPage() {
                 return item;
               }}
             />
-            <div className=" m-2 flex justify-end">
+            <div className="flex justify-end m-2 ">
               <ActionIcon onClick={nextStep} type="button" size="lg" bg="teksade" disabled={form.isTouched() && !form.isValid()}>
                 <GrLinkNext />
               </ActionIcon>
@@ -112,7 +112,7 @@ export default function NewCommunityPage() {
           </Stepper.Step>
 
           <Stepper.Step label="Second step" description="Image uploads">
-            <div className=" flex flex-col gap-3">
+            <div className="flex flex-col gap-3 ">
               <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
               <FileInput value={profileImage} onChange={setProfileImage} label="Logo/Profile Image" withAsterisk size="lg" />
               <Button type="submit" onClick={() => void handleLogoUpload()}>
