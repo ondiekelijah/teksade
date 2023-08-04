@@ -12,6 +12,8 @@ datasource db {
 
 model Member {
   id          String   @id @unique
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
   name        String?
   email       String?  @unique
   phone       String?  @unique
@@ -31,6 +33,8 @@ model Member {
 
 model Community {
   id           String   @id @default(uuid())
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
   name         String
   description  String
   country      String
