@@ -2,24 +2,33 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const communitiesRouter = createTRPCRouter({
-  getCommunitiesList: publicProcedure.input(z.object({ limit: z.number() })).query(async ({ input, ctx }) => {
-    const communityList = await ctx.prisma.community.findMany({
-      orderBy: {
-        members: {
-          _count: "desc",
-        },
-      },
-      include: {
-        _count: {
-          select: {
-            members: true,
+  getCommunitiesList: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        country: z.string(),
+        filterByNew: z.boolean(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const communityList = await ctx.prisma.community.findMany({
+        include: {
+          _count: {
+            select: {
+              members: true,
+            },
           },
         },
-      },
-      take: input.limit,
-    });
-    return communityList;
-  }),
+        where: {
+          country: input.country,
+        },
+        take: input.limit,
+        orderBy: {
+          updated_at: input.filterByNew ? "asc" : "desc",
+        },
+      });
+      return communityList;
+    }),
   getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
     ctx.auth.userId ? console.log("signed In") : console.log("No User");
 
