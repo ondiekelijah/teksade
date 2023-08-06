@@ -11,7 +11,8 @@ import { countries, techFocusAreas } from "@/utils/constants";
 export default function CommunitiesPage() {
   const [selectedCountry, setSelectedCountry] = useState("Kenya");
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
-  const communitiesList = api.communities.getCommunitiesList.useQuery({ limit: 50, country: selectedCountry, filterByNew: filterByNewlyCreated });
+  const [selectedFocusArea, setSelectedFocusArea] = useState<string[]>([]);
+  const communitiesList = api.communities.getCommunitiesList.useQuery({ limit: 50, country: selectedCountry, filterByNew: filterByNewlyCreated, focusAreas: selectedFocusArea });
   const [filtersOpen, { toggle }] = useDisclosure(false);
 
   return (
@@ -40,12 +41,15 @@ export default function CommunitiesPage() {
         <Collapse in={filtersOpen}>
           <div className="mb-2 flex w-full flex-col flex-wrap gap-2 sm:flex sm:flex-row sm:items-center">
             <div className="flex gap-x-1 overflow-x-scroll  sm:order-2 sm:w-[60%]">
-              {techFocusAreas.map((area) => (
-                <Chip key={area} className="mt-4 ">
-                  {area}
-                </Chip>
-              ))}
+              <Chip.Group multiple value={selectedFocusArea} onChange={setSelectedFocusArea}>
+                {techFocusAreas.map((area) => (
+                  <Chip value={area} key={area} className="mt-4 ">
+                    {area}
+                  </Chip>
+                ))}
+              </Chip.Group>
             </div>
+
             <TextInput radius="xl" className="sm:w-[20%]" rightSection={<BsSearch className="flex-1 text-teksade " />} />
             <Select radius="xl" data={countries} searchable placeholder="Country" className="flex-1 sm:order-3 sm:w-[20%]" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} />
           </div>
@@ -53,9 +57,22 @@ export default function CommunitiesPage() {
       </div>
 
       <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-4 ">
-        {communitiesList.data?.map((communinty) => (
-          <CommmunityCard id={communinty.id} key={communinty.id} name={communinty.name} country={communinty.country} location={communinty.location} description={communinty.description} members={communinty._count.members} logoUrl={communinty.logo_link} />
-        ))}
+        {communitiesList.data?.length ? (
+          communitiesList.data.map((communinty) => (
+            <CommmunityCard
+              id={communinty.id}
+              key={communinty.id}
+              name={communinty.name}
+              country={communinty.country}
+              location={communinty.location}
+              description={communinty.description}
+              members={communinty._count.members}
+              logoUrl={communinty.logo_link}
+            />
+          ))
+        ) : (
+          <div className="text-center sm:col-span-3 md:col-span-4">No communities matched your search filters</div>
+        )}
       </section>
     </div>
   );

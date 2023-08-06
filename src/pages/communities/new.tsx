@@ -25,7 +25,7 @@ export default function NewCommunityPage() {
     description: string;
     country: string;
     location: string;
-    focusArea: string[];
+    focusArea: string;
     technologies?: string[];
   }>({
     validateInputOnBlur: true,
@@ -35,7 +35,7 @@ export default function NewCommunityPage() {
         description: z.string().nonempty("Required").min(8, "Short Description"),
         country: z.string().nonempty("Select a country"),
         location: z.string().nonempty("Provide a location"),
-        focusArea: z.string().array().nonempty("Select atleast one focus area"),
+        focusArea: z.string().nonempty("Select a focus area"),
       })
     ),
   });
@@ -61,7 +61,7 @@ export default function NewCommunityPage() {
           communityDescription: values.description,
           country: values.country,
           location: values.location,
-          focusAreas: values.focusArea,
+          focusArea: values.focusArea,
           technologies: technologies,
           logo_url: form.values.communityName.split(" ").join(""),
         })
@@ -86,11 +86,11 @@ export default function NewCommunityPage() {
           <Stepper.Step label="First step" description="General Info" className="">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} />
             <Textarea label="description" withAsterisk required {...form.getInputProps("description")} />
-            <div className="grid items-center grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2">
               <Select label="Country" data={countries} withAsterisk required searchable {...form.getInputProps("country")} />
               <TextInput label="Location" withAsterisk required {...form.getInputProps("location")} />
             </div>
-            <MultiSelect searchable data={[...techFocusAreas, "others"]} {...form.getInputProps("focusArea")} label="Focus Areas" withAsterisk placeholder="Select multiple if applicable" />
+            <Select searchable data={[...techFocusAreas, "others"]} {...form.getInputProps("focusArea")} label="Major focus area" withAsterisk placeholder="Select your major focus Area" />
             <MultiSelect
               label="Related Technologies"
               data={technologies}
@@ -104,14 +104,14 @@ export default function NewCommunityPage() {
                 return item;
               }}
             />
-            <div className="flex justify-end m-2 ">
+            <div className="m-2 flex justify-end ">
               <ActionIcon onClick={nextStep} type="button" size="lg" bg="teksade" disabled={form.isTouched() && !form.isValid()}>
                 <GrLinkNext />
               </ActionIcon>
             </div>
           </Stepper.Step>
 
-          <Stepper.Step label="Second step" description="Image uploads">
+          <Stepper.Step label="Second step" description="Image upload">
             <div className="flex flex-col gap-3 ">
               <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
               <FileInput value={profileImage} onChange={setProfileImage} label="Logo/Profile Image" withAsterisk size="lg" />
