@@ -1,28 +1,46 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { techFocusAreas } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
-  getCommunitiesList: publicProcedure.input(z.object({ limit: z.number() })).query(async ({ input, ctx }) => {
-    const communityList = await ctx.prisma.community.findMany({
-      orderBy: {
-        members: {
-          _count: "desc",
+  getCommunitiesList: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        country: z.string(),
+        filterByNew: z.boolean(),
+        focusAreas: z.string().array(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const communityList = await ctx.prisma.community.findMany({
+        where: {
+          country: input.country,
+          focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
         },
-      },
-      include: {
-        _count: {
-          select: {
-            members: true,
+        include: {
+          _count: {
+            select: {
+              members: true,
+            },
           },
         },
-      },
-      take: input.limit,
-    });
-    return communityList;
-  }),
-  getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
-    ctx.auth.userId ? console.log("signed In") : console.log("No User");
+        take: input.limit,
+        orderBy: [
+          {
+            members: {
+              _count: "desc",
+            },
+          },
+          {
+            updated_at: input.filterByNew ? "asc" : "desc",
+          },
+        ],
+      });
+      return communityList;
+    }),
 
+  getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
     const popularCommnitiesFetch = await ctx.prisma.community.findMany({
       orderBy: {
         members: {
@@ -33,6 +51,7 @@ export const communitiesRouter = createTRPCRouter({
     });
     return popularCommnitiesFetch;
   }),
+
   createNewCommunity: publicProcedure
     .input(
       z.object({
@@ -41,7 +60,7 @@ export const communitiesRouter = createTRPCRouter({
         communityDescription: z.string(),
         country: z.string(),
         location: z.string(),
-        focusAreas: z.string().array(),
+        focusArea: z.string(),
         technologies: z.string().array(),
         logo_url: z.string(),
       })
@@ -53,7 +72,7 @@ export const communitiesRouter = createTRPCRouter({
           description: input.communityDescription,
           country: input.country,
           location: input.location,
-          focus_areas: input.focusAreas,
+          focus_area: input.focusArea,
           technologies: input.technologies,
           logo_link: input.logo_url,
           creator: {

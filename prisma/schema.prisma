@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Member {
@@ -39,7 +40,7 @@ model Community {
   description  String
   country      String
   location     String
-  focus_areas  String[]
+  focus_area   String
   technologies String[] @default([])
   verified     Boolean? @default(false)
   github       String?  @unique
