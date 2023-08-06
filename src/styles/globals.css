@@ -1,0 +1,20 @@
+/* @tailwind base; Tailwind base styles are muted to avoid conflicts with Normalize Css Used in Mantine*/
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}

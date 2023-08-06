@@ -1,56 +1,64 @@
-import React from "react";
+import { createStyles, Group, ActionIcon, rem } from "@mantine/core";
 import Link from "next/link";
-import Logo from "../Logo";
+import { FaTwitter, FaGithub, FaYoutube } from "react-icons/fa";
 
-export const Footer = () => {
+const useStyles = createStyles((theme) => ({
+  footer: {
+    marginTop: rem(120),
+    borderTop: `${rem(1)} solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]}`,
+  },
+
+  inner: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: `${theme.spacing.md} ${theme.spacing.md}`,
+
+    [theme.fn.smallerThan("sm")]: {
+      flexDirection: "column",
+    },
+  },
+
+  links: {
+    [theme.fn.smallerThan("sm")]: {
+      marginTop: theme.spacing.lg,
+      marginBottom: theme.spacing.sm,
+    },
+  },
+}));
+
+export default function Footer() {
+  const links = [
+    { link: "/communities", label: "Communities" },
+    { link: "#contribute", label: "Contribute" },
+    { link: "/about", label: "About Us" },
+  ];
+  const { classes } = useStyles();
+  const items = links.map((link) => (
+    <Link color="dimmed" key={link.label} href={link.link}>
+      {link.label}
+    </Link>
+  ));
+
   return (
-    <footer className="p-4 md:px-6 md:py-8 mx-auto max-w-screen-xl">
-      <div className="flex flex-col items-center justify-between sm:flex-row">
-        <Link href="/#" className="my-auto flex w-[140px] md:ml-0">
+    <div className={classes.footer}>
+      <div className={classes.inner}>
+        <h2>Teksade</h2>
 
-          <Logo />
+        <Group className={classes.links}>{items}</Group>
 
-        </Link>
-        <ul className="mb-6 flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 sm:mb-0">
-          <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6 ">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6 ">
-              Communities
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/ondiekelijah/teksade/blob/master/contribution.md"
-              target="_blank"
-              rel="noreferrer"
-              className="mr-4 hover:underline md:mr-6 "
-            >
-              Contribute
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline">
-              Contact
-            </a>
-          </li>
-        </ul>
+        <Group spacing="xs" position="right" noWrap>
+          <ActionIcon size="lg" variant="default" radius="xl">
+            <FaTwitter size="1.05rem" />
+          </ActionIcon>
+          <ActionIcon size="lg" variant="default" radius="xl">
+            <FaGithub size="1.05rem" />
+          </ActionIcon>
+          <ActionIcon size="lg" variant="default" radius="xl">
+            <FaYoutube size="1.05rem" />
+          </ActionIcon>
+        </Group>
       </div>
-      <hr className="my-6 border-gray-200 dark:border-gray-700 lg:my-8" />
-      <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-      <span className="block text-sm text-gray-500 dark:text-gray-400">
-        <a
-          href="https://github.com/ondiekelijah/teksade"
-          className="hover:underline"
-        >
-          Teksade™
-        </a>
-        . All Rights Reserved.
-      </span>
-      </div>
-    </footer>
+    </div>
   );
-};
+}

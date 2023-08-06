@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Member {
+  id          String   @id @unique
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+  name        String?
+  email       String?  @unique
+  phone       String?  @unique
+  institution String?
+  position    String?
+  location    String?
+  github      String?  @unique
+  twitter     String?  @unique
+  linkedin    String?  @unique
+  website     String?  @unique
+  techstack   String[]
+  verified    Boolean? @default(false)
+
+  communities_created Community[] @relation(name: "creator")
+  communities_joined  Community[]
+}
+
+model Community {
+  id           String   @id @default(uuid())
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+  name         String
+  description  String
+  country      String
+  location     String
+  focus_area   String
+  technologies String[] @default([])
+  verified     Boolean? @default(false)
+  github       String?  @unique
+  twitter      String?  @unique
+  linkedin     String?  @unique
+  website      String?  @unique
+  whatsapp     String?
+  phone        String?  @unique
+  logo_link    String
+
+  creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
+  creatorId String
+
+  members Member[]
+}
