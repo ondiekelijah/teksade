@@ -10,12 +10,14 @@ import { z } from "zod";
 import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
 import { showNotification } from "@mantine/notifications";
+import Link from "next/link";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
-  const [uploadFile, uploading, snapshot, error] = useUploadFile();
-  const [active, setActive] = useState(0);
   const { user } = useUser();
+  const getMemberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
+  const [uploadFile, uploading, , error] = useUploadFile();
+  const [active, setActive] = useState(0);
   const [technologies, setTechnologies] = useState<string[]>([]);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const nextStep = () => setActive((current) => (current < 1 ? current + 1 : current));
@@ -79,9 +81,20 @@ export default function NewCommunityPage() {
     }
   }
 
+  if (!getMemberInfo.isLoading && !(getMemberInfo.data?.name ?? getMemberInfo.data?.email)) {
+    return (
+      <div className=" flex h-full w-full flex-col  items-center justify-center">
+        <p>Incomplete profile !! Complete a base profile to add a community</p>
+        <Link href="profile">
+          <Button>Complete Profile</Button>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto ">
-      <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex flex-col gap-2 ">
+      <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2 ">
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 shadow-xl sm:w-[60vw]">
           <Stepper.Step label="First step" description="General Info" className="">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} />
