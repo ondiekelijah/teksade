@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { communitiesRouter } from "./routers/communities";
+import { membersRouter } from "./routers/members";
 
 /**
  * This is the primary router for our backend.
@@ -8,6 +9,7 @@ import { communitiesRouter } from "./routers/communities";
  */
 export const appRouter = createTRPCRouter({
   communities: communitiesRouter,
+  members: membersRouter,
 });
 
 // export type definition of API
