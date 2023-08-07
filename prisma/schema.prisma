@@ -18,8 +18,10 @@ model Member {
   name        String?
   email       String?  @unique
   phone       String?  @unique
+  about       String?
   institution String?
-  position    String?
+  role        String?
+  country     String?
   location    String?
   github      String?  @unique
   twitter     String?  @unique
