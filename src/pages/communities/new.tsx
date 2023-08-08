@@ -44,7 +44,7 @@ export default function NewCommunityPage() {
 
   async function handleLogoUpload() {
     if (profileImage) {
-      await uploadFile(ref(storageBucket, form.values.communityName.split(" ").join("")), profileImage);
+      await uploadFile(ref(storageBucket, `logos/${form.values.communityName.split(" ").join("")}`), profileImage);
     }
     if (error) {
       showNotification({
@@ -68,7 +68,7 @@ export default function NewCommunityPage() {
           logo_url: form.values.communityName.split(" ").join(""),
         })
         .then((onfulfilledValue) => {
-          if (onfulfilledValue.country) {
+          if (onfulfilledValue?.country) {
             showNotification({
               message: "Created",
             });

@@ -3,6 +3,25 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { techFocusAreas } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
+  getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
+    try {
+      const communityInfo = ctx.prisma.community.findUnique({
+        where: {
+          id: input.communityId,
+        },
+        include: {
+          members: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+      return communityInfo;
+    } catch (error) {
+      console.log(error);
+    }
+  }),
   getCommunitiesList: publicProcedure
     .input(
       z.object({
@@ -13,43 +32,51 @@ export const communitiesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
-      const communityList = await ctx.prisma.community.findMany({
-        where: {
-          country: input.country,
-          focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
-        },
-        include: {
-          _count: {
-            select: {
-              members: true,
+      try {
+        const communityList = await ctx.prisma.community.findMany({
+          where: {
+            country: input.country,
+            focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
+          },
+          include: {
+            _count: {
+              select: {
+                members: true,
+              },
             },
           },
-        },
-        take: input.limit,
-        orderBy: [
-          {
-            members: {
-              _count: "desc",
+          take: input.limit,
+          orderBy: [
+            {
+              members: {
+                _count: "desc",
+              },
             },
-          },
-          {
-            updated_at: input.filterByNew ? "asc" : "desc",
-          },
-        ],
-      });
-      return communityList;
+            {
+              updated_at: input.filterByNew ? "asc" : "desc",
+            },
+          ],
+        });
+        return communityList;
+      } catch (error) {
+        console.log(error);
+      }
     }),
 
   getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
-    const popularCommnitiesFetch = await ctx.prisma.community.findMany({
-      orderBy: {
-        members: {
-          _count: "desc",
+    try {
+      const popularCommnitiesFetch = await ctx.prisma.community.findMany({
+        orderBy: {
+          members: {
+            _count: "desc",
+          },
         },
-      },
-      take: 10,
-    });
-    return popularCommnitiesFetch;
+        take: 10,
+      });
+      return popularCommnitiesFetch;
+    } catch (error) {
+      console.log(error);
+    }
   }),
 
   createNewCommunity: publicProcedure
@@ -66,37 +93,41 @@ export const communitiesRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const newCommunityCreation = await ctx.prisma.community.create({
-        data: {
-          name: input.communityName,
-          description: input.communityDescription,
-          country: input.country,
-          location: input.location,
-          focus_area: input.focusArea,
-          technologies: input.technologies,
-          logo_link: input.logo_url,
-          creator: {
-            connectOrCreate: {
-              where: {
-                id: input.creatorId,
+      try {
+        const newCommunityCreation = await ctx.prisma.community.create({
+          data: {
+            name: input.communityName,
+            description: input.communityDescription,
+            country: input.country,
+            location: input.location,
+            focus_area: input.focusArea,
+            technologies: input.technologies,
+            logo_link: input.logo_url,
+            creator: {
+              connectOrCreate: {
+                where: {
+                  id: input.creatorId,
+                },
+                create: {
+                  id: input.creatorId,
+                },
               },
-              create: {
-                id: input.creatorId,
+            },
+            members: {
+              connectOrCreate: {
+                where: {
+                  id: input.creatorId,
+                },
+                create: {
+                  id: input.creatorId,
+                },
               },
             },
           },
-          members: {
-            connectOrCreate: {
-              where: {
-                id: input.creatorId,
-              },
-              create: {
-                id: input.creatorId,
-              },
-            },
-          },
-        },
-      });
-      return newCommunityCreation;
+        });
+        return newCommunityCreation;
+      } catch (error) {
+        console.log(error);
+      }
     }),
 });
