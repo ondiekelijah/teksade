@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { api } from "@/utils/api";
-import { Button, Chip, Collapse, Menu, Select, TextInput } from "@mantine/core";
+import { Button, Chip, Collapse, LoadingOverlay, Menu, Select, TextInput } from "@mantine/core";
 import { BsFilter, BsFire, BsSearch } from "react-icons/bs";
 import { VscDiffAdded } from "react-icons/vsc";
 import React, { useState } from "react";
@@ -56,8 +56,9 @@ export default function CommunitiesPage() {
         </Collapse>
       </div>
 
-      <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-4 ">
-        {communitiesList.data?.length ? (
+      <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-4 "> 
+         <LoadingOverlay visible={communitiesList.isLoading} />
+        {communitiesList.data?.length &&
           communitiesList.data.map((communinty) => (
             <CommmunityCard
               id={communinty.id}
@@ -69,10 +70,7 @@ export default function CommunitiesPage() {
               members={communinty._count.members}
               logoUrl={communinty.logo_link}
             />
-          ))
-        ) : (
-          <div className="text-center sm:col-span-3 md:col-span-4">No communities matched your search filters</div>
-        )}
+          ))}
       </section>
     </div>
   );
