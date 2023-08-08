@@ -1,20 +1,23 @@
 import Image from "next/image";
-import React from "react";
 
-function about_page() {
+export default function AboutPage() {
   return (
     <>
-      <div className="container mx-auto py-4">
+      <div className="container mx-auto px-5 py-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="rounded-lg p-4 shadow-md">
-            <Image src="/img/hero.jpg" className="mx-auto h-full rounded-lg object-cover object-center" alt="" width={500} height={350} />
+          <div className="mx-auto w-full rounded-lg p-6 shadow-md">
+            <Image src="/img/hero.jpg" className="mx-auto h-full w-full rounded-lg object-cover object-center" alt="" width={500} height={350} />
           </div>
 
-          <div className="rounded-lg p-4 shadow-md">
+          <div className="rounded-lg p-6 shadow-md">
             <div className="sm:border-lg sm:mb-0 sm:border-blue-300">
-              <h2 className="pb-4 text-2xl font-bold text-gray-500 dark:text-gray-400 sm:text-2xl md:text-5xl">Become Part of Something Bigger</h2>
+              <h2 className="pb-4 text-2xl font-bold text-gray-500 dark:text-gray-500 sm:text-2xl md:text-5xl">Become Part of Something Bigger</h2>
               <p className="pb-3 text-justify text-gray-500 dark:text-gray-400 sm:mt-6 sm:pb-0">
                 We believe in creating opportunities for individuals to become part of something bigger. Join us and be a member of a community that explores new opportunities and expands horizons.{" "}
+              </p>
+              <p className="pb-3 text-justify text-gray-500 dark:text-gray-400 sm:mt-6 sm:pb-0">
+                Unlock your potential and become part of a thriving network that embraces boundless opportunities and limitless growth. Join us and be a valued member of a community that dares to
+                dream big and embraces the endless possibilities ahead.
               </p>
             </div>
             <div className="my-4 sm:mt-4 sm:p-0 md:mt-6">
@@ -62,15 +65,13 @@ function about_page() {
             </div>
             <div className="mb-0 sm:mt-8">
               <div>
-                <div className="w-full max-w-md p-4">
-                  <div className="flex items-center">
-                    <div className="flex-grow border-t border-gray-400"></div>
-                    <h2 className="px-4 text-2xl font-bold">We are social</h2>
-                    <div className="flex-grow border-t border-gray-400"></div>
-                  </div>
+                <div className="flex items-center">
+                  <div className="h-1 w-1/3 bg-gray-400"></div>
+                  <h4 className="md:text-1xl p-2">We're Social</h4>
+                  <div className="h-1 w-1/3 bg-gray-400"></div>
                 </div>
               </div>
-              <div className="flex justify-center sm:mt-4 md:justify-start">
+              <div className="flex justify-center pt-4 sm:mt-4 md:justify-start">
                 <svg
                   className="mx-3 h-8 w-8 cursor-pointer text-blue-500 hover:text-blue-200 hover:transition-all  hover:duration-300 sm:h-10 sm:w-10"
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,5 +120,3 @@ function about_page() {
     </>
   );
 }
-
-export default about_page;
