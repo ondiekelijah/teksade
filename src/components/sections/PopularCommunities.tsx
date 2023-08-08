@@ -63,7 +63,7 @@ export default function PopularCommunities() {
 }
 
 function CommunityImage({ communityName }: { communityName: string }) {
-  const [value, loading] = useDownloadURL(ref(storageBucket, communityName));
+  const [value, loading] = useDownloadURL(ref(storageBucket, `logos/${communityName}`));
 
   return (
     <div className="">

@@ -42,7 +42,7 @@ export default function Header() {
           </SignInButton>
         )}
         {userStatus.user && (
-          <Link href="profile" className=" flex items-center gap-x-2">
+          <Link href="/profile" className=" flex items-center gap-x-2">
             <CgProfile className=" text-4xl" />
             <UserButton />
           </Link>
