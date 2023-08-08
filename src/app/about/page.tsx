@@ -1,10 +1,8 @@
 import Image from 'next/image'
-import React from 'react'
 
-function about_page() {
+function AboutPage() {
     return (
         <>
-
                 <div className="container mx-auto py-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -52,8 +50,7 @@ function about_page() {
                 </div>
        
         </>
-
     )
 }
 
-export default about_page
+export default AboutPage
