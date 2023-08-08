@@ -66,7 +66,8 @@ export default function Header() {
           transition: "slide-right",
           duration: 300,
           timingFunction: "linear",
-        }}>
+        }}
+      >
         <section className=" flex flex-col gap-y-4">
           <Link href="/communities">
             <Button variant="subtle" className=" rounded-full">
