@@ -3,6 +3,7 @@ import Image from 'next/image'
 function AboutPage() {
     return (
         <>
+        
                 <div className="container mx-auto py-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
