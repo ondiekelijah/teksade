@@ -67,7 +67,7 @@ export default function AboutPage() {
               <div>
                 <div className="flex items-center">
                   <div className="h-1 w-1/3 bg-gray-400"></div>
-                  <h4 className="md:text-1xl p-2">We're Social</h4>
+                  <h4 className="md:text-1xl p-2">We&apos;re Social</h4>
                   <div className="h-1 w-1/3 bg-gray-400"></div>
                 </div>
               </div>
