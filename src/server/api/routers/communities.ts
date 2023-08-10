@@ -130,4 +130,38 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+
+  addMemberToCommunity: publicProcedure
+    .input(
+      z.object({
+        memberId: z.string(),
+        communityId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const addMember = await ctx.prisma.community.update({
+          where: {
+            id: input.communityId,
+          },
+          data: {
+            members: {
+              connect: {
+                id: input.memberId,
+              },
+            },
+          },
+          select: {
+            _count: {
+              select: {
+                members: true,
+              },
+            },
+          },
+        });
+        return addMember;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });
