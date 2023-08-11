@@ -15,7 +15,7 @@ export default function MemberCard({ memberId, isCreator }: MemberCardProps) {
       <div className=" flex  items-center gap-x-4 ">
         <Avatar size="lg" src="/img/profileholder.jpg" className="rounded-full object-cover" />
         <div className=" flex flex-col ">
-          <p className=" text-xs uppercase"> {isCreator ? "Creator" : "Member"}</p>
+          <p className=" text-xs uppercase"> {isCreator ? "Creator" : null}</p>
           <p>{memberInfo.data?.name}</p>
           <Text color="dimmed" className=" whitespace-nowrap text-xs">
             {memberInfo.data?.role} ,{memberInfo.data?.institution}
