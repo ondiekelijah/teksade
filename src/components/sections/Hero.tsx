@@ -32,7 +32,9 @@ export default function Hero() {
             </SignUpButton>
           )}
           <Link href="/about">
-            <Button size="lg" variant="outline" className="rounded-full">
+            <Button size="lg" variant="outline" 
+            className="rounded-full"
+            >
               Learn More
             </Button>
           </Link>

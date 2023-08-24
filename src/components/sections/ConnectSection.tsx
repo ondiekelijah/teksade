@@ -13,12 +13,12 @@ export default function ConnectSection() {
         <div className=" flex flex-col justify-center gap-y-7 pt-5">
           <p>Connect with techies near and far 🚀</p>
           <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Become part of something bigger</h2>
-          <p className="text-base sm:text-2xl">
+          <p className="text-xl">
             There is strength in numbers.
             Teksade connects you with your tech tribe and even helps you discover more. We can all help to make the world a better place. Join in the fun!
           </p>
           <Link href="communities">
-            <Button className="text-xl rounded-full" size="lg">Explore Communities</Button>
+            <Button className="text-base rounded-full" size="lg">Explore Communities</Button>
           </Link>
         </div>
         <div className="order-1 flex items-center gap-3 sm:order-2 p-4">

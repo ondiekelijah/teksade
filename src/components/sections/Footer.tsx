@@ -14,6 +14,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     paddingTop: `${theme.spacing.md}`,
+    paddingBottom: `${theme.spacing.md}`,
 
     [theme.fn.smallerThan("sm")]: {
       flexDirection: "column",
@@ -31,9 +32,16 @@ const useStyles = createStyles((theme) => ({
 export default function Footer() {
   const links = [
     { link: "/communities", label: "Communities" },
-    { link: "#contribute", label: "Contribute" },
+    { link: "https://github.com/ondiekelijah/teksade", label: "Contribute" },
     { link: "/about", label: "About Us" },
   ];
+  
+  const socialLinks = [
+    { href: "https://github.com/ondiekelijah/teksade", icon: FaTwitter },
+    { href: "https://github.com/ondiekelijah/teksade", icon: FaGithub },
+    { href: "https://github.com/ondiekelijah/teksade", icon: FaYoutube },
+  ];
+
   const { classes } = useStyles();
   const items = links.map((link) => (
     <Link color="dimmed" key={link.label} href={link.link}>
@@ -46,22 +54,19 @@ export default function Footer() {
       <div className={classes.footer}>
         <div className={classes.inner}>
           <h2>Teksade</h2>
-
           <Group className={classes.links}>{items}</Group>
-
           <Group spacing="xs" position="right" noWrap>
-            <ActionIcon size="lg" variant="default" radius="xl">
-              <FaTwitter size="1.05rem" />
-            </ActionIcon>
-            <ActionIcon size="lg" variant="default" radius="xl">
-              <FaGithub size="1.05rem" />
-            </ActionIcon>
-            <ActionIcon size="lg" variant="default" radius="xl">
-              <FaYoutube size="1.05rem" />
-            </ActionIcon>
+            {socialLinks.map((socialLink, index) => (
+              <Link key={index} href={socialLink.href} passHref>
+                  <ActionIcon size="lg" variant="default" radius="xl">
+                    <socialLink.icon />
+                  </ActionIcon>
+              </Link>
+            ))}
           </Group>
         </div>
       </div>
     </Container>
   );
 }
+
