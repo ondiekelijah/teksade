@@ -57,7 +57,7 @@ export default function CommunitiesPage() {
         </Collapse>
       </div>
 
-      <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-4 ">
+      <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
         {communitiesList.data?.length ? (
           communitiesList.data.map((community) => (
             <CommmunityCard

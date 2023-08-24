@@ -8,17 +8,17 @@ export default function Contribute() {
     <Container>
       <div className="flex flex-col items-center justify-center gap-y-10 p-5">
         <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Help us bring our vision to life</h1>
-        <Text className=" mx-auto text-center text-base sm:text-2xl">
+        <Text className=" mx-auto text-center text-base sm:text-xl">
           Make your mark on the open-source community. We are on the hunt for skilled developers and designers to contribute to our project. This is your chance to collaborate with a team of
           like-minded individuals and create something truly groundbreaking.
         </Text>
         <div className="flex flex-col sm:flex-row gap-5">
   <Link href="https://github.com/ondiekelijah/teksade">
-    <Button className="rounded-full w-full sm:w-auto" size="lg" leftIcon={<GitHub />}>
+    <Button className="rounded-full w-full sm:w-auto" size="md" leftIcon={<GitHub />}>
       Contribute on Github
     </Button>
   </Link>
-  <Button variant="outline" className="rounded-full w-full sm:w-auto" size="lg" leftIcon={<Twitter />}>
+  <Button variant="outline" className="rounded-full w-full sm:w-auto" size="md" leftIcon={<Twitter />}>
     Follow on Twitter
   </Button>
 </div>
@@ -46,7 +46,7 @@ const GitHub = ({ size = 24 }) => (
     width={size}
     height={size}
     viewBox="0 0 24 24"
-    fill="#000"
+    fill="#fff"
   >
     <path d="M12 2C6.48 2 2 6.48 2 12c0 4.41 2.87 8.14 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-1.04-.01-1.89-2.67.61-3.22-1.15-3.22-1.15-.46-1.16-1.12-1.47-1.12-1.47-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.35 1.1 2.92.84.09-.65.35-1.1.64-1.35-2.13-.24-4.38-1.07-4.38-4.78 0-1.06.37-1.92 1-2.6-.1-.24-.43-1.21.09-2.53 0 0 .82-.26 2.7 1a9.27 9.27 0 0 1 4.91 0c1.87-1.28 2.68-1 2.68-1 .53 1.31.2 2.29.1 2.53.63.68 1 1.54 1 2.6 0 3.71-2.25 4.53-4.39 4.77.36.31.68.93.68 1.87 0 1.35-.01 2.43-.01 2.77 0 .26.18.58.69.48A10.02 10.02 0 0 0 22 12C22 6.48 17.52 2 12 2z" />
   </svg>

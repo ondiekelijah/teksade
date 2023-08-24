@@ -9,6 +9,8 @@ import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
 import { storageBucket } from "@/utils/firestoreConfig";
 import Container from "@/components/custom-components/container";
+import Checkmark from "@/components/custom-components/checkmark";
+import { ChevronLeft, ChevronRight } from "../custom-components/controllers";
 
 export default function PopularCommunities() {
   const popularCommunities = api.communities.getPopularCommunities.useQuery();
@@ -17,19 +19,19 @@ export default function PopularCommunities() {
   return (
     <Container>
       <div id="popular" className="min-h-[80vh] pt-20 ">
-        <p className="flex w-full justify-between text-xl font-bold ">
+        <p className="flex w-full items-center justify-between text-xl font-bold">
           <span className="">Popular Communities</span>{" "}
           <Link href="communities">
-            <Button className="rounded-full " size="sm">Show All</Button>
+            <Button className="rounded-full " size="sm">
+              Show All
+            </Button>
           </Link>
         </p>
         <div className="my-3 flex gap-2 overflow-x-scroll ">
           <Chip.Group multiple value={selectedTechnlogies} onChange={setselectedTechnlogies}>
-            <Chip value="All" variant="filled">
-              ALL
-            </Chip>
+            <Chip value="All">ALL</Chip>
             {["All", ...techFocusAreas].map((tech) => (
-              <Chip key={tech} value={tech} variant="filled">
+              <Chip key={tech} value={tech}>
                 {tech}
               </Chip>
             ))}
@@ -45,21 +47,26 @@ export default function PopularCommunities() {
             slideSize="33.33%"
             breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
             className="my-5 "
+            nextControlIcon={<ChevronRight size={40} />}
+            previousControlIcon={<ChevronLeft size={40} />}
           >
             {popularCommunities.data?.map((community) => (
-              <Carousel.Slide key={community.id} className="w-60 rounded  shadow-xl">
+              <Carousel.Slide key={community.id} className="w-60">
                 <Link href={`/communities/${community.id}`}>
-                  <Paper withBorder className="h-full ">
+                  <Paper withBorder className="h-full rounded-lg shadow-xl">
                     <div className="">
                       <CommunityImage communityName={community.name.split(" ").join("")} />
                     </div>
-                    <div className="p-2 ">
-                      <h3 className="flex items-center justify-between ">{community.name}</h3>
-                      <div className="flex items-center  overflow-x-scroll ">
+                    <div className="p-2">
+                      <div className="flex items-center">
+                        <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
+                        <Checkmark />
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center">
                         {community.technologies.map((tech) => (
-                          <span className="flex" key={tech}>
-                            #{tech.split(" ")}
-                          </span>
+                          <Chip key={tech} value={tech} className="mb-1 mr-1">
+                            {tech}
+                          </Chip>
                         ))}
                       </div>
                     </div>
@@ -80,7 +87,7 @@ function CommunityImage({ communityName }: { communityName: string }) {
   return (
     <div className="">
       <LoadingOverlay visible={loading} />
-      <img src={value ? value : "/img/g-1.jpg"} alt="community log" className="h-60 w-full object-cover" />
+      <img src={value ? value : "/img/g-1.jpg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
     </div>
   );
 }
