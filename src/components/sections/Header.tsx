@@ -15,48 +15,45 @@ export default function Header() {
     children: React.ReactNode;
   }
   const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
-    <Link href={href} className={`mr-3 w-full py-2 text-base whitespace-nowrap sm:px-0 ${className || ""}`}>
+    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`}>
       {children}
     </Link>
   );
 
-
   return (
-<Paper className="container relative mx-auto flex max-w-screen-lg flex-wrap items-center justify-between px-8 py-3 lg:justify-between xl:px-0">
-  <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
-  
-  <Link href="/" className="text-3xl font-bold">
-    Teksade
-  </Link>
-  
-  <div className="flex items-center"> {/* <- This is the added container */}
-  <section className="space-x-10 mr-4 hidden items-center sm:flex">
-      <RenderButton href="/communities" className="mr-4">
-        Communities
-      </RenderButton>
-      <RenderButton href="/about" >
-        About Us
-      </RenderButton>
+    <Paper className="container relative mx-auto flex max-w-screen-lg flex-wrap items-center justify-between px-8 py-3 lg:justify-between xl:px-0">
+      <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
-      {userStatus.user ? (
-        <RenderButton href="/communities/new">
-          Add Community
-        </RenderButton>
-      ) : (
-        <SignInButton mode="modal">
-          <RenderButton href="#" className="mr-4">
-            Sign Up
+      <Link href="/" className="text-3xl font-bold">
+        Teksade
+      </Link>
+
+      <div className="flex items-center">
+        {" "}
+        {/* <- This is the added container */}
+        <section className="mr-4 hidden items-center space-x-10 sm:flex">
+          <RenderButton href="/communities" className="mr-4">
+            Communities
           </RenderButton>
-        </SignInButton>
-      )}
-      {userStatus.user && (
-        <Link href="profile" className="flex items-center gap-x-2">
-          <UserButton />
-        </Link>
-      )}
-    </section>
-    <ThemeToggle />
-  </div>
+          <RenderButton href="/about">About Us</RenderButton>
+
+          {userStatus.user ? (
+            <RenderButton href="/communities/new">Add Community</RenderButton>
+          ) : (
+            <SignInButton mode="modal">
+              <RenderButton href="#" className="mr-4">
+                Sign Up
+              </RenderButton>
+            </SignInButton>
+          )}
+          {userStatus.user && (
+            <Link href="profile" className="flex items-center gap-x-2">
+              <UserButton />
+            </Link>
+          )}
+        </section>
+        <ThemeToggle />
+      </div>
 
       <Drawer
         opened={opened}
