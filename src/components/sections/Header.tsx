@@ -11,13 +11,19 @@ export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
 
-  const RenderButton = ({ href, children }) => (
+  interface RenderButtonProps {
+    href: string;
+    children: React.ReactNode;
+  }
+  
+  const RenderButton: React.FC<RenderButtonProps> = ({ href, children }) => (
     <Link href={href}>
       <Button variant="subtle" className="rounded-full w-full px-4 py-2 text-base">
         {children}
       </Button>
     </Link>
   );
+  
 
   return (
     <Paper className="container relative max-w-screen-lg flex flex-wrap items-center justify-between px-8 py-3 mx-auto lg:justify-between xl:px-0">
