@@ -35,16 +35,15 @@ export default function Footer() {
     { link: "https://github.com/ondiekelijah/teksade", label: "Contribute" },
     { link: "/about", label: "About Us" },
   ];
-  
+
   const socialLinks = [
-    { href: "https://github.com/ondiekelijah/teksade", icon: FaTwitter },
+    { href: "https://twitter.com/teksadehq", icon: FaTwitter },
     { href: "https://github.com/ondiekelijah/teksade", icon: FaGithub },
-    { href: "https://github.com/ondiekelijah/teksade", icon: FaYoutube },
   ];
 
   const { classes } = useStyles();
   const items = links.map((link) => (
-    <Link color="dimmed" key={link.label} href={link.link}>
+    <Link color="dimmed" key={link.label} href={link.link} target={link.link.startsWith("http") ? "_blank" : "_self"}>
       {link.label}
     </Link>
   ));
@@ -58,9 +57,9 @@ export default function Footer() {
           <Group spacing="xs" position="right" noWrap>
             {socialLinks.map((socialLink, index) => (
               <Link key={index} href={socialLink.href} passHref>
-                  <ActionIcon size="lg" variant="default" radius="xl">
-                    <socialLink.icon />
-                  </ActionIcon>
+                <ActionIcon size="lg" variant="default" radius="xl">
+                  <socialLink.icon />
+                </ActionIcon>
               </Link>
             ))}
           </Group>
@@ -69,4 +68,3 @@ export default function Footer() {
     </Container>
   );
 }
-
