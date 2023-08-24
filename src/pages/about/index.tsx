@@ -1,5 +1,6 @@
 import React from "react";
+import Container from "@/components/custom-components/container";
 
 export default function AboutPage() {
-  return <div>AboutPage</div>;
+  return <Container>AboutPage</Container>;
 }
