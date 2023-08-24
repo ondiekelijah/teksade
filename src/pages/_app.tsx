@@ -9,7 +9,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import MainLayout from "@/components/layouts/MainLayout";
 import { useState } from "react";
 
-
 function App({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
   const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value ?? (colorScheme === "dark" ? "light" : "dark"));
@@ -19,6 +18,9 @@ function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Teksade</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
@@ -28,7 +30,8 @@ function App({ Component, pageProps }: AppProps) {
               colorPrimary: "#1A56DB",
             },
           }}
-          {...pageProps}>
+          {...pageProps}
+        >
           <MantineProvider
             withGlobalStyles
             withNormalizeCSS
@@ -42,7 +45,9 @@ function App({ Component, pageProps }: AppProps) {
                 teksade: ["#ACC8FF", "#81ACFF", "#5A92FF", "#377AFF", "#1F68FF", "#175CF7", "#1A56DB", "#0847D5", "#003AD0", "#0031C3"],
               },
               loader: "bars",
-            }}>
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
             <ModalsProvider>
               <Notifications />
               <MainLayout>

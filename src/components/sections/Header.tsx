@@ -6,58 +6,58 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
+
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
 
+  interface RenderButtonProps {
+    href: string;
+    children: React.ReactNode;
+  }
+  
+  const RenderButton: React.FC<RenderButtonProps> = ({ href, children }) => (
+    <Link href={href}>
+      <Button variant="subtle" className="rounded-full w-full px-4 py-2 text-base">
+        {children}
+      </Button>
+    </Link>
+  );
+  
+
   return (
-    <Paper className=" sticky top-0 z-50  flex w-full items-center justify-between p-2 px-4 shadow-xl">
-      <Burger opened={false} className=" text-2xl sm:hidden " onClick={open} />
-      <Link href="/" className=" text-3xl font-bold">
+    <Paper className="container relative max-w-screen-lg flex flex-wrap items-center justify-between px-8 py-3 mx-auto lg:justify-between xl:px-0">
+      <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
+      <Link href="/" className="text-3xl font-bold">
         Teksade
       </Link>
-      <section className=" mr-4 hidden grow items-center justify-end  sm:flex ">
-        <Link href="/communities">
-          <Button variant="subtle" className=" rounded-full">
-            Communities
-          </Button>
-        </Link>
-        <Link href="/about">
-          <Button variant="subtle" className=" rounded-full">
-            About Us
-          </Button>
-        </Link>
+      <section className="mr-4 hidden grow items-center justify-end sm:flex">
+        <RenderButton href="/communities">Communities</RenderButton>
+        <RenderButton href="/about">About Us</RenderButton>
 
         {userStatus.user ? (
-          <Link href="/communities/new">
-            <Button variant="subtle" className=" rounded-full">
-              Add Community
-            </Button>
-          </Link>
+          <RenderButton href="/communities/new">Add Community</RenderButton>
         ) : (
           <SignInButton mode="modal">
-            <Button variant="subtle" className=" rounded-full">
+            <Button variant="subtle" className="rounded-full w-full px-4 py-2 text-gray-700 dark:text-gray-300">
               Sign Up
             </Button>
           </SignInButton>
         )}
         {userStatus.user && (
-          <Link href="profile" className=" flex items-center gap-x-2">
-            <CgProfile className=" text-4xl" />
+          <Link href="profile" className="flex items-center gap-x-2 ml-3">
             <UserButton />
           </Link>
         )}
       </section>
       <ThemeToggle />
 
-      {/* Drawer only displayed on small devices */}
-
       <Drawer
         opened={opened}
         onClose={close}
         size="xs"
         title={
-          <Link href="/" className=" w-full text-center text-3xl font-bold">
+          <Link href="/" className="w-full text-center text-3xl font-bold">
             Teksade
           </Link>
         }
@@ -68,26 +68,13 @@ export default function Header() {
           timingFunction: "linear",
         }}
       >
-        <section className=" flex flex-col gap-y-4">
-          <Link href="/communities">
-            <Button variant="subtle" className=" rounded-full">
-              Communities
-            </Button>
-          </Link>
-          <Link href="/about">
-            <Button variant="subtle" className=" rounded-full">
-              About Us
-            </Button>
-          </Link>
-
-          <div className=" flex items-center justify-between gap-2">
+        <section className="flex flex-col gap-y-4">
+          <RenderButton href="/communities">Communities</RenderButton>
+          <RenderButton href="/about">About Us</RenderButton>
+          <div className="flex items-center justify-between gap-2">
             {userStatus.user && (
               <>
-                <Link href="/communities/new">
-                  <Button variant="subtle" className=" rounded-full">
-                    Add Community
-                  </Button>
-                </Link>
+                <RenderButton href="/communities/new">Add Community</RenderButton>
                 <UserButton />
               </>
             )}
@@ -98,3 +85,4 @@ export default function Header() {
     </Paper>
   );
 }
+

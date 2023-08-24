@@ -1,6 +1,7 @@
 import { createStyles, Group, ActionIcon, rem } from "@mantine/core";
 import Link from "next/link";
 import { FaTwitter, FaGithub, FaYoutube } from "react-icons/fa";
+import Container from "@/components/custom-components/container";
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -12,7 +13,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: `${theme.spacing.md} ${theme.spacing.md}`,
+    paddingTop: `${theme.spacing.md}`,
 
     [theme.fn.smallerThan("sm")]: {
       flexDirection: "column",
@@ -41,24 +42,26 @@ export default function Footer() {
   ));
 
   return (
-    <div className={classes.footer}>
-      <div className={classes.inner}>
-        <h2>Teksade</h2>
+    <Container>
+      <div className={classes.footer}>
+        <div className={classes.inner}>
+          <h2>Teksade</h2>
 
-        <Group className={classes.links}>{items}</Group>
+          <Group className={classes.links}>{items}</Group>
 
-        <Group spacing="xs" position="right" noWrap>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <FaTwitter size="1.05rem" />
-          </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <FaGithub size="1.05rem" />
-          </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <FaYoutube size="1.05rem" />
-          </ActionIcon>
-        </Group>
+          <Group spacing="xs" position="right" noWrap>
+            <ActionIcon size="lg" variant="default" radius="xl">
+              <FaTwitter size="1.05rem" />
+            </ActionIcon>
+            <ActionIcon size="lg" variant="default" radius="xl">
+              <FaGithub size="1.05rem" />
+            </ActionIcon>
+            <ActionIcon size="lg" variant="default" radius="xl">
+              <FaYoutube size="1.05rem" />
+            </ActionIcon>
+          </Group>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }

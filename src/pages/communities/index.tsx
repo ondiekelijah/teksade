@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import CommmunityCard from "@/components/sections/CommmunityCard";
 import { useDisclosure } from "@mantine/hooks";
 import { countries, techFocusAreas } from "@/utils/constants";
+import Container from "@/components/custom-components/container";
 
 export default function CommunitiesPage() {
   const [selectedCountry, setSelectedCountry] = useState("Kenya");
@@ -16,7 +17,7 @@ export default function CommunitiesPage() {
   const [filtersOpen, { toggle }] = useDisclosure(false);
 
   return (
-    <div className="container mx-auto p-2">
+    <Container>
       <div className="">
         <section className="my-2 flex w-full items-center justify-between ">
           <Menu>
@@ -58,22 +59,22 @@ export default function CommunitiesPage() {
 
       <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-4 ">
         {communitiesList.data?.length ? (
-          communitiesList.data.map((communinty) => (
+          communitiesList.data.map((community) => (
             <CommmunityCard
-              id={communinty.id}
-              key={communinty.id}
-              name={communinty.name}
-              country={communinty.country}
-              location={communinty.location}
-              description={communinty.description}
-              members={communinty._count.members}
-              logoUrl={communinty.logo_link}
+              id={community.id}
+              key={community.id}
+              name={community.name}
+              country={community.country}
+              location={community.location}
+              description={community.description}
+              members={community._count.members}
+              logoUrl={community.logo_link}
             />
           ))
         ) : (
           <div className="text-center sm:col-span-3 md:col-span-4">No communities matched your search filters</div>
         )}
       </section>
-    </div>
+    </Container>
   );
 }
