@@ -26,7 +26,7 @@ export default function CommunitiesPage() {
     <Container>
       <div className="">
         <section className="my-2 flex w-full items-center justify-between ">
-          <Menu trigger="hover" openDelay={100} closeDelay={400}>
+          <Menu trigger="hover" openDelay={100} closeDelay={4000}>
             <Menu.Target>
               <Button variant="subtle" rightIcon={<BsFilter />} className="flex items-center gap-x-2 p-2 text-base shadow-lg">
                 Popularity
