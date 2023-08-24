@@ -6,7 +6,6 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
-
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
@@ -15,49 +14,56 @@ export default function Header() {
     href: string;
     children: React.ReactNode;
   }
-  
-  const RenderButton: React.FC<RenderButtonProps> = ({ href, children }) => (
-    <Link href={href}>
-      <Button variant="subtle" className="rounded-full w-full px-4 py-2 text-base">
-        {children}
-      </Button>
+  const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
+    <Link href={href} className={`mr-3 w-full py-2 text-base whitespace-nowrap sm:px-0 ${className || ""}`}>
+      {children}
     </Link>
   );
-  
+
 
   return (
-    <Paper className="container relative max-w-screen-lg flex flex-wrap items-center justify-between px-8 py-3 mx-auto lg:justify-between xl:px-0">
-      <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
-      <Link href="/" className="text-3xl font-bold">
-        Teksade
-      </Link>
-      <section className="mr-4 hidden grow items-center justify-end sm:flex">
-        <RenderButton href="/communities">Communities</RenderButton>
-        <RenderButton href="/about">About Us</RenderButton>
+<Paper className="container relative mx-auto flex max-w-screen-lg flex-wrap items-center justify-between px-8 py-3 lg:justify-between xl:px-0">
+  <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
+  
+  <Link href="/" className="text-3xl font-bold">
+    Teksade
+  </Link>
+  
+  <div className="flex items-center"> {/* <- This is the added container */}
+  <section className="space-x-10 mr-4 hidden items-center sm:flex">
+      <RenderButton href="/communities" className="mr-4">
+        Communities
+      </RenderButton>
+      <RenderButton href="/about" >
+        About Us
+      </RenderButton>
 
-        {userStatus.user ? (
-          <RenderButton href="/communities/new">Add Community</RenderButton>
-        ) : (
-          <SignInButton mode="modal">
-            <Button variant="subtle" className="rounded-full w-full px-4 py-2 text-gray-700 dark:text-gray-300">
-              Sign Up
-            </Button>
-          </SignInButton>
-        )}
-        {userStatus.user && (
-          <Link href="profile" className="flex items-center gap-x-2 ml-3">
-            <UserButton />
-          </Link>
-        )}
-      </section>
-      <ThemeToggle />
+      {userStatus.user ? (
+        <RenderButton href="/communities/new">
+          Add Community
+        </RenderButton>
+      ) : (
+        <SignInButton mode="modal">
+          <RenderButton href="#" className="mr-4">
+            Sign Up
+          </RenderButton>
+        </SignInButton>
+      )}
+      {userStatus.user && (
+        <Link href="profile" className="flex items-center gap-x-2">
+          <UserButton />
+        </Link>
+      )}
+    </section>
+    <ThemeToggle />
+  </div>
 
       <Drawer
         opened={opened}
         onClose={close}
         size="xs"
         title={
-          <Link href="/" className="w-full text-center text-3xl font-bold">
+          <Link href="/" className="ml-3 w-full text-center text-3xl font-bold">
             Teksade
           </Link>
         }
@@ -68,10 +74,10 @@ export default function Header() {
           timingFunction: "linear",
         }}
       >
-        <section className="flex flex-col gap-y-4">
+        <section className="flex flex-col gap-y-4 pl-0">
           <RenderButton href="/communities">Communities</RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
-          <div className="flex items-center justify-between gap-2">
+          <div className="ml-3 flex items-center justify-between gap-2">
             {userStatus.user && (
               <>
                 <RenderButton href="/communities/new">Add Community</RenderButton>
@@ -85,4 +91,3 @@ export default function Header() {
     </Paper>
   );
 }
-
