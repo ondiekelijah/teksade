@@ -15,7 +15,7 @@ export default function NewsLetter() {
             <Button className=" absolute right-[3%] z-20 rounded-full">Subscribe</Button>
           </div>
         </div>
-        <img src="/img/newletter.svg" className=" order-first h-80 w-80  justify-self-end sm:order-last" alt="news letter" />
+        <img src="/img/newsletter.svg" className=" order-first h-80 w-80  justify-self-end sm:order-last" alt="news letter" />
       </div>
     </Container>
   );
