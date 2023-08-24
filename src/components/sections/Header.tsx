@@ -60,7 +60,7 @@ export default function Header() {
         onClose={close}
         size="xs"
         title={
-          <Link href="/" className="ml-3 w-full text-center text-3xl font-bold">
+          <Link href="/" className="w-full text-center text-3xl font-bold">
             Teksade
           </Link>
         }
@@ -74,7 +74,7 @@ export default function Header() {
         <section className="flex flex-col gap-y-4 pl-0">
           <RenderButton href="/communities">Communities</RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
-          <div className="ml-3 flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2">
             {userStatus.user && (
               <>
                 <RenderButton href="/communities/new">Add Community</RenderButton>
