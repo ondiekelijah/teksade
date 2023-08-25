@@ -11,6 +11,7 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
 import { showNotification } from "@mantine/notifications";
 import Link from "next/link";
+import Container from "@/components/custom-components/container";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
@@ -83,7 +84,7 @@ export default function NewCommunityPage() {
 
   if (!getMemberInfo.isLoading && !(getMemberInfo.data?.name ?? getMemberInfo.data?.email)) {
     return (
-      <div className=" flex h-full w-full flex-col  items-center justify-center">
+      <div className=" flex h-full w-full flex-col  items-center justify-center space-y-4 py-10">
         <p>Incomplete profile !! Complete a base profile to add a community</p>
         <Link href="profile">
           <Button>Complete Profile</Button>
@@ -93,7 +94,7 @@ export default function NewCommunityPage() {
   }
 
   return (
-    <div className="container mx-auto ">
+    <Container>
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2 ">
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 shadow-xl sm:w-[60vw]">
           <Stepper.Step label="First step" description="General Info" className="">
@@ -136,6 +137,6 @@ export default function NewCommunityPage() {
           <Stepper.Completed>Congratulations Your Community has been created</Stepper.Completed>
         </Stepper>
       </form>
-    </div>
+    </Container>
   );
 }
