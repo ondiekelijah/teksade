@@ -17,7 +17,7 @@ interface CommmunityCardProps {
   logoUrl: string;
 }
 export default function CommmunityCard(communinty: CommmunityCardProps) {
-  const [logoImage, loading] = useDownloadURL(ref(storageBucket, communinty.logoUrl));
+  const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communinty.logoUrl}`));
   return (
     <Link href={`/communities/${communinty.id}`}>
       <Paper withBorder key={communinty.id} className="group relative border-2 p-2 shadow-lg">

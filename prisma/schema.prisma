@@ -57,4 +57,14 @@ model Community {
   creatorId String
 
   members Member[]
+  likes   Like[]
+}
+
+model Like {
+  id          Int       @id @default(autoincrement())
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+  memberId    String
+
+  @@unique([communityId, memberId])
 }
