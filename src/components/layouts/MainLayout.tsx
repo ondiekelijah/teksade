@@ -1,5 +1,6 @@
 import React, { type ReactNode } from "react";
 import Header from "../sections/Header";
+import Footer from "@/components/sections/Footer";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
@@ -7,7 +8,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <div className=" sticky top-0 z-50 w-full">
         <Header />
       </div>
-      <section className=" z-0 w-full px-2">{children}</section>
+      <section className=" z-0 w-full">{children}</section>
+      <Footer />
     </main>
   );
 }
