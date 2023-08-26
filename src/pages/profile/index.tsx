@@ -24,7 +24,7 @@ interface ProfileFormValues {
   portfolio?: string;
   twitter?: string;
   linkedin?: string;
-};
+}
 
 export default function ProfilePage() {
   const { user } = useUser();
@@ -34,7 +34,6 @@ export default function ProfilePage() {
   const [hasErrorNotified, setHasErrorNotified] = useState(false);
   const [hasSuccessNotified, setHasSuccessNotified] = useState(false);
   const [formInitialValues, setFormInitialValues] = useState({});
-  const {notifySuccess, notifyError} = useMantineNotify();
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -114,17 +113,18 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (updateUserInfo.error && !hasErrorNotified) {
-      notifyError ({
+      showNotification({
         title: "An error occured",
         message: updateUserInfo.error.message,
+        color: "red",
       });
       setHasErrorNotified(true); // Set the state to true after showing the notification
     }
-  }, [updateUserInfo.error]);
+  }, [updateUserInfo.error, hasErrorNotified]);
 
   useEffect(() => {
     if (updateUserInfo.isSuccess && !hasSuccessNotified) {
-      notifySuccess  ({
+      showNotification({
         title: "Profile Updated",
         message: "Your profile has been updated successfully",
       });

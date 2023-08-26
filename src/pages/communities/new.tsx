@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { api } from "@/utils/api";
 import { countries, techFocusAreas } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
@@ -26,7 +28,7 @@ export default function NewCommunityPage() {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-  const { notifySuccess, notifyError } = useMantineNotify();
+  const { notifyError, notifySuccess } = useMantineNotify();
   const router = useRouter();
 
   const nextStep = () => setActive((current) => (current < 1 ? current + 1 : current));
@@ -66,39 +68,30 @@ export default function NewCommunityPage() {
   async function handleNewCommunity(values: typeof form.values) {
     if (user) {
       try {
-        const onfulfilledValue = await createNewCommunity.mutateAsync({
-          creatorId: user.id,
-          communityName: values.communityName,
-          communityDescription: values.description,
-          country: values.country,
-          location: values.location,
-          focusArea: values.focusArea,
-          technologies: technologies,
-          logo_url: form.values.communityName.split(" ").join(""),
-        })
-        .then((onfulfilledValue) => {
-          if (onfulfilledValue?.country) {
-            showNotification({
-              message: "Created",
-            });
-          } else {
-            showNotification({
-              message: "Error While creating",
-            });
-          }
-        });
-
-        if (onfulfilledValue.country) {
-          notifySuccess({
-            title: "Success",
-            message: "Community successfully set up!",
+        const onfulfilledValue = await createNewCommunity
+          .mutateAsync({
+            creatorId: user.id,
+            communityName: values.communityName,
+            communityDescription: values.description,
+            country: values.country,
+            location: values.location,
+            focusArea: values.focusArea,
+            technologies: technologies,
+            logo_url: form.values.communityName.split(" ").join(""),
+          })
+          .then((onfulfilledValue) => {
+            if (onfulfilledValue?.country) {
+              notifySuccess({
+                title: "Success",
+                message: "Community successfully set up!",
+              });
+              void router.push(`/communities/${onfulfilledValue.id}`);
+            } else {
+              notifyError({
+                message: "Hang tight! We faced a glitch while creating your community.",
+              });
+            }
           });
-          void router.push(`/communities/${onfulfilledValue.id}`);
-        } else {
-          notifyError({
-            message: "Hang tight! We faced a glitch while creating your community.",
-          });
-        }
       } catch (error) {
         // Handle the error appropriately
         notifyError({
