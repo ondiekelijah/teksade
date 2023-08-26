@@ -1,14 +1,11 @@
-import { useRouter } from "next/router";
 import React from "react";
 import Container from "@/components/custom-components/container";
-
+import CommunityPage from "@/components/sections/CommunityPage";
 
 export default function SingleCommunityPage() {
-  const communityId = useRouter().query.id;
   return (
     <Container>
-      <p>Page for community with id:{communityId}</p>
-      <p>🚧 Work in progress</p>
+      <CommunityPage />
     </Container>
   );
 }

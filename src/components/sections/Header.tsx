@@ -5,6 +5,8 @@ import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import siteMetadata from "@/data/siteMetadata";
 
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -24,8 +26,9 @@ export default function Header() {
     <Paper className={`container relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
       <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
-      <Link href="/" className="text-3xl font-bold">
-        Teksade
+      <Link href="/" className="items-center space-x-2 text-2xl font-bold">
+        <Image src={`${siteMetadata.siteLogo}`} width={45} height={45} alt="Teksade Logo" className="mb-1" />
+        <span className="hidden sm:inline">{siteMetadata.headerTitle}</span>
       </Link>
 
       <div className="flex items-center">
@@ -38,7 +41,10 @@ export default function Header() {
           <RenderButton href="/about">About Us</RenderButton>
 
           {userStatus.user ? (
-            <RenderButton href="/communities/new">Add Community</RenderButton>
+            <>
+              <RenderButton href="/communities/new">Add Community</RenderButton>
+              <RenderButton href="/profile">My Profile</RenderButton>
+            </>
           ) : (
             <SignInButton mode="modal">
               <RenderButton href="#" className="mr-4">
@@ -61,7 +67,7 @@ export default function Header() {
         size="xs"
         title={
           <Link href="/" className="w-full text-center text-3xl font-bold">
-            Teksade
+            <Image src={`${siteMetadata.siteLogo}`} width={50} height={50} alt="Teksade Logo" />
           </Link>
         }
         overlayProps={{ opacity: 0.5, blur: 4 }}
@@ -74,10 +80,15 @@ export default function Header() {
         <section className="flex flex-col gap-y-4 pl-0">
           <RenderButton href="/communities">Communities</RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
+          {userStatus.user && (
+            <>
+              <RenderButton href="/communities/new">Add Community</RenderButton>
+              <RenderButton href="/profile">My Profile</RenderButton>
+            </>
+          )}
           <div className="flex items-center justify-between gap-2">
             {userStatus.user && (
               <>
-                <RenderButton href="/communities/new">Add Community</RenderButton>
                 <UserButton />
               </>
             )}

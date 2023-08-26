@@ -8,6 +8,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { ClerkProvider } from "@clerk/nextjs";
 import MainLayout from "@/components/layouts/MainLayout";
 import { useState } from "react";
+import Analytics from "@/components/analytics/index";
 
 function App({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
@@ -16,12 +17,11 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Teksade</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <Analytics />
         <ClerkProvider
           appearance={{
             variables: {
@@ -47,7 +47,7 @@ function App({ Component, pageProps }: AppProps) {
             }}
           >
             <ModalsProvider>
-              <Notifications />
+              <Notifications position="top-right" />
               <MainLayout>
                 <Component {...pageProps} />
               </MainLayout>
