@@ -79,6 +79,32 @@ export const communitiesRouter = createTRPCRouter({
     }
   }),
 
+  // Get community details
+  getCommunityDetails: publicProcedure
+    .input(
+      z.object({
+        communityId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const communityDetails = await ctx.prisma.community.findUnique({
+        where: {
+          id: input.communityId,
+        },
+        include: {
+          members: true,
+          creator: true,
+          _count: {
+            select: {
+              members: true,
+            },
+          },
+        },
+      });
+      return communityDetails;
+    }),
+    
+
   createNewCommunity: publicProcedure
     .input(
       z.object({

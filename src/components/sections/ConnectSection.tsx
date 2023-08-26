@@ -4,21 +4,27 @@ import Link from "next/link";
 import React from "react";
 import Container from "@/components/custom-components/container";
 import Shadow from "@/components/custom-components/shadow";
+import { useMantineColorScheme } from "@mantine/core";
+
 
 export default function ConnectSection() {
+  const { colorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
+
   return (
     <Container>
       <section className="relative grid grid-cols-1  gap-3 sm:grid-cols-2">
         <Shadow />
-        <div className=" flex flex-col justify-center gap-y-7 pt-5">
-          <p>Connect with techies near and far 🚀</p>
+        <div className={`flex flex-col justify-center gap-y-7 pt-5`}>
+          <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>Connect with techies near and far 🚀</p>
           <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Become part of something bigger</h2>
-          <p className="text-xl">
+          <p className={`text-xl  ${dark ? "text-slate-400" : "text-slate-600"} `}>
             There is strength in numbers.
             Teksade connects you with your tech tribe and even helps you discover more. We can all help to make the world a better place. Join in the fun!
           </p>
           <Link href="communities">
-            <Button className="text-base rounded-full" size="lg">Explore Communities</Button>
+            <Button className="text-base rounded-full" size="lg" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 45 }}>
+              Explore Communities</Button>
           </Link>
         </div>
         <div className="order-1 flex items-center gap-3 sm:order-2 p-4">

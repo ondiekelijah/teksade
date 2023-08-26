@@ -1,0 +1,13 @@
+<svg width="84" height="67" viewBox="0 0 84 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<g id="hand">
+<rect id="Rectangle 1" y="21.9999" width="20" height="45" rx="5" fill="white"/>
+<path id="thumb-4" d="M24 23.9999H79C81.7614 23.9999 84 26.2385 84 28.9999V30.9999C84 33.7613 81.7614 35.9999 79 35.9999H24V23.9999Z" fill="white"/>
+<path id="thumb-3" d="M24 53.9999H64C66.7614 53.9999 69 56.2385 69 58.9999V60.9999C69 63.7613 66.7614 65.9999 64 65.9999H24V53.9999Z" fill="white"/>
+<path id="thumb-2" d="M24 43.9999H69C71.7614 43.9999 74 46.2385 74 48.9999V50.9999C74 53.7613 71.7614 55.9999 69 55.9999H24V43.9999Z" fill="white"/>
+<path id="thumb-1" d="M24 33.9999H74C76.7614 33.9999 79 36.2385 79 38.9999V40.9999C79 43.7613 76.7614 45.9999 74 45.9999H24V33.9999Z" fill="white"/>
+</g>
+<path id="thumb-start" d="M34 29.5506C37.1438 28.5631 44.1537 25.192 47.0428 19.6065" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="thumb-end" d="M44.6172 22.7471C46.9813 20.4514 51.7265 14.2881 51.7952 8.00001" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

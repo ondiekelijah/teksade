@@ -4,15 +4,18 @@ import Hero from "@/components/sections/Hero";
 import NewsLetter from "@/components/sections/NewsLetter";
 import PopularCommunities from "@/components/sections/PopularCommunities";
 import React from "react";
+import { PageSEO } from "@/components/SEO";
+import siteMetadata from "@/data/siteMetadata";
 
 export default function HomePage() {
   return (
-    <div className="">
+    <>
+      <PageSEO title={`Teksade - Home`} description={siteMetadata.description} />
       <Hero />
       <PopularCommunities />
       <ConnectSection />
       <NewsLetter />
       <Contribute />
-    </div>
+    </>
   );
 }
