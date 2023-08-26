@@ -1,0 +1,77 @@
+.like-button-wrapper {
+    .particles {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+  
+      .particle-rotate {
+        position: absolute;
+  
+        &:nth-child(1) {
+          right: 0;
+          top: 50%;
+        }
+  
+        &:nth-child(2) {
+          right: 0;
+          bottom: 0;
+        }
+  
+        &:nth-child(3) {
+          right: 33%;
+          bottom: 0;
+        }
+        &:nth-child(4) {
+          right: 66%;
+          bottom: 0;
+        }
+        &:nth-child(5) {
+          left: 0;
+          bottom: 0;
+        }
+        &:nth-child(6) {
+          left: 0;
+          bottom: 50%;
+        }
+        &:nth-child(7) {
+          left: 0;
+          top: 0;
+        }
+        &:nth-child(8) {
+          left: 33%;
+          top: 0;
+        }
+        &:nth-child(9) {
+          left: 66%;
+          top: 0;
+        }
+        &:nth-child(10) {
+          right: 0;
+          top: 0;
+        }
+      }
+  
+      .particle-tick {
+        position: absolute;
+        z-index: -1;
+        width: 10px;
+        height: 1px;
+        background-color: $primary;
+        animation: boom 500ms;
+        transform: translateX(-25px);
+      }
+    }
+  }
+  
+  @keyframes boom {
+    0% {
+      transform: translateX(-25px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(50px);
+      opacity: 0;
+    }
+  }

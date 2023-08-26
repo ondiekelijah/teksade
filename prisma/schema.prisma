@@ -29,7 +29,7 @@ model Member {
   website     String?  @unique
   techstack   String[]
   verified    Boolean? @default(false)
-
+  approved    Boolean   @default(false)
   communities_created Community[] @relation(name: "creator")
   communities_joined  Community[]
 }
