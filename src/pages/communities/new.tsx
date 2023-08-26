@@ -53,7 +53,7 @@ export default function NewCommunityPage() {
 
   async function handleLogoUpload() {
     if (profileImage) {
-      await uploadFile(ref(storageBucket, form.values.communityName.split(" ").join("")), profileImage);
+      await uploadFile(ref(storageBucket, `logos/${form.values.communityName.split(" ").join("")}`), profileImage);
     }
     if (error) {
       notifyError({
@@ -75,6 +75,17 @@ export default function NewCommunityPage() {
           focusArea: values.focusArea,
           technologies: technologies,
           logo_url: form.values.communityName.split(" ").join(""),
+        })
+        .then((onfulfilledValue) => {
+          if (onfulfilledValue?.country) {
+            showNotification({
+              message: "Created",
+            });
+          } else {
+            showNotification({
+              message: "Error While creating",
+            });
+          }
         });
 
         if (onfulfilledValue.country) {

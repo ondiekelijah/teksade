@@ -20,8 +20,8 @@ interface CommmunityCardProps {
   logoUrl: string;
   verified: boolean;
 }
-export default function CommmunityCard(community: CommmunityCardProps) {
-  const [logoImage, loading] = useDownloadURL(ref(storageBucket, community.logoUrl));
+export default function CommmunityCard(communinty: CommmunityCardProps) {
+  const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communinty.logoUrl}`));
   return (
     <Link href={`/communities/${community.id}`}>
       <Paper key={community.id} className="group relative mb-8 rounded-lg shadow-lg">
