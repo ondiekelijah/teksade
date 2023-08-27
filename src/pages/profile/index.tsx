@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useMantineColorScheme } from "@mantine/core";
 import Container from "@/components/custom-components/container";
-import useMantineNotify from "@hooks/useNotify";
 
 interface ProfileFormValues {
   name?: string;
@@ -34,23 +33,22 @@ export default function ProfilePage() {
   const [hasErrorNotified, setHasErrorNotified] = useState(false);
   const [hasSuccessNotified, setHasSuccessNotified] = useState(false);
   const [formInitialValues, setFormInitialValues] = useState({});
-
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
   const currentFormValues = {
-    name: currentUser.data?.name ?? user?.fullName ?? "",
-    email: currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? "",
-    phone: currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? "",
-    institution: currentUser.data?.institution ?? "",
-    role: currentUser.data?.role ?? "",
-    about: currentUser.data?.about ?? "",
-    country: currentUser.data?.country ?? "",
-    location: currentUser.data?.location ?? "",
-    github: currentUser.data?.github ?? "",
-    portfolio: currentUser.data?.website ?? "",
-    twitter: currentUser.data?.twitter ?? "",
-    linkedin: currentUser.data?.linkedin ?? "",
+    name: currentUser.data?.name ?? user?.fullName,
+    email: currentUser.data?.email ?? user?.primaryEmailAddress?.toString(),
+    phone: currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString(),
+    institution: currentUser.data?.institution,
+    role: currentUser.data?.role,
+    about: currentUser.data?.about,
+    country: currentUser.data?.country,
+    location: currentUser.data?.location,
+    github: currentUser.data?.github,
+    portfolio: currentUser.data?.website,
+    twitter: currentUser.data?.twitter,
+    linkedin: currentUser.data?.linkedin,
   };
 
   useEffect(() => {
@@ -68,18 +66,18 @@ export default function ProfilePage() {
   // Try using form.setFieldValues instead of setFormInitialValues
   useEffect(() => {
     if (currentUser.data) {
-      form.setFieldValue("name", currentUser.data?.name ?? user?.fullName ?? "");
-      form.setFieldValue("email", currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? "");
-      form.setFieldValue("phone", currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? "");
-      form.setFieldValue("institution", currentUser.data?.institution ?? "");
-      form.setFieldValue("role", currentUser.data?.role ?? "");
-      form.setFieldValue("about", currentUser.data?.about ?? "");
-      form.setFieldValue("country", currentUser.data?.country ?? "");
-      form.setFieldValue("location", currentUser.data?.location ?? "");
-      form.setFieldValue("github", currentUser.data?.github ?? "");
-      form.setFieldValue("portfolio", currentUser.data?.website ?? "");
-      form.setFieldValue("twitter", currentUser.data?.twitter ?? "");
-      form.setFieldValue("linkedin", currentUser.data?.linkedin ?? "");
+      form.setFieldValue("name", currentUser.data?.name ?? user?.fullName ?? undefined);
+      form.setFieldValue("email", currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? undefined);
+      form.setFieldValue("phone", currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? undefined);
+      form.setFieldValue("institution", currentUser.data?.institution ?? undefined);
+      form.setFieldValue("role", currentUser.data?.role ?? undefined);
+      form.setFieldValue("about", currentUser.data?.about ?? undefined);
+      form.setFieldValue("country", currentUser.data?.country ?? undefined);
+      form.setFieldValue("location", currentUser.data?.location ?? undefined);
+      form.setFieldValue("github", currentUser.data?.github ?? undefined);
+      form.setFieldValue("portfolio", currentUser.data?.website ?? undefined);
+      form.setFieldValue("twitter", currentUser.data?.twitter ?? undefined);
+      form.setFieldValue("linkedin", currentUser.data?.linkedin ?? undefined);
     }
   }, [currentUser.data]);
 
@@ -134,13 +132,13 @@ export default function ProfilePage() {
 
   return (
     <Container className={"py-20"}>
+      <LoadingOverlay visible={updateUserInfo.isLoading} />
       <div className="mx-auto max-w-lg text-center">
         <h1 className="text-2xl font-bold sm:text-3xl">Connect Better, Update Your Profile!</h1>
         <p className={`mt-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>Adding more details to your profile helps in building stronger connections.</p>
       </div>
 
       <form onSubmit={form.onSubmit(handleFormSubmit)} className={` mx-auto sm:w-[60vw] sm:px-16 `}>
-        <LoadingOverlay visible={updateUserInfo.isLoading} />
         <TextInput {...form.getInputProps("name")} label="Name" withAsterisk size="md" required className="mb-4" />
 
         <div className=" mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">

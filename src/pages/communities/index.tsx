@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { api } from "@/utils/api";
-import { Button, Chip, Collapse, LoadingOverlay, Menu, Select, TextInput } from "@mantine/core";
+import { Button, Chip, Collapse, Loader, LoadingOverlay, Menu, Select, TextInput } from "@mantine/core";
 import { BsFilter, BsFire, BsSearch } from "react-icons/bs";
 import { VscDiffAdded } from "react-icons/vsc";
 import React, { useState } from "react";
@@ -15,23 +15,25 @@ import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
 
 export default function CommunitiesPage() {
-  const [selectedCountry, setSelectedCountry] = useState("Kenya");
+  const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined);
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
-  const [selectedFocusArea, setSelectedFocusArea] = useState<string[]>([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[] | undefined>(undefined);
+  const [selectedFocusAreas, setSelectedFocusares] = useState<string[] | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
+
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
-  const communitiesList = api.communities.getCommunitiesList.useQuery(
-    { limit: 50, country: selectedCountry, filterByNew: filterByNewlyCreated, focusAreas: selectedFocusArea },
-    {
-      staleTime: 0,
-    }
-  );
+  const communitiesList = api.communities.getCommunitiesList.useQuery({
+    limit: 50,
+    country: selectedCountry,
+    filterByNew: filterByNewlyCreated,
+    focusAreas: selectedFocusAreas,
+    technologies: selectedTechnologies,
+    searchTerm: searchTerm,
+  });
   const [filtersOpen, { toggle }] = useDisclosure(false);
 
-  const [selectedFocusAreas, setSelectedFocusAreas] = useState<string[]>([]);
-  console.log(communitiesList.data);
   return (
     <>
       {/* TODO: Move actual page logic to a different component and import here. */}
@@ -54,30 +56,46 @@ export default function CommunitiesPage() {
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
+
             <Button onClick={toggle} variant="subtle" rightIcon={<BsFilter />} className={`shadow-lg" flex items-center gap-x-2 p-2 px-4 text-base ${dark ? "text-slate-400" : "text-slate-600"}`}>
               Filters
             </Button>
           </section>
           <Collapse in={filtersOpen}>
-            <div className="my-5 flex w-full flex-col flex-wrap gap-2 sm:flex sm:flex-row sm:items-center">
+            <div className="my-5 flex w-full flex-col  gap-2 sm:flex sm:flex-row sm:items-center sm:justify-between">
+              <TextInput value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} radius="xl" rightSection={<BsSearch className="flex" />} placeholder="search" />
               <MultiSelect
-                data={technologies}
-                placeholder="Pick all that you like"
+                data={techFocusAreas}
+                placeholder="Focus areas"
                 value={selectedFocusAreas}
-                onChange={setSelectedFocusAreas}
-                searchValue={searchValue}
-                onSearchChange={setSearchValue}
+                onChange={setSelectedFocusares}
+                searchable
                 clearButtonProps={{ "aria-label": "Clear selection" }}
                 clearable
-                className="sm:order-2 sm:w-[60%]"
+                className=" flex-1"
                 radius="xl"
               />
-              <TextInput radius="xl" className="sm:w-[20%]" rightSection={<BsSearch className="flex-" />} />
-              <Select radius="xl" data={countries} searchable placeholder="Country" className="flex-1 sm:order-3 sm:w-[20%]" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} />
+              <MultiSelect
+                data={technologies}
+                placeholder="Related Technologies"
+                value={selectedTechnologies}
+                onChange={setSelectedTechnologies}
+                searchable
+                clearButtonProps={{ "aria-label": "Clear selection" }}
+                clearable
+                className=" flex-1"
+                radius="xl"
+              />
+
+              <Select radius="xl" data={countries} searchable placeholder="Country" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} className=" flex-1" />
             </div>
           </Collapse>
         </div>
-
+        {communitiesList.isLoading && (
+          <div className="flex w-full justify-center">
+            <Loader size="xl" />
+          </div>
+        )}
         <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
           {communitiesList.data?.length ? (
             communitiesList.data.map((community) => (
@@ -94,7 +112,7 @@ export default function CommunitiesPage() {
               />
             ))
           ) : (
-            <div className="my-10 text-center sm:col-span-3 md:col-span-4">No communities matched your search filters</div>
+            <div className="my-10 text-center sm:col-span-3 md:col-span-4">No communities matched your search filters ! Refine your filters</div>
           )}
         </section>
       </Container>
