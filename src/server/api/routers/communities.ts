@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { techFocusAreas } from "@/utils/constants";
+import { techFocusAreas, technologies } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
   getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
@@ -29,6 +29,8 @@ export const communitiesRouter = createTRPCRouter({
         country: z.string(),
         filterByNew: z.boolean(),
         focusAreas: z.string().array(),
+        // technologies: z.string().array(),
+        search: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -37,6 +39,8 @@ export const communitiesRouter = createTRPCRouter({
           where: {
             country: input.country,
             focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
+            // technologies: { hasSome: input.technologies.length ? input.technologies : technologies },
+            name: { contains: input.search },
           },
           include: {
             _count: {
@@ -103,7 +107,6 @@ export const communitiesRouter = createTRPCRouter({
       });
       return communityDetails;
     }),
-    
 
   createNewCommunity: publicProcedure
     .input(

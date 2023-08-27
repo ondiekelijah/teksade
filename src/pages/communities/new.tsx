@@ -3,20 +3,21 @@
 import { api } from "@/utils/api";
 import { countries, techFocusAreas } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
-import { ActionIcon, Button, FileInput, LoadingOverlay, MultiSelect, Select, Stepper, TextInput, Textarea } from "@mantine/core";
+import { Button, FileInput, LoadingOverlay, MultiSelect, Select, Stepper, TextInput, Textarea } from "@mantine/core";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { useForm, zodResolver } from "@mantine/form";
 import React, { useState } from "react";
-import { GrLinkNext } from "react-icons/gr";
 import { z } from "zod";
 import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
-import { showNotification } from "@mantine/notifications";
 import Link from "next/link";
 import Container from "@/components/custom-components/container";
 import { useMantineColorScheme } from "@mantine/core";
 import useMantineNotify from "@hooks/useNotify";
 import { useRouter } from "next/router";
+import CustomButton from "@/components/custom-components/button";
+import { FaUpload } from "react-icons/fa";
+import { technologies as techList } from "@/utils/constants";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
@@ -61,7 +62,6 @@ export default function NewCommunityPage() {
       notifyError({
         message: "Oops! We couldn't upload your image. Please try again.",
       });
-      // console.log(error);
     }
   }
 
@@ -93,7 +93,6 @@ export default function NewCommunityPage() {
             }
           });
       } catch (error) {
-        // Handle the error appropriately
         notifyError({
           message: "An error occurred while creating the community.",
         });
@@ -133,7 +132,7 @@ export default function NewCommunityPage() {
             </div>
             <Select
               searchable
-              data={[...techFocusAreas, "others"]}
+              data={[...techFocusAreas, "Others"]}
               {...form.getInputProps("focusArea")}
               className="mb-4"
               label="Major focus area"
@@ -143,7 +142,7 @@ export default function NewCommunityPage() {
             />
             <MultiSelect
               label="Related Technologies"
-              data={technologies}
+              data={techList}
               placeholder="Add new ones if not included"
               searchable
               creatable
@@ -155,20 +154,31 @@ export default function NewCommunityPage() {
                 return item;
               }}
             />
-            <div className="m-2 flex justify-end ">
-              <ActionIcon onClick={nextStep} type="button" size="lg" bg="teksade" disabled={form.isTouched() && !form.isValid()}>
-                <GrLinkNext className="rounded-full" />
-              </ActionIcon>
+            <div className="my-4 flex justify-end ">
+              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() && !form.isValid()} />
             </div>
           </Stepper.Step>
 
           <Stepper.Step label="Second step" description="Image upload">
-            <div className="flex flex-col gap-3 ">
+            <div className="flex flex-col gap-4 pt-4">
               <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
-              <FileInput value={profileImage} onChange={setProfileImage} label="Featured Image (Accepted formats: PNG, JPEG, SVG.)" withAsterisk size="lg" />
-              <Button type="submit" onClick={() => void handleLogoUpload()}>
-                Add Community
-              </Button>
+              <FileInput
+                placeholder="Upload your community logo"
+                value={profileImage}
+                onChange={setProfileImage}
+                label="Featured Image (Accepted formats: PNG, JPEG, SVG.)"
+                withAsterisk
+                size="xl"
+                icon={<FaUpload />}
+              />
+              <CustomButton
+                size="md"
+                variant="filled"
+                type="submit"
+                title="Add Community"
+                onClickHandler={() => void handleLogoUpload()}
+                disabled={!profileImage}
+              />
             </div>
           </Stepper.Step>
           <Stepper.Completed>Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</Stepper.Completed>

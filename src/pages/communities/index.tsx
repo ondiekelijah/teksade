@@ -6,10 +6,9 @@ import { VscDiffAdded } from "react-icons/vsc";
 import React, { useState } from "react";
 import CommmunityCard from "@/components/sections/CommmunityCard";
 import { useDisclosure } from "@mantine/hooks";
-import { countries, techFocusAreas } from "@/utils/constants";
+import { countries, techFocusAreas, technologies } from "@/utils/constants";
 import Container from "@/components/custom-components/container";
 import { MultiSelect } from "@mantine/core";
-import technologies from "@/data/technologies";
 import { PageSEO } from "@/components/SEO";
 import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
@@ -17,21 +16,26 @@ import { useMantineColorScheme } from "@mantine/core";
 export default function CommunitiesPage() {
   const [selectedCountry, setSelectedCountry] = useState("Kenya");
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
-  const [selectedFocusArea, setSelectedFocusArea] = useState<string[]>([]);
+  const [selectedFocusAreas, setSelectedFocusAreas] = useState<string[]>([]);
+  // const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
   const communitiesList = api.communities.getCommunitiesList.useQuery(
-    { limit: 50, country: selectedCountry, filterByNew: filterByNewlyCreated, focusAreas: selectedFocusArea },
+    { limit: 50, 
+      country: selectedCountry, 
+      filterByNew: filterByNewlyCreated, 
+      focusAreas: selectedFocusAreas, 
+      search: searchValue ,
+      // technologies: selectedTechnologies
+    },
     {
       staleTime: 0,
     }
   );
   const [filtersOpen, { toggle }] = useDisclosure(false);
-
-  const [selectedFocusAreas, setSelectedFocusAreas] = useState<string[]>([]);
-  console.log(communitiesList.data);
+console.log(selectedFocusAreas)
   return (
     <>
       {/* TODO: Move actual page logic to a different component and import here. */}
@@ -60,19 +64,37 @@ export default function CommunitiesPage() {
           </section>
           <Collapse in={filtersOpen}>
             <div className="my-5 flex w-full flex-col flex-wrap gap-2 sm:flex sm:flex-row sm:items-center">
-              <MultiSelect
+              {/* <MultiSelect
                 data={technologies}
-                placeholder="Pick all that you like"
-                value={selectedFocusAreas}
-                onChange={setSelectedFocusAreas}
-                searchValue={searchValue}
-                onSearchChange={setSearchValue}
+                placeholder="Filter by tech e.g. React"
+                value={selectedTechnologies}
+                onChange={setSelectedTechnologies}
                 clearButtonProps={{ "aria-label": "Clear selection" }}
                 clearable
+                searchable
+                className="sm:order-2 sm:w-[60%]"
+                radius="xl"
+              /> */}
+              <MultiSelect
+                data={techFocusAreas}
+                placeholder="Filter by focus area e.g. AI"
+                value={selectedFocusAreas}
+                onChange={setSelectedFocusAreas}
+                clearButtonProps={{ "aria-label": "Clear selection" }}
+                clearable
+                searchable
                 className="sm:order-2 sm:w-[60%]"
                 radius="xl"
               />
-              <TextInput radius="xl" className="sm:w-[20%]" rightSection={<BsSearch className="flex-" />} />
+
+              <TextInput
+                radius="xl"
+                className="sm:w-[20%]"
+                rightSection={<BsSearch className="flex-" />}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.currentTarget.value)}
+                placeholder="Search by name"
+              />
               <Select radius="xl" data={countries} searchable placeholder="Country" className="flex-1 sm:order-3 sm:w-[20%]" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} />
             </div>
           </Collapse>

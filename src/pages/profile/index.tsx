@@ -21,7 +21,7 @@ interface ProfileFormValues {
   country?: string;
   location?: string;
   github?: string;
-  portfolio?: string;
+  website?: string;
   twitter?: string;
   linkedin?: string;
 }
@@ -34,6 +34,7 @@ export default function ProfilePage() {
   const [hasErrorNotified, setHasErrorNotified] = useState(false);
   const [hasSuccessNotified, setHasSuccessNotified] = useState(false);
   const [formInitialValues, setFormInitialValues] = useState({});
+  const { notifySuccess, notifyError } = useMantineNotify();
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -48,7 +49,7 @@ export default function ProfilePage() {
     country: currentUser.data?.country ?? "",
     location: currentUser.data?.location ?? "",
     github: currentUser.data?.github ?? "",
-    portfolio: currentUser.data?.website ?? "",
+    website: currentUser.data?.website ?? "",
     twitter: currentUser.data?.twitter ?? "",
     linkedin: currentUser.data?.linkedin ?? "",
   };
@@ -77,7 +78,7 @@ export default function ProfilePage() {
       form.setFieldValue("country", currentUser.data?.country ?? "");
       form.setFieldValue("location", currentUser.data?.location ?? "");
       form.setFieldValue("github", currentUser.data?.github ?? "");
-      form.setFieldValue("portfolio", currentUser.data?.website ?? "");
+      form.setFieldValue("website", currentUser.data?.website ?? "");
       form.setFieldValue("twitter", currentUser.data?.twitter ?? "");
       form.setFieldValue("linkedin", currentUser.data?.linkedin ?? "");
     }
@@ -92,11 +93,11 @@ export default function ProfilePage() {
         email: z.string().email(),
         institution: z.string().nonempty().min(3),
         role: z.string().nonempty().min(3),
-        about: z.string().min(8).optional(),
-        github: z.string().url().optional(),
-        portfolio: z.string().url().optional(),
-        twitter: z.string().url().optional(),
-        linkedin: z.string().url().optional(),
+        about: z.string().min(8).optional().or(z.literal('')),
+        github: z.string().url().optional().or(z.literal('')),
+        website: z.string().url().optional().or(z.literal('')),
+        twitter: z.string().url().optional().or(z.literal('')),
+        linkedin: z.string().url().optional().or(z.literal('')),
       })
     ),
   });
@@ -107,16 +108,15 @@ export default function ProfilePage() {
     setHasSuccessNotified(false);
     updateUserInfo.mutate({
       memberId: user?.id ?? "",
-      ...currentFormValues,
+      ...values,
     });
   };
 
   useEffect(() => {
     if (updateUserInfo.error && !hasErrorNotified) {
-      showNotification({
+      notifyError({
         title: "An error occured",
         message: updateUserInfo.error.message,
-        color: "red",
       });
       setHasErrorNotified(true); // Set the state to true after showing the notification
     }
@@ -124,7 +124,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (updateUserInfo.isSuccess && !hasSuccessNotified) {
-      showNotification({
+      notifySuccess({
         title: "Profile Updated",
         message: "Your profile has been updated successfully",
       });
@@ -139,7 +139,7 @@ export default function ProfilePage() {
         <p className={`mt-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>Adding more details to your profile helps in building stronger connections.</p>
       </div>
 
-      <form onSubmit={form.onSubmit(handleFormSubmit)} className={` mx-auto sm:w-[60vw] sm:px-16 `}>
+      <form onSubmit={form.onSubmit(handleFormSubmit)} className={` mx-auto max-w-screen-lg sm:w-[60vw]`}>
         <LoadingOverlay visible={updateUserInfo.isLoading} />
         <TextInput {...form.getInputProps("name")} label="Name" withAsterisk size="md" required className="mb-4" />
 
@@ -162,7 +162,7 @@ export default function ProfilePage() {
 
         <div className=" mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
           <TextInput {...form.getInputProps("github")} size="md" label="Github URL" />
-          <TextInput {...form.getInputProps("portfolio")} size="md" label="Portfolio URL" />
+          <TextInput {...form.getInputProps("website")} size="md" label="Website URL" />
         </div>
 
         <div className=" mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -171,7 +171,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="my-6 flex justify-center">
-          <Button disabled={!form.isTouched() && !form.isValid()} type="submit" size="lg" className="rounded-full text-base">
+          <Button disabled={!form.isValid()} type="submit" size="lg" className="rounded-full text-base" color="indigo">
             Save Changes
           </Button>
         </div>
