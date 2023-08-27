@@ -11,12 +11,12 @@ import { GrLinkNext } from "react-icons/gr";
 import { z } from "zod";
 import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
-import { showNotification } from "@mantine/notifications";
 import Link from "next/link";
 import Container from "@/components/custom-components/container";
 import { useMantineColorScheme } from "@mantine/core";
 import useMantineNotify from "@hooks/useNotify";
 import { useRouter } from "next/router";
+import technologies from "@/data/technologies";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
@@ -24,7 +24,6 @@ export default function NewCommunityPage() {
   const getMemberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const [uploadFile, uploading, , error] = useUploadFile();
   const [active, setActive] = useState(0);
-  const [technologies, setTechnologies] = useState<string[]>([]);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -76,7 +75,7 @@ export default function NewCommunityPage() {
             country: values.country,
             location: values.location,
             focusArea: values.focusArea,
-            technologies: technologies,
+            technologies: values.technologies,
             logo_url: form.values.communityName.split(" ").join(""),
           })
           .then((onfulfilledValue) => {
@@ -146,14 +145,16 @@ export default function NewCommunityPage() {
               data={technologies}
               placeholder="Add new ones if not included"
               searchable
-              creatable
+              clearable
+              {...form.getInputProps("technologies")}
+              // creatable
               size="md"
-              getCreateLabel={(query) => `+ Add ${query}`}
-              onCreate={(query) => {
-                const item = { value: query, label: query };
-                setTechnologies((current) => [...current, item.value]);
-                return item;
-              }}
+              // getCreateLabel={(query) => `+ Add ${query}`}
+              // onCreate={(query) => {
+              //   const item = { value: query, label: query };
+              //   setTechnologies((current) => [...current, item.value]);
+              //   return item;
+              // }}
             />
             <div className="m-2 flex justify-end ">
               <ActionIcon onClick={nextStep} type="button" size="lg" bg="teksade" disabled={form.isTouched() && !form.isValid()}>
