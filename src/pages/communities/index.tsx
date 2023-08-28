@@ -23,7 +23,6 @@ export default function CommunitiesPage() {
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-
   const communitiesList = api.communities.getCommunitiesList.useQuery({
     limit: 50,
     country: selectedCountry,
@@ -87,7 +86,7 @@ export default function CommunitiesPage() {
                 radius="xl"
               />
 
-              <Select radius="xl" data={countries} searchable placeholder="Country" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} className=" flex-1" />
+              <Select clearable radius="xl" data={countries} searchable placeholder="Country" value={selectedCountry} onChange={(val) => setSelectedCountry(val ?? undefined)} className=" flex-1" />
             </div>
           </Collapse>
         </div>
