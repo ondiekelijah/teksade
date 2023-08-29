@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { api } from "@/utils/api";
-import { Button, Chip, Collapse, LoadingOverlay, Menu, Select, TextInput } from "@mantine/core";
+import { Button, Chip, Collapse, Loader, LoadingOverlay, Menu, Select, TextInput } from "@mantine/core";
 import { BsFilter, BsFire, BsSearch } from "react-icons/bs";
 import { VscDiffAdded } from "react-icons/vsc";
 import React, { useState } from "react";
@@ -12,36 +12,36 @@ import { MultiSelect } from "@mantine/core";
 import { PageSEO } from "@/components/SEO";
 import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
+import StickyBanner from "@/components/custom-components/newsBanner";
 
 export default function CommunitiesPage() {
-  const [selectedCountry, setSelectedCountry] = useState("Kenya");
+  const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined);
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
-  const [selectedFocusAreas, setSelectedFocusAreas] = useState<string[]>([]);
-  // const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[] | undefined>(undefined);
+  const [selectedFocusAreas, setSelectedFocusares] = useState<string[] | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
+
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
-  const communitiesList = api.communities.getCommunitiesList.useQuery(
-    { limit: 50, 
-      country: selectedCountry, 
-      filterByNew: filterByNewlyCreated, 
-      focusAreas: selectedFocusAreas, 
-      search: searchValue ,
-      // technologies: selectedTechnologies
-    },
-    {
-      staleTime: 0,
-    }
-  );
+  const communitiesList = api.communities.getCommunitiesList.useQuery({
+    limit: 50,
+    country: selectedCountry,
+    filterByNew: filterByNewlyCreated,
+    focusAreas: selectedFocusAreas,
+    technologies: selectedTechnologies,
+    searchTerm: searchTerm,
+  });
   const [filtersOpen, { toggle }] = useDisclosure(false);
-console.log(selectedFocusAreas)
+  const [showBanner, setShowBanner] = useState(true);
+
   return (
     <>
       {/* TODO: Move actual page logic to a different component and import here. */}
       <PageSEO title={"Teksade - Communities"} description={siteMetadata.community_description} />
       <Container>
         <div className="">
+          {showBanner && <StickyBanner message="New brand identity has been launched for the" link="https://flowbite.com" linkText="Flowbite Library" onClose={() => setShowBanner(false)} />}
           <section className="my-8 flex w-full items-center justify-between ">
             <Menu trigger="hover" openDelay={100} closeDelay={4000}>
               <Menu.Target>
@@ -58,66 +58,64 @@ console.log(selectedFocusAreas)
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
+
             <Button onClick={toggle} variant="subtle" rightIcon={<BsFilter />} className={`shadow-lg" flex items-center gap-x-2 p-2 px-4 text-base ${dark ? "text-slate-400" : "text-slate-600"}`}>
               Filters
             </Button>
           </section>
           <Collapse in={filtersOpen}>
-            <div className="my-5 flex w-full flex-col flex-wrap gap-2 sm:flex sm:flex-row sm:items-center">
-              {/* <MultiSelect
-                data={technologies}
-                placeholder="Filter by tech e.g. React"
-                value={selectedTechnologies}
-                onChange={setSelectedTechnologies}
-                clearButtonProps={{ "aria-label": "Clear selection" }}
-                clearable
-                searchable
-                className="sm:order-2 sm:w-[60%]"
-                radius="xl"
-              /> */}
+            <div className="my-5 flex w-full flex-col  gap-2 sm:flex sm:flex-row sm:items-center sm:justify-between">
+              <TextInput value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} radius="xl" rightSection={<BsSearch className="flex" />} placeholder="Search by name" />
               <MultiSelect
                 data={techFocusAreas}
-                placeholder="Filter by focus area e.g. AI"
+                placeholder="Focus areas e.g. AI, Blockchain"
                 value={selectedFocusAreas}
-                onChange={setSelectedFocusAreas}
+                onChange={setSelectedFocusares}
+                searchable
                 clearButtonProps={{ "aria-label": "Clear selection" }}
                 clearable
+                className=" flex-1"
+                radius="xl"
+              />
+              <MultiSelect
+                data={technologies}
+                placeholder="Related Technologies e.g. React, Python"
+                value={selectedTechnologies}
+                onChange={setSelectedTechnologies}
                 searchable
-                className="sm:order-2 sm:w-[60%]"
+                clearButtonProps={{ "aria-label": "Clear selection" }}
+                clearable
+                className=" flex-1"
                 radius="xl"
               />
 
-              <TextInput
-                radius="xl"
-                className="sm:w-[20%]"
-                rightSection={<BsSearch className="flex-" />}
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.currentTarget.value)}
-                placeholder="Search by name"
-              />
-              <Select radius="xl" data={countries} searchable placeholder="Country" className="flex-1 sm:order-3 sm:w-[20%]" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} />
+              <Select radius="xl" data={countries} clearable searchable placeholder="Country" value={selectedCountry} onChange={(val) => setSelectedCountry(val!)} className=" flex-1" />
             </div>
           </Collapse>
         </div>
-
+        {communitiesList.isLoading && (
+          <div className="flex h-10 w-full items-center justify-center py-10">
+            <Loader size="xl" />
+          </div>
+        )}
         <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
-          {communitiesList.data?.length ? (
-            communitiesList.data.map((community) => (
-              <CommmunityCard
-                id={community.id}
-                key={community.id}
-                name={community.name}
-                country={community.country}
-                location={community.location}
-                description={community.description}
-                members={community._count.members}
-                logoUrl={community.logo_link}
-                verified={community.verified ?? false}
-              />
-            ))
-          ) : (
-            <div className="my-10 text-center sm:col-span-3 md:col-span-4">No communities matched your search filters</div>
-          )}
+          {communitiesList.data?.length
+            ? communitiesList.data.map((community) => (
+                <CommmunityCard
+                  id={community.id}
+                  key={community.id}
+                  name={community.name}
+                  country={community.country}
+                  location={community.location}
+                  description={community.description}
+                  members={community._count.members}
+                  logoUrl={community.logo_link}
+                  verified={community.verified ?? false}
+                />
+              ))
+            : !communitiesList.isLoading && (
+                <div className="my-20 text-center sm:col-span-3 md:col-span-4">It looks like there aren`&apos;`t any communities that fit those specifics. Don`&apos;`t worry—adjusting your filters might help!</div>
+              )}
         </section>
       </Container>
     </>

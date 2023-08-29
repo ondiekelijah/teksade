@@ -68,3 +68,5 @@ model Like {
 
   @@unique([communityId, memberId])
 }
+
+

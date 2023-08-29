@@ -25,7 +25,6 @@ export default function NewCommunityPage() {
   const getMemberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const [uploadFile, uploading, , error] = useUploadFile();
   const [active, setActive] = useState(0);
-  const [technologies, setTechnologies] = useState<string[]>([]);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -76,7 +75,7 @@ export default function NewCommunityPage() {
             country: values.country,
             location: values.location,
             focusArea: values.focusArea,
-            technologies: technologies,
+            technologies: values.technologies,
             logo_url: form.values.communityName.split(" ").join(""),
           })
           .then((onfulfilledValue) => {
@@ -145,14 +144,16 @@ export default function NewCommunityPage() {
               data={techList}
               placeholder="Add new ones if not included"
               searchable
-              creatable
+              clearable
+              {...form.getInputProps("technologies")}
+              // creatable
               size="md"
-              getCreateLabel={(query) => `+ Add ${query}`}
-              onCreate={(query) => {
-                const item = { value: query, label: query };
-                setTechnologies((current) => [...current, item.value]);
-                return item;
-              }}
+              // getCreateLabel={(query) => `+ Add ${query}`}
+              // onCreate={(query) => {
+              //   const item = { value: query, label: query };
+              //   setTechnologies((current) => [...current, item.value]);
+              //   return item;
+              // }}
             />
             <div className="my-4 flex justify-end ">
               <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() && !form.isValid()} />

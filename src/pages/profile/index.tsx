@@ -2,14 +2,14 @@
 import { api } from "@/utils/api";
 import { countries } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
-import { Button, LoadingOverlay, Select, TextInput, Textarea } from "@mantine/core";
+import { Button, Loader, LoadingOverlay, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useMantineColorScheme } from "@mantine/core";
 import Container from "@/components/custom-components/container";
-import useMantineNotify from "@hooks/useNotify";
+import useMantineNotify from "@/hooks/useNotify";
 
 interface ProfileFormValues {
   name?: string;
@@ -40,18 +40,18 @@ export default function ProfilePage() {
   const dark = colorScheme === "dark";
 
   const currentFormValues = {
-    name: currentUser.data?.name ?? user?.fullName ?? "",
-    email: currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? "",
-    phone: currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? "",
-    institution: currentUser.data?.institution ?? "",
-    role: currentUser.data?.role ?? "",
-    about: currentUser.data?.about ?? "",
-    country: currentUser.data?.country ?? "",
-    location: currentUser.data?.location ?? "",
-    github: currentUser.data?.github ?? "",
-    website: currentUser.data?.website ?? "",
-    twitter: currentUser.data?.twitter ?? "",
-    linkedin: currentUser.data?.linkedin ?? "",
+    name: currentUser.data?.name ?? user?.fullName,
+    email: currentUser.data?.email ?? user?.primaryEmailAddress?.toString(),
+    phone: currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString(),
+    institution: currentUser.data?.institution,
+    role: currentUser.data?.role,
+    about: currentUser.data?.about,
+    country: currentUser.data?.country,
+    location: currentUser.data?.location,
+    github: currentUser.data?.github,
+    portfolio: currentUser.data?.website,
+    twitter: currentUser.data?.twitter,
+    linkedin: currentUser.data?.linkedin,
   };
 
   useEffect(() => {
@@ -69,18 +69,18 @@ export default function ProfilePage() {
   // Try using form.setFieldValues instead of setFormInitialValues
   useEffect(() => {
     if (currentUser.data) {
-      form.setFieldValue("name", currentUser.data?.name ?? user?.fullName ?? "");
-      form.setFieldValue("email", currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? "");
-      form.setFieldValue("phone", currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? "");
-      form.setFieldValue("institution", currentUser.data?.institution ?? "");
-      form.setFieldValue("role", currentUser.data?.role ?? "");
-      form.setFieldValue("about", currentUser.data?.about ?? "");
-      form.setFieldValue("country", currentUser.data?.country ?? "");
-      form.setFieldValue("location", currentUser.data?.location ?? "");
-      form.setFieldValue("github", currentUser.data?.github ?? "");
-      form.setFieldValue("website", currentUser.data?.website ?? "");
-      form.setFieldValue("twitter", currentUser.data?.twitter ?? "");
-      form.setFieldValue("linkedin", currentUser.data?.linkedin ?? "");
+      form.setFieldValue("name", currentUser.data?.name ?? user?.fullName ?? undefined);
+      form.setFieldValue("email", currentUser.data?.email ?? user?.primaryEmailAddress?.toString() ?? undefined);
+      form.setFieldValue("phone", currentUser.data?.phone ?? user?.primaryPhoneNumber?.toString() ?? undefined);
+      form.setFieldValue("institution", currentUser.data?.institution ?? undefined);
+      form.setFieldValue("role", currentUser.data?.role ?? undefined);
+      form.setFieldValue("about", currentUser.data?.about ?? undefined);
+      form.setFieldValue("country", currentUser.data?.country ?? undefined);
+      form.setFieldValue("location", currentUser.data?.location ?? undefined);
+      form.setFieldValue("github", currentUser.data?.github ?? undefined);
+      form.setFieldValue("portfolio", currentUser.data?.website ?? undefined);
+      form.setFieldValue("twitter", currentUser.data?.twitter ?? undefined);
+      form.setFieldValue("linkedin", currentUser.data?.linkedin ?? undefined);
     }
   }, [currentUser.data]);
 
@@ -93,11 +93,11 @@ export default function ProfilePage() {
         email: z.string().email(),
         institution: z.string().nonempty().min(3),
         role: z.string().nonempty().min(3),
-        about: z.string().min(8).optional().or(z.literal('')),
-        github: z.string().url().optional().or(z.literal('')),
-        website: z.string().url().optional().or(z.literal('')),
-        twitter: z.string().url().optional().or(z.literal('')),
-        linkedin: z.string().url().optional().or(z.literal('')),
+        about: z.string().min(8).optional().or(z.literal("")),
+        github: z.string().url().optional().or(z.literal("")),
+        website: z.string().url().optional().or(z.literal("")),
+        twitter: z.string().url().optional().or(z.literal("")),
+        linkedin: z.string().url().optional().or(z.literal("")),
       })
     ),
   });
@@ -134,6 +134,11 @@ export default function ProfilePage() {
 
   return (
     <Container className={"py-20"}>
+      {updateUserInfo.isLoading && (
+        <div className="flex h-10 w-full items-center justify-center py-10">
+          <Loader size="xl" />
+        </div>
+      )}
       <div className="mx-auto max-w-lg text-center">
         <h1 className="text-2xl font-bold sm:text-3xl">Connect Better, Update Your Profile!</h1>
         <p className={`mt-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>Adding more details to your profile helps in building stronger connections.</p>

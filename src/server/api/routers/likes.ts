@@ -11,20 +11,16 @@ export const likesRouter = createTRPCRouter({
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const likeCommunty = await ctx.prisma.community.update({
-          where: {
-            id: input.communityId,
-          },
+       
+        const newLike = await ctx.prisma.like.create({
           data: {
-            likes: {
-              create: {
-                memberId: input.memberId,
-              },
-            },
-          },
+            communityId: input.communityId,
+            memberId: input.memberId
+          }
         });
+          
 
-        if (likeCommunty) {
+        if (newLike) {
           return true;
         } else {
           return false;
