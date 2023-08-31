@@ -4,7 +4,6 @@ import { countries } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
 import { Button, Loader, LoadingOverlay, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useMantineColorScheme } from "@mantine/core";
@@ -65,6 +64,7 @@ export default function ProfilePage() {
     if (currentUser.data) {
       setFormInitialValues(currentFormValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.data]);
 
   // Try using form.setFieldValues instead of setFormInitialValues
@@ -83,6 +83,7 @@ export default function ProfilePage() {
       form.setFieldValue("twitter", currentUser.data?.twitter ?? undefined);
       form.setFieldValue("linkedin", currentUser.data?.linkedin ?? undefined);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.data]);
 
   const form = useForm<ProfileFormValues>({
@@ -121,6 +122,7 @@ export default function ProfilePage() {
       });
       setHasErrorNotified(true); // Set the state to true after showing the notification
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateUserInfo.error, hasErrorNotified]);
 
   useEffect(() => {
@@ -131,6 +133,7 @@ export default function ProfilePage() {
       });
       setHasSuccessNotified(true); // Set the state to true after showing the notification
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateUserInfo.isSuccess]);
 
   return (

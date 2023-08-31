@@ -8,7 +8,9 @@ import { ModalsProvider } from "@mantine/modals";
 import { ClerkProvider } from "@clerk/nextjs";
 import MainLayout from "@/components/layouts/MainLayout";
 import { useState } from "react";
-import Analytics from "@/components/analytics/index";
+import GAnalytics from "@/components/analytics/index";
+import { Analytics } from '@vercel/analytics/react';
+
 
 function App({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
@@ -21,6 +23,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <GAnalytics />
         <Analytics />
         <ClerkProvider
           appearance={{

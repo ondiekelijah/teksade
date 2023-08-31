@@ -20,6 +20,9 @@ import Checkmark from "@/components/custom-components/checkmark";
 import Container from "@/components/custom-components/container";
 import CustomButton from "@/components/custom-components/button";
 import { CommunitySEO } from "@/components/SEO";
+import LikeButton from "../custom-components/likeButton";
+import CommunitySkeleton from "../custom-components/skeletons/Community/Community";
+import ImageSkeleton from "../custom-components/skeletons/Community/FeaturedImage";
 
 const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
 
@@ -101,7 +104,7 @@ export default function SingleCommunityPage() {
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
   const getCommunityLikeCount = api.likes.getCommunintyLikes.useQuery({ communityId: communityId as string });
   const addMemberToCommunity = api.communities.addMemberToCommunity.useMutation();
-  const [logoImage] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
+  const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
 
   // Check if current member is already a member of the community
   const isMember = communityInfo.data?.members.some((member) => member.id === memberInfo.data?.id);
@@ -165,10 +168,12 @@ export default function SingleCommunityPage() {
           <div className=" grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20">
             {/* Image Content */}
             <div className="order-1 h-full w-full lg:order-2">
+              {loading && <ImageSkeleton />}
               <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
             </div>
 
             {/* Text Content */}
+            {communityInfo.isLoading && <CommunitySkeleton />}
             <div className="order-2 space-y-5 lg:order-1">
               <div className="mt-4 flex flex-col gap-4">
                 <h1 className="mt-1 text-2xl font-semibold md:text-2xl">
@@ -180,7 +185,10 @@ export default function SingleCommunityPage() {
               <div className="flex items-center space-x-4 text-sm font-medium">
                 <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
                   <FaUserFriends className="mr-2 text-lg" />
-                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.members.length} Members</span>
+                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                    {communityInfo.data?.members.length}
+                    {communityInfo.data?.members.length === 1 ? " Member" : " Members"}
+                  </span>
                 </dd>
                 <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
                   <FaMapMarkedAlt className="ml-2 mr-2 text-lg" />
@@ -189,15 +197,14 @@ export default function SingleCommunityPage() {
                   </span>
                 </dd>
                 {communityId && memberInfo.data?.name && (
-                  <CustomButton
-                    size="lg"
-                    title={getCommunityLikeCount.data?._count.likes ?? 0}
-                    onClickHandler={() => {
-                      memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
-                    }}
-                    icon={<FcLike className=" text-xl" />}
-                    variant="subtle"
-                  />
+                  <span className="flex items-center">
+                    <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
+                    <LikeButton
+                      onClickHandler={() => {
+                        memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
+                      }}
+                    />
+                  </span>
                 )}
               </div>
 
