@@ -27,8 +27,9 @@
       "@server/*": ["./src/server/*"],
       "@public/*": ["./public/*"],
       "@hooks/*": ["./src/hooks/*"],
+
     }
   },
-  "include": [".eslintrc.cjs", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
+  "include": [".eslintrc.cjs", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs", "./types/canvas-confetti.d.ts"],
   "exclude": ["node_modules"]
 }

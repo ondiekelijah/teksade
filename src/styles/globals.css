@@ -24,3 +24,22 @@ a:active {
   backdrop-filter: blur(5px);
   /* box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.1); */
 }
+
+/* Like like-button */
+.like-button {
+  cursor: pointer;
+  color: #fff;
+  border: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding: 0em 1.3em 0.3em 1.3em;
+  border-radius: 0.5em;
+  z-index: 999;
+  position: relative;
+  display: flex;
+  gap: 0.5em;
+}
+
+.like-button:active {
+  transform: scale(1.01);
+}
