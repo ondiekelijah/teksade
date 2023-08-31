@@ -17,7 +17,7 @@ export default function Header() {
     children: React.ReactNode;
   }
   const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
-    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`}>
+    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`} onClick={close}>
       {children}
     </Link>
   );

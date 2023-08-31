@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { techFocusAreas, technologies } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
   getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
@@ -27,9 +28,9 @@ export const communitiesRouter = createTRPCRouter({
         limit: z.number(),
         country: z.string().optional(),
         filterByNew: z.boolean(),
-        technologies: z.string().array().optional(),
-        focusAreas: z.string().array().optional(),
-        searchTerm: z.string().optional(),
+        focusAreas: z.string().array(),
+        // technologies: z.string().array(),
+        search: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {

@@ -8,9 +8,9 @@ const LocationIcon = () => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         className="-ml-1 mr-1 text-slate-400 dark:text-slate-500"
         aria-hidden="true"
       >
