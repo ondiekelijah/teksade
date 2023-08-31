@@ -214,6 +214,10 @@ export default function SingleCommunityPage() {
                     loadingText="Joining..."
                     isLoading={addMemberToCommunity.isLoading}
                   />
+                ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
+                  <Link href="/communities/created">
+                    <CustomButton size="md" color="indigo" title={"Update Commununity"} />
+                  </Link>
                 ) : (
                   <Link href="/profile">
                     <CustomButton size="md" color="indigo" title={"Leave Community"} />
