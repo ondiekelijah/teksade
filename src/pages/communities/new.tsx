@@ -5,7 +5,7 @@ import siteMetadata from "@/data/siteMetadata";
 export default function AddCommunity() {
   return (
     <>
-      <PageSEO title={"Add Community"} description={siteMetadata.add_community_description as string} />
+      <PageSEO title={"Add Community"} description={siteMetadata.add_community_description} />
       <NewCommunityPage />
     </>
   );
