@@ -34,6 +34,8 @@
     "@trpc/next": "^10.26.0",
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
+    "@vercel/analytics": "^1.0.2",
+    "canvas-confetti": "^1.6.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.9",
     "embla-carousel-react": "^7.1.0",
@@ -48,6 +50,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.0",
     "@types/eslint": "^8.37.0",
     "@types/node": "^18.16.0",
     "@types/prettier": "^2.7.2",
