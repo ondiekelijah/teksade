@@ -223,4 +223,64 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  updateCommunity: publicProcedure
+    .input(
+      z.object({
+        communityID: z.string(),
+        name: z.string().optional(),
+        focusArea: z.string().optional(),
+        description: z.string().optional(),
+        location: z.string().optional(),
+        technologies: z.string().array().optional(),
+        github: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        website: z.string().url().optional(),
+        whatsapp: z.string().url().optional(),
+        phone: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const communityUpdate = await ctx.prisma.community.update({
+          where: {
+            id: input.communityID,
+          },
+          data: {
+            name: input.name,
+            focus_area: input.focusArea,
+            description: input.description,
+            location: input.location,
+            technologies: input.technologies,
+            github: input.github,
+            twitter: input.twitter,
+            linkedin: input.linkedin,
+            website: input.website,
+            whatsapp: input.whatsapp,
+            phone: input.phone,
+          },
+        });
+        return communityUpdate.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  deleteCommunity: publicProcedure
+    .input(
+      z.object({
+        communityID: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const communityDeletion = await ctx.prisma.community.delete({
+          where: {
+            id: input.communityID,
+          },
+        });
+        return communityDeletion.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });
