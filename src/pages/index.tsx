@@ -10,7 +10,7 @@ import siteMetadata from "@/data/siteMetadata";
 export default function HomePage() {
   return (
     <>
-      <PageSEO title={`Teksade - Home`} description={siteMetadata.description} />
+      <PageSEO title={"Home"} description={siteMetadata.description} />
       <Hero />
       <PopularCommunities />
       <ConnectSection />

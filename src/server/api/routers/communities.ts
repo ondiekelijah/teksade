@@ -28,9 +28,9 @@ export const communitiesRouter = createTRPCRouter({
         limit: z.number(),
         country: z.string().optional(),
         filterByNew: z.boolean(),
-        focusAreas: z.string().array(),
-        // technologies: z.string().array(),
-        search: z.string(),
+        technologies: z.string().array().optional(),
+        focusAreas: z.string().array().optional(),
+        searchTerm: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {

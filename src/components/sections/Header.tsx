@@ -23,7 +23,7 @@ export default function Header() {
   );
 
   return (
-    <Paper className={`container relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
+    <Paper className={`container sticky-header bg-transparent relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
       <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
       <Link href="/" className="items-center space-x-2 text-2xl font-bold">
