@@ -17,13 +17,13 @@ export default function Header() {
     children: React.ReactNode;
   }
   const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
-    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`}>
+    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`} onClick={close}>
       {children}
     </Link>
   );
 
   return (
-    <Paper className={`container relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
+    <Paper className={`container sticky-header bg-transparent relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
       <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
       <Link href="/" className="items-center space-x-2 text-2xl font-bold">

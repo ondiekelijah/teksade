@@ -6,7 +6,7 @@ import siteMetadata from "@/data/siteMetadata";
 export default function AboutPage() {
   return (
     <>
-      <PageSEO title={"Teksade - About Us"} description={siteMetadata.about_description} />
+      <PageSEO title={"About Us"} description={siteMetadata.about_description} />
       <Container></Container>
     </>
   );

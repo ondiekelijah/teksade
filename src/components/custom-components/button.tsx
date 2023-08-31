@@ -2,34 +2,66 @@ import React from "react";
 import { Button } from "@mantine/core";
 
 interface ButtonProps {
-  size?: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   className?: string;
   variant?: string;
-  title?: string;
+  title?: string | React.ReactNode | number;
   color?: string;
+  onClickHandler?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+  isLoading?: boolean;
+  loadingText?: string;
+  icon?: React.ReactNode;
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
   size = "md", // Default value, change as needed
   className = "",
-  variant = "default", // Default value, change as needed
+  variant = "filled", // Default value, change as needed
   title,
+  loadingText,
   color = "indigo", // Default value, change as needed
+  onClickHandler,
+  disabled = false,
+  type = "button",
+  isLoading = false,
+  icon,
 }) => {
-
   const gradientValue = variant === "gradient" ? { from: "indigo", to: "cyan", deg: 45 } : undefined;
 
   return (
-    <Button
-      className={`rounded-full ${className}`}
-      variant={variant}
-      size={size}
-      gradient={gradientValue}
-        color={color}
-    >
-      {title}
-    </Button>
+    <>
+      {disabled ? (
+        <Button 
+          className={`rounded-full ${className}`} 
+          variant={variant} 
+          size={size} 
+          gradient={gradientValue} 
+          color={color} 
+          onClick={onClickHandler}
+          data-disabled
+          type={type}
+        >
+          {title}
+        </Button>
+      ) : (
+        <Button 
+          className={`rounded-full ${className}`} 
+          variant={variant} 
+          size={size} 
+          gradient={gradientValue} 
+          color={color} 
+          onClick={onClickHandler}
+          type={type}
+          rightIcon={icon}
+        >
+          {isLoading ? loadingText : title}
+        </Button>
+      )}
+    </>
   );
+  
 };
 
 export default CustomButton;
