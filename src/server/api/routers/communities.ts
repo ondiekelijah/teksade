@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { techFocusAreas } from "@/utils/constants";
+import { techFocusAreas, technologies } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
   getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
@@ -26,17 +26,47 @@ export const communitiesRouter = createTRPCRouter({
     .input(
       z.object({
         limit: z.number(),
-        country: z.string(),
+        country: z.string().optional(),
         filterByNew: z.boolean(),
-        focusAreas: z.string().array(),
+        technologies: z.string().array().optional(),
+        focusAreas: z.string().array().optional(),
+        searchTerm: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const communityList = await ctx.prisma.community.findMany({
           where: {
-            country: input.country,
-            focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
+            AND: [
+              input.country
+                ? {
+                    country: input.country,
+                  }
+                : {},
+
+              input.technologies?.length
+                ? {
+                    technologies: {
+                      hasSome: input.technologies,
+                    },
+                  }
+                : {},
+              input.focusAreas?.length
+                ? {
+                    focus_area: {
+                      in: input.focusAreas,
+                    },
+                  }
+                : {},
+              input.searchTerm
+                ? {
+                    name: {
+                      contains: input.searchTerm,
+                      mode: "insensitive",
+                    },
+                  }
+                : {},
+            ],
           },
           include: {
             _count: {
@@ -53,7 +83,7 @@ export const communitiesRouter = createTRPCRouter({
               },
             },
             {
-              updated_at: input.filterByNew ? "asc" : "desc",
+              created_at: input.filterByNew ? "desc" : "asc",
             },
           ],
         });
@@ -87,23 +117,26 @@ export const communitiesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
-      const communityDetails = await ctx.prisma.community.findUnique({
-        where: {
-          id: input.communityId,
-        },
-        include: {
-          members: true,
-          creator: true,
-          _count: {
-            select: {
-              members: true,
+      try {
+        const communityDetails = await ctx.prisma.community.findUnique({
+          where: {
+            id: input.communityId,
+          },
+          include: {
+            members: true,
+            creator: true,
+            _count: {
+              select: {
+                members: true,
+              },
             },
           },
-        },
-      });
-      return communityDetails;
+        });
+        return communityDetails;
+      } catch (error) {
+        console.log(error);
+      }
     }),
-    
 
   createNewCommunity: publicProcedure
     .input(
@@ -114,7 +147,7 @@ export const communitiesRouter = createTRPCRouter({
         country: z.string(),
         location: z.string(),
         focusArea: z.string(),
-        technologies: z.string().array(),
+        technologies: z.string().array().optional(),
         logo_url: z.string(),
       })
     )

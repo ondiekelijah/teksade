@@ -16,7 +16,7 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl 
 
   return (
     <Head>
-      <title>{title}</title>
+      <title>{`Teksade - ${title}`}</title>
       <meta name="robots" content="follow, index" />
       <meta name="description" content={description} />
       <meta property="og:url" content={`${siteMetadata.siteUrl}${router.asPath}`} />
