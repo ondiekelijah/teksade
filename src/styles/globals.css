@@ -40,6 +40,16 @@ a:active {
   gap: 0.5em;
 }
 
+/* Remove any kind of outline on button click */
+.like-button:focus {
+  outline: none;
+}
+
+.like-button:active {
+  background: none;
+}
+
+
 .like-button:active {
   transform: scale(1.01);
 }

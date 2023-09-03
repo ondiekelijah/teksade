@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useMantineColorScheme } from "@mantine/core";
+import { Box, useMantineColorScheme } from "@mantine/core";
 import { useRouter } from "next/router";
 
 interface StickyBannerProps {
@@ -19,10 +19,11 @@ const StickyBanner: FC<StickyBannerProps> = ({ message, link, linkText, onClose,
   const isCommunitiesPage = router.pathname === "/communities";
 
   return (
-    <div
+    <Box
       className={`left-0 z-50 flex ${isCommunitiesPage ? "top-2 mt-3 w-full" : "top-0 w-fit"} justify-between rounded-full border-b p-4 ${
-        dark ? "border-gray-600 bg-gray-700" : "border-gray-200 bg-gray-200"
+        dark ? " bg-gray-700" : " bg-gray-200"
       }`}
+
     >
       <div className="mx-auto flex items-center">
         <p className={`flex items-center text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
@@ -51,7 +52,7 @@ const StickyBanner: FC<StickyBannerProps> = ({ message, link, linkText, onClose,
           <span className="sr-only">Close banner</span>
         </span>
       </div>
-    </div>
+    </Box>
   );
 };
 

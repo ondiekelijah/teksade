@@ -47,8 +47,8 @@ export default function Header() {
             </>
           ) : (
             <SignInButton mode="modal">
-              <RenderButton href="#" className="mr-4">
-                Sign Up
+              <RenderButton href="/sign-up" className="mr-4">
+                Get Started
               </RenderButton>
             </SignInButton>
           )}

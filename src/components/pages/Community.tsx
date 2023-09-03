@@ -3,7 +3,6 @@
 import { api } from "@/utils/api";
 import { Avatar, LoadingOverlay, Text } from "@mantine/core";
 import { useRouter } from "next/router";
-import { FcLike } from "react-icons/fc";
 import React from "react";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
@@ -13,7 +12,7 @@ import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { showNotification } from "@mantine/notifications";
 import { FaTwitter, FaGithub, FaYoutube, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
-import { Group, ActionIcon, rem, Tooltip, Chip } from "@mantine/core";
+import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";
 import { useMantineColorScheme } from "@mantine/core";
 import Checkmark from "@/components/custom-components/checkmark";
@@ -168,85 +167,91 @@ export default function SingleCommunityPage() {
           <div className=" grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20">
             {/* Image Content */}
             <div className="order-1 h-full w-full lg:order-2">
-              {loading && <ImageSkeleton />}
-              <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
+              {loading ? (
+                <ImageSkeleton />
+              ) : (
+                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
+              )}
             </div>
 
             {/* Text Content */}
-            {communityInfo.isLoading && <CommunitySkeleton />}
-            <div className="order-2 space-y-5 lg:order-1">
-              <div className="mt-4 flex flex-col gap-4">
-                <h1 className="mt-1 text-2xl font-semibold md:text-2xl">
-                  {communityInfo.data?.name} <VerificationTooltip verified={communityInfo.data?.verified} />
-                </h1>
-                <p className={`text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</p>
-              </div>
+            {communityInfo.isLoading ? (
+              <CommunitySkeleton />
+            ) : (
+              <div className="order-2 space-y-5 lg:order-1">
+                <div className="mt-4 flex flex-col gap-4">
+                  <h1 className="mt-1 text-2xl font-semibold md:text-2xl">
+                    {communityInfo.data?.name} <VerificationTooltip verified={communityInfo.data?.verified} />
+                  </h1>
+                  <p className={`text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</p>
+                </div>
 
-              <div className="flex items-center space-x-4 text-sm font-medium">
-                <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
-                  <FaUserFriends className="mr-2 text-lg" />
-                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                    {communityInfo.data?.members.length}
-                    {communityInfo.data?.members.length === 1 ? " Member" : " Members"}
-                  </span>
-                </dd>
-                <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
-                  <FaMapMarkedAlt className="ml-2 mr-2 text-lg" />
-                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                    {communityInfo.data?.location}, {communityInfo.data?.country}
-                  </span>
-                </dd>
-                {communityId && memberInfo.data?.name && (
-                  <span className="flex items-center">
-                    <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
-                    <LikeButton
+                <div className="flex items-center space-x-4 text-sm font-medium">
+                  <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
+                    <FaUserFriends className="mr-2 text-lg" />
+                    <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                      {communityInfo.data?.members.length}
+                      {communityInfo.data?.members.length === 1 ? " Member" : " Members"}
+                    </span>
+                  </dd>
+                  <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
+                    <FaMapMarkedAlt className="ml-2 mr-2 text-lg" />
+                    <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                      {communityInfo.data?.location}, {communityInfo.data?.country}
+                    </span>
+                  </dd>
+                  {communityId && memberInfo.data?.name && (
+                    <span className="flex items-center">
+                      <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
+                      <LikeButton
+                        onClickHandler={() => {
+                          memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
+                        }}
+                      />
+                    </span>
+                  )}
+                </div>
+
+                <div>
+                  <LoadingOverlay visible={addMemberToCommunity.isLoading} />
+                  {!isMember ? (
+                    <CustomButton
+                      size="md"
+                      color="indigo"
+                      title={"Join Community"}
                       onClickHandler={() => {
-                        memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
+                        memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
                       }}
+                      loadingText="Joining..."
+                      isLoading={addMemberToCommunity.isLoading}
                     />
-                  </span>
-                )}
-              </div>
+                  ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
+                    <Link href="/communities/created">
+                      <CustomButton size="md" color="indigo" title={"Update Commununity"} />
+                    </Link>
+                  ) : (
+                    <Link href="/profile">
+                      <CustomButton size="md" color="indigo" title={"Leave Community"} />
+                    </Link>
+                  )}
+                </div>
 
-              <div>
-                <LoadingOverlay visible={addMemberToCommunity.isLoading} />
-                {!isMember ? (
-                  <CustomButton
-                    size="md"
-                    color="indigo"
-                    title={"Join Community"}
-                    onClickHandler={() => {
-                      memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
-                    }}
-                    loadingText="Joining..."
-                    isLoading={addMemberToCommunity.isLoading}
-                  />
-                ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
-                  <Link href="/communities/created">
-                    <CustomButton size="md" color="indigo" title={"Update Commununity"} />
-                  </Link>
-                ) : (
-                  <Link href="/profile">
-                    <CustomButton size="md" color="indigo" title={"Leave Community"} />
-                  </Link>
-                )}
+                <p className={`${dark ? "text-gray-300" : "text-gray-700"}`}>{communityInfo.data?.description}</p>
+                <SocialLinks links={linksData} />
+                <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
+                <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
+                <p className={dark ? "text-slate-400" : "text-slate-600"}>Members</p>
+                <div className="flex">
+                  <Tooltip.Group openDelay={300} closeDelay={100}>
+                    <Avatar.Group spacing="sm">
+                      {communityInfo.data?.members.map((member) => (
+                        <MemberCard key={member.id} isCreator={false} memberId={member.id} isMultiple />
+                      ))}
+                    </Avatar.Group>
+                  </Tooltip.Group>
+                </div>
               </div>
-
-              <p className={`${dark ? "text-gray-300" : "text-gray-700"}`}>{communityInfo.data?.description}</p>
-              <SocialLinks links={linksData} />
-              <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
-              <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
-              <p className={dark ? "text-slate-400" : "text-slate-600"}>Members</p>
-              <div className="flex">
-                <Tooltip.Group openDelay={300} closeDelay={100}>
-                  <Avatar.Group spacing="sm">
-                    {communityInfo.data?.members.map((member) => (
-                      <MemberCard key={member.id} isCreator={false} memberId={member.id} isMultiple />
-                    ))}
-                  </Avatar.Group>
-                </Tooltip.Group>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </Container>
