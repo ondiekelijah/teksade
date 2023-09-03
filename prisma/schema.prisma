@@ -76,3 +76,17 @@ model Newsletter {
   email      String   @unique
   subscribed Boolean  @default(true)
 }
+
+model Announcements {
+  id              Int      @id @default(autoincrement())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now()) @updatedAt
+  title           String
+  content         String
+  link            String
+  published       Boolean  @default(false)
+  isAdvertisement Boolean  @default(false) // Is this an advertisement or an announcement
+  targetPage      String // The page to display the announcement on
+  duration        Int // How long should the announcement be displayed in days
+  linkedText      String // The text to display on the link
+}
