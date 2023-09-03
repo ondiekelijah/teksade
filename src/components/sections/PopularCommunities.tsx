@@ -24,7 +24,7 @@ export default function PopularCommunities() {
 
   return (
     <Container>
-      <div id="popular" className="min-h-[90vh] py-20 ">
+      <div id="popular" className="py-20 ">
         <p className="flex w-full items-center justify-between text-xl font-bold">
           <span className="">Popular Communities</span>{" "}
           <Link href="/communities">
@@ -56,7 +56,7 @@ export default function PopularCommunities() {
             {popularCommunities.data?.map((community) => (
               <Carousel.Slide key={community.id} className="w-60 pb-10">
                 <Link href={`/communities/${community.id}`}>
-                  <Paper className="h-full rounded-lg shadow-xl">
+                  <Paper className="h-full rounded-lg shadow-lg">
                     <div className="">
                       <CommunityImage communityName={community.name.split(" ").join("")} />
                     </div>
