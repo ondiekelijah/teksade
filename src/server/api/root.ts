@@ -3,6 +3,7 @@ import { communitiesRouter } from "./routers/communities";
 import { membersRouter } from "./routers/members";
 import { likesRouter } from "./routers/likes";
 import { newsletterRouter } from "./routers/newsletter";
+import {announcementsRouter} from "./routers/announcements";
 
 /**
  * This is the primary router for our backend.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   members: membersRouter,
   likes: likesRouter,
   newsletter: newsletterRouter,
+  announcements: announcementsRouter
 });
 
 // export type definition of API

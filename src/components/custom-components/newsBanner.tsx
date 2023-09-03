@@ -2,29 +2,56 @@ import React, { FC } from "react";
 import { Box, useMantineColorScheme } from "@mantine/core";
 import { useRouter } from "next/router";
 
-interface StickyBannerProps {
-  message: string;
+interface Announcement {
+  created_at: Date;
+  updated_at: Date;
+  title: string;
+  content: string;
   link: string;
-  linkText: string;
+  published: boolean;
+  isAdvertisement: boolean;
+  targetPage: string;
+  duration: number;
+  linkedText: string;
+}
+
+interface StickyBannerProps {
+  announcement: Announcement | undefined; // This explicitly allows it to be undefined
   onClose: () => void;
   onOpen?: () => void;
 }
 
-const StickyBanner: FC<StickyBannerProps> = ({ message, link, linkText, onClose, onOpen }) => {
+const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) => {
+  // Get current path and match with targetPage
+  const router = useRouter();
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
+  if (!announcement) return null; // or handle it however you'd like
+
+  const { title, content, link, published, isAdvertisement, targetPage = "all", duration, linkedText, created_at } = announcement;
+
+  // Calculate if announcement has expired
+  const currentDate = new Date();
+  const createdDate = new Date(created_at);
+  const expireDate = new Date(createdDate.setDate(createdDate.getDate() + duration));
+  const isExpired = currentDate > expireDate;
+
+  // Create a message with dynamic link
+  const message = content.replace(
+    linkedText,
+    `<a target="_blank" href="${link}" class="${dark ? 'decoration-500 text-[#00afef]' : 'decoration-600 text-indigo-600'} underline decoration-solid underline-offset-2 hover:no-underline">${linkedText}</a>`
+  );
+  
+
+  // Conditions to display the banner
+  // if (!published || isExpired || (targetPage !== "all" && router.pathname !== targetPage)) return null;
+
   // Get current path, use it to style the banner appropriately.
-  const router = useRouter();
   const isCommunitiesPage = router.pathname === "/communities";
 
   return (
-    <Box
-      className={`left-0 z-50 flex ${isCommunitiesPage ? "top-2 mt-3 w-full" : "top-0 w-fit"} justify-between rounded-full border-b p-4 ${
-        dark ? " bg-gray-700" : " bg-gray-200"
-      }`}
-
-    >
+    <Box className={`left-0 z-50 flex ${isCommunitiesPage ? "top-2 mt-3 w-full" : "top-0 w-fit"} justify-between rounded-full border-b p-4 ${dark ? " bg-gray-700" : " bg-gray-200"}`}>
       <div className="mx-auto flex items-center">
         <p className={`flex items-center text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
           <span className={`mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full  p-1 ${dark ? "bg-gray-600" : "bg-gray-200"}`}>
@@ -34,13 +61,7 @@ const StickyBanner: FC<StickyBannerProps> = ({ message, link, linkText, onClose,
             <span className="sr-only">Light bulb</span>
           </span>
           <span>
-            {message}{" "}
-            <a
-              href={link}
-              className={`inline font-medium ${dark ? "decoration-500 text-[#00afef]" : "decoration-600 text-indigo-600"} underline decoration-solid underline-offset-2 hover:no-underline`}
-            >
-              {linkText}
-            </a>
+            <span className="font-bold">{title}</span> <span dangerouslySetInnerHTML={{ __html: message }} className={` text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}></span>
           </span>
         </p>
       </div>
@@ -62,7 +83,7 @@ export default StickyBanner;
 // <StickyBanner
 //   message="New brand identity has been launched for the"
 //   link="https://flowbite.com"
-//   linkText="Flowbite Library"
+//   content="Flowbite Library"
 //   onClose={() => {
 //     console.log('Banner closed!');
 //   }}

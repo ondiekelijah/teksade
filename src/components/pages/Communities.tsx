@@ -31,6 +31,8 @@ export default function CommunitiesPage() {
     technologies: selectedTechnologies,
     searchTerm: searchTerm,
   });
+  const announcements = api.announcements.getAnnouncements.useQuery();
+  const announcement = announcements.data?.[0];
   const [filtersOpen, { toggle }] = useDisclosure(false);
   const [showBanner, setShowBanner] = useState(true);
 
@@ -39,7 +41,7 @@ export default function CommunitiesPage() {
       <PageSEO title={"Communities"} description={siteMetadata.community_description} />
       <Container>
         <div className="">
-          {showBanner && <StickyBanner message="New brand identity has been launched for the" link="https://flowbite.com" linkText="Flowbite Library" onClose={() => setShowBanner(false)} />}
+          {showBanner && announcement && <StickyBanner announcement={announcement} onClose={() => setShowBanner(false)} />}
           <section className="my-8 flex w-full items-center justify-between ">
             <Menu trigger="hover" openDelay={100} closeDelay={4000}>
               <Menu.Target>
@@ -112,7 +114,9 @@ export default function CommunitiesPage() {
                 />
               ))
             : !communitiesList.isLoading && (
-                <div className="my-20 text-center sm:col-span-3 md:col-span-4">It looks like there aren`&apos;`t any communities that fit those specifics. Don`&apos;`t worry—adjusting your filters might help!</div>
+                <div className="my-20 text-center sm:col-span-3 md:col-span-4">
+                  It looks like there aren`&apos;`t any communities that fit those specifics. Don`&apos;`t worry—adjusting your filters might help!
+                </div>
               )}
         </section>
       </Container>

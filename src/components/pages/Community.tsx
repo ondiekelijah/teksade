@@ -201,7 +201,8 @@ export default function SingleCommunityPage() {
                     </span>
                   </dd>
                   {communityId && memberInfo.data?.name && (
-                    <span className="flex items-center">
+                    // Remove focus on span button click
+                    <span className="flex items-center focus:outline-none">
                       <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
                       <LikeButton
                         onClickHandler={() => {
