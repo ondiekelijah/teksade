@@ -68,3 +68,11 @@ model Like {
 
   @@unique([communityId, memberId])
 }
+
+model Newsletter {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  email      String   @unique
+  subscribed Boolean  @default(true)
+}
