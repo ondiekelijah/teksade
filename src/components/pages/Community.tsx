@@ -26,12 +26,6 @@ import LocationIcon from "@/components/custom-components/icons/locationIcon";
 import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
 
-const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
-
-interface VerificationTooltipProps {
-  verified?: boolean | null;
-}
-
 interface SocialLinksProps {
   links: {
     twitter: string;
@@ -49,15 +43,6 @@ interface TechnologiesProps {
   dark: boolean;
 }
 
-const VerificationTooltip = ({ verified }: VerificationTooltipProps) => {
-  return verified ? (
-    <Tooltip withArrow label={verificationTooltip} arrowSize={5}>
-      <Text>
-        <Checkmark />
-      </Text>
-    </Tooltip>
-  ) : null;
-};
 
 const SocialLinks = ({ links }: SocialLinksProps) => {
   const icons = {
@@ -230,6 +215,7 @@ export default function SingleCommunityPage() {
               {/* Image */}
               <div className="h-full w-full">
                 <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-contain" width={700} height={500} loading="lazy" />
+                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
               </div>
 
               {/* Description */}
@@ -254,9 +240,14 @@ export default function SingleCommunityPage() {
                         <CustomButton size="md" color="indigo" title={"Update Commununity"} />
                       </Link>
                     ) : (
-                      <Link href="/profile">
-                        <CustomButton size="md" color="indigo" title={"Leave Community"} />
-                      </Link>
+                      <CustomButton
+                        onClickHandler={() => {
+                          removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                        }}
+                        size="md"
+                        color="indigo"
+                        title={"Leave Community"}
+                      />
                     )}
                   </div>
                   {/* Like button */}
@@ -268,6 +259,7 @@ export default function SingleCommunityPage() {
                           onClickHandler={() => {
                             memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
                           }}
+                          disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
                         />
                       </span>
                     )}
