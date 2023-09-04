@@ -22,6 +22,7 @@ import { CommunitySEO } from "@/components/SEO";
 import LikeButton from "../custom-components/likeButton";
 import CommunitySkeleton from "../custom-components/skeletons/Community/Community";
 import ImageSkeleton from "../custom-components/skeletons/Community/FeaturedImage";
+import confetti from "canvas-confetti";
 
 const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
 
@@ -94,15 +95,24 @@ const Technologies = ({ technologies, dark }: TechnologiesProps) => {
 export default function SingleCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-
   const communityId = useRouter().query.id;
   const { user } = useUser();
   const queryClient = api.useContext();
   const memberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId: communityId as string });
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
+  const removeExistingLike = api.likes.removeExistingLike.useMutation();
   const getCommunityLikeCount = api.likes.getCommunintyLikes.useQuery({ communityId: communityId as string });
   const addMemberToCommunity = api.communities.addMemberToCommunity.useMutation();
+  const removeMemberFromCommunity = api.communities.removeMemberFromCommunity.useMutation({
+    onSuccess: () => {
+      void queryClient.communities.getCommunityInfo.refetch({ communityId: communityId as string });
+      showNotification({
+        title: "Exit complete",
+        message: "You have left this community",
+      });
+    },
+  });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
 
   // Check if current member is already a member of the community
@@ -118,14 +128,35 @@ export default function SingleCommunityPage() {
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {
-    void addLikeToCommunity
-      .mutateAsync({
-        communityId: communityId,
-        memberId: memberId,
-      })
-      .then(() => {
-        void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+    if (getCommunityLikeCount.data?.likes.find((like) => like.memberId === memberId)) {
+      const exsitingLike = getCommunityLikeCount.data.likes.find((like) => like.memberId === memberId);
+      void removeExistingLike.mutateAsync({ likeId: exsitingLike?.id ?? 0 }).then((returnValue) => {
+        if (returnValue?.id) {
+          void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+        }
       });
+    } else {
+      void addLikeToCommunity
+        .mutateAsync({
+          communityId: communityId,
+          memberId: memberId,
+        })
+        .then((returnValue) => {
+          if (returnValue) {
+            void confetti({
+              particleCount: 400,
+              scalar: 0.6,
+              ticks: 400,
+              spread: 180,
+              origin: {
+                y: 0,
+                x: 0.5,
+              },
+            });
+            void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+          }
+        });
+    }
   };
 
   const addMember2Community = (communityId: string, memberId: string) => {
@@ -148,6 +179,12 @@ export default function SingleCommunityPage() {
           });
         }
       });
+  };
+  const removeExistingMember = (communityId: string, memberId: string) => {
+    removeMemberFromCommunity.mutate({
+      communityID: communityId,
+      memberID: memberId,
+    });
   };
 
   return (
@@ -208,13 +245,14 @@ export default function SingleCommunityPage() {
                         onClickHandler={() => {
                           memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
                         }}
+                        disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
                       />
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <LoadingOverlay visible={addMemberToCommunity.isLoading} />
+                  <LoadingOverlay visible={addMemberToCommunity.isLoading || removeMemberFromCommunity.isLoading} />
                   {!isMember ? (
                     <CustomButton
                       size="md"
@@ -231,9 +269,14 @@ export default function SingleCommunityPage() {
                       <CustomButton size="md" color="indigo" title={"Update Commununity"} />
                     </Link>
                   ) : (
-                    <Link href="/profile">
-                      <CustomButton size="md" color="indigo" title={"Leave Community"} />
-                    </Link>
+                    <CustomButton
+                      onClickHandler={() => {
+                        removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                      }}
+                      size="md"
+                      color="indigo"
+                      title={"Leave Community"}
+                    />
                   )}
                 </div>
 
