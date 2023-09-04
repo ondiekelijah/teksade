@@ -43,7 +43,6 @@ interface TechnologiesProps {
   dark: boolean;
 }
 
-
 const SocialLinks = ({ links }: SocialLinksProps) => {
   const icons = {
     twitter: FaTwitter,
@@ -193,28 +192,26 @@ export default function SingleCommunityPage() {
           <div className="py-10">
             {/* Top info: Community name, focus area, and location */}
             <div className="mb-6 flex flex-col space-y-5">
-              <h1 className="flex items-center text-2xl font-semibold md:text-2xl">
-                {communityInfo.data?.name}
-              </h1>
+              <h1 className="flex items-center text-2xl font-semibold md:text-4xl">{communityInfo.data?.name}</h1>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
                 <CategoryIcon />
-                <p className={`text-sm font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</p>
+                <h2 className={`text-lg font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</h2>
               </div>
               <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
+                <dd className={`flex items-center space-x-1.5 ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
                   <LocationIcon />
-                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                  <h3 className={`text-base font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
                     {communityInfo.data?.location}, {communityInfo.data?.country}
-                  </span>
+                  </h3>
                 </dd>
               </span>
             </div>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
               {/* Image */}
-              <div className="h-full w-full">
-                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
+              <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
+                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full object-cover object-center" width={900} height={500} loading="lazy" />
               </div>
 
               {/* Description */}
@@ -252,12 +249,12 @@ export default function SingleCommunityPage() {
                   {/* Like button */}
                   <div>
                     {communityId && memberInfo.data?.name && (
-                      <span className="flex items-center focus:outline-none">
-                        <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
+                      <span className="flex items-center space-x-3">
                         <LikeButton
                           onClickHandler={() => {
                             memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
                           }}
+                          likes={getCommunityLikeCount.data?._count.likes ?? 0}
                           disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
                         />
                       </span>
