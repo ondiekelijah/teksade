@@ -1,5 +1,5 @@
 import React from "react";
-import { Burger, Button, Drawer, Paper } from "@mantine/core";
+import { Burger, Button, Drawer, Menu, Paper } from "@mantine/core";
 import { CgProfile } from "react-icons/cg";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default function Header() {
   );
 
   return (
-    <Paper className={`container sticky-header bg-transparent relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
+    <Paper className={`sticky-header container relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between bg-transparent px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
       <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
       <Link href="/" className="items-center space-x-2 text-2xl font-bold">
@@ -42,8 +42,22 @@ export default function Header() {
 
           {userStatus.user ? (
             <>
-              <RenderButton href="/communities/new">Add Community</RenderButton>
-              <RenderButton href="/profile">My Profile</RenderButton>
+              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="bottom" offset={2} withArrow arrowPosition="center">
+                <Menu.Target>
+                  <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <RenderButton href="/profile">Profile</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/created">My Communities</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/new">Add Community</RenderButton>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </>
           ) : (
             <SignInButton mode="modal">
@@ -81,10 +95,24 @@ export default function Header() {
           <RenderButton href="/communities">Communities</RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
           {userStatus.user && (
-            <>
-              <RenderButton href="/communities/new">Add Community</RenderButton>
-              <RenderButton href="/profile">My Profile</RenderButton>
-            </>
+            <div>
+              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="right" offset={22} withArrow arrowPosition="center">
+                <Menu.Target>
+                  <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <RenderButton href="/profile">Profile</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/created">My Communities</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/new">Add Community</RenderButton>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </div>
           )}
           <div className="flex items-center justify-between gap-2">
             {userStatus.user && (

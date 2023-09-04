@@ -251,7 +251,8 @@ export const techFocusAreas: string[] = [
   "Digital Marketing Tech",
   "E-Government",
   "SpaceTech",
-  "TransportTech"
+  "TransportTech",
+  "Tech Evangelism/Advocacy",
 ];
 
 export const technologies = [
@@ -459,4 +460,42 @@ export const technologies = [
   { value: "gRPC", label: "gRPC", group: "Other" },
   { value: "gRPC-Gateway", label: "gRPC-Gateway", group: "Other" },
   { value: "gRPC-Web", label: "gRPC-Web", group: "Other" },
+
+  { value: "MemberOnboarding", label: "Member Onboarding & Retention", group: "Community Engagement Strategies" },
+  { value: "CommunityFeedback", label: "Community Feedback Mechanisms", group: "Community Engagement Strategies" },
+  { value: "CommunityCheckIns", label: "Regular Community Check-ins", group: "Community Engagement Strategies" },
+
+  { value: "Blogging", label: "Blogging & Articles", group: "Content Creation & Sharing" },
+  { value: "Webinars", label: "Webinars & Podcasts", group: "Content Creation & Sharing" },
+  { value: "Tutorials", label: "Tutorials & How-to Guides", group: "Content Creation & Sharing" },
+
+  { value: "Hackathons", label: "Hackathons", group: "Events & Meetups" },
+  { value: "Workshops", label: "Workshops", group: "Events & Meetups" },
+  { value: "MeetAndGreets", label: "Community Meet-and-Greets", group: "Events & Meetups" },
+
+  { value: "SpeakingEngagements", label: "Speaking Engagements", group: "Tech Evangelism" },
+  { value: "TechRepresentation", label: "Tech Representation at Events", group: "Tech Evangelism" },
+  { value: "InfluencerRelations", label: "Building Relations with Influencers", group: "Tech Evangelism" },
+
+  { value: "Mentorship", label: "Mentorship Programs", group: "Mentorship Programs" },
+
+  { value: "OnlineAMAs", label: "Hosting AMAs", group: "Online Forums & Discussions" },
+  { value: "TechForums", label: "Participation in Tech Forums", group: "Online Forums & Discussions" },
+  { value: "TechDiscussionSpaces", label: "Creating Tech Discussion Spaces", group: "Online Forums & Discussions" },
+
+  { value: "DiversityInTech", label: "Ensuring Diversity in Tech", group: "Advocacy & Representation" },
+  { value: "EthicalTech", label: "Advocating for Ethical Tech", group: "Advocacy & Representation" },
+  { value: "UnderrepresentedCommunities", label: "Representing Underserved Communities", group: "Advocacy & Representation" },
+
+  { value: "TechFeedback", label: "Gathering Tech Feedback", group: "Feedback & Iteration" },
+  { value: "ProductIteration", label: "Iterating on Products", group: "Feedback & Iteration" },
+  { value: "BetaTesting", label: "Hosting Beta Testing", group: "Feedback & Iteration" },
+
+  { value: "OpenSourceContribution", label: "Open Source Contribution", group: "Collaboration & Open Source Contribution" },
+  { value: "CollaborativeProblemSolving", label: "Collaborative Problem Solving", group: "Collaboration & Open Source Contribution" },
+  { value: "TopContributors", label: "Highlighting Top Contributors", group: "Collaboration & Open Source Contribution" },
+
+  { value: "CodingBootcamps", label: "Organizing Coding Bootcamps", group: "Training & Education" },
+  { value: "ContinuousLearning", label: "Providing Resources for Continuous Learning", group: "Training & Education" },
+  { value: "KnowledgeSharing", label: "Encouraging Knowledge Sharing", group: "Training & Education" },
 ];

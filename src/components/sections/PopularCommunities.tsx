@@ -9,8 +9,8 @@ import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
 import { storageBucket } from "@/utils/firestoreConfig";
 import Container from "@/components/custom-components/container";
-import Checkmark from "@/components/custom-components/checkmark";
-import LocationIcon from "../custom-components/locationIcon";
+import Checkmark from "@/components/custom-components/icons/checkmark";
+import LocationIcon from "../custom-components/icons/locationIcon";
 import { useMantineColorScheme } from "@mantine/core";
 import CustomButton from "@/components/custom-components/button";
 
@@ -45,6 +45,7 @@ export default function PopularCommunities() {
           <Carousel
             slideGap="md"
             loop
+            dragFree
             align="start"
             slidesToScroll={1}
             controlsOffset="1%"
