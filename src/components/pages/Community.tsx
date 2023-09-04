@@ -22,6 +22,7 @@ import { CommunitySEO } from "@/components/SEO";
 import LikeButton from "../custom-components/likeButton";
 import CommunitySkeleton from "../custom-components/skeletons/Community/Community";
 import ImageSkeleton from "../custom-components/skeletons/Community/FeaturedImage";
+import confetti from "canvas-confetti";
 
 const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
 
@@ -94,13 +95,13 @@ const Technologies = ({ technologies, dark }: TechnologiesProps) => {
 export default function SingleCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-
   const communityId = useRouter().query.id;
   const { user } = useUser();
   const queryClient = api.useContext();
   const memberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId: communityId as string });
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
+  const removeExistingLike = api.likes.removeExistingLike.useMutation();
   const getCommunityLikeCount = api.likes.getCommunintyLikes.useQuery({ communityId: communityId as string });
   const addMemberToCommunity = api.communities.addMemberToCommunity.useMutation();
   const removeMemberFromCommunity = api.communities.removeMemberFromCommunity.useMutation({
@@ -127,14 +128,35 @@ export default function SingleCommunityPage() {
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {
-    void addLikeToCommunity
-      .mutateAsync({
-        communityId: communityId,
-        memberId: memberId,
-      })
-      .then(() => {
-        void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+    if (getCommunityLikeCount.data?.likes.find((like) => like.memberId === memberId)) {
+      const exsitingLike = getCommunityLikeCount.data.likes.find((like) => like.memberId === memberId);
+      void removeExistingLike.mutateAsync({ likeId: exsitingLike?.id ?? 0 }).then((returnValue) => {
+        if (returnValue?.id) {
+          void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+        }
       });
+    } else {
+      void addLikeToCommunity
+        .mutateAsync({
+          communityId: communityId,
+          memberId: memberId,
+        })
+        .then((returnValue) => {
+          if (returnValue) {
+            void confetti({
+              particleCount: 400,
+              scalar: 0.6,
+              ticks: 400,
+              spread: 180,
+              origin: {
+                y: 0,
+                x: 0.5,
+              },
+            });
+            void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
+          }
+        });
+    }
   };
 
   const addMember2Community = (communityId: string, memberId: string) => {
@@ -223,6 +245,7 @@ export default function SingleCommunityPage() {
                         onClickHandler={() => {
                           memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
                         }}
+                        disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
                       />
                     </span>
                   )}
