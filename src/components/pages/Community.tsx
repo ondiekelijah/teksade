@@ -214,7 +214,6 @@ export default function SingleCommunityPage() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
               {/* Image */}
               <div className="h-full w-full">
-                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-contain" width={700} height={500} loading="lazy" />
                 <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
               </div>
 
