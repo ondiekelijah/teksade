@@ -1,31 +1,17 @@
 import React from "react";
-import confetti from "canvas-confetti";
 
 interface AppProps {
   onClickHandler: () => void;
+  disabled?: boolean;
 }
 
-const App: React.FC<AppProps> = ({ onClickHandler }) => {
-  const handleClick = () => {
-    void confetti({
-      particleCount: 400,
-      scalar: 0.6,
-      ticks: 400,
-      spread: 180,
-      origin: {
-        y: 0,
-        x: 0.5,
-      },
-    });
-    onClickHandler();
-  };
-
+const App: React.FC<AppProps> = ({ onClickHandler, disabled }) => {
   return (
-    <p className="like-button" onClick={handleClick}>
+    <button disabled={disabled} className="like-button" onClick={onClickHandler}>
       <span role="img" aria-label="confetti">
         🎉
       </span>
-    </p>
+    </button>
   );
 };
 

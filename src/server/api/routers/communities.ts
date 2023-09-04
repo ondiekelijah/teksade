@@ -205,8 +205,13 @@ export const communitiesRouter = createTRPCRouter({
           },
           data: {
             members: {
-              connect: {
-                id: input.memberId,
+              connectOrCreate: {
+                where: {
+                  id: input.memberId,
+                },
+                create: {
+                  id: input.memberId,
+                },
               },
             },
           },
@@ -265,6 +270,33 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  removeMemberFromCommunity: publicProcedure
+    .input(
+      z.object({
+        memberID: z.string(),
+        communityID: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const memberRemoval = await ctx.prisma.community.update({
+          where: {
+            id: input.communityID,
+          },
+          data: {
+            members: {
+              disconnect: {
+                id: input.memberID,
+              },
+            },
+          },
+        });
+        return memberRemoval.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
   deleteCommunity: publicProcedure
     .input(
       z.object({
