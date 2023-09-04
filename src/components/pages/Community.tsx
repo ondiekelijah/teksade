@@ -103,6 +103,15 @@ export default function SingleCommunityPage() {
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
   const getCommunityLikeCount = api.likes.getCommunintyLikes.useQuery({ communityId: communityId as string });
   const addMemberToCommunity = api.communities.addMemberToCommunity.useMutation();
+  const removeMemberFromCommunity = api.communities.removeMemberFromCommunity.useMutation({
+    onSuccess: () => {
+      void queryClient.communities.getCommunityInfo.refetch({ communityId: communityId as string });
+      showNotification({
+        title: "Exit complete",
+        message: "You have left this community",
+      });
+    },
+  });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
 
   // Check if current member is already a member of the community
@@ -148,6 +157,12 @@ export default function SingleCommunityPage() {
           });
         }
       });
+  };
+  const removeExistingMember = (communityId: string, memberId: string) => {
+    removeMemberFromCommunity.mutate({
+      communityID: communityId,
+      memberID: memberId,
+    });
   };
 
   return (
@@ -214,7 +229,7 @@ export default function SingleCommunityPage() {
                 </div>
 
                 <div>
-                  <LoadingOverlay visible={addMemberToCommunity.isLoading} />
+                  <LoadingOverlay visible={addMemberToCommunity.isLoading || removeMemberFromCommunity.isLoading} />
                   {!isMember ? (
                     <CustomButton
                       size="md"
@@ -231,9 +246,14 @@ export default function SingleCommunityPage() {
                       <CustomButton size="md" color="indigo" title={"Update Commununity"} />
                     </Link>
                   ) : (
-                    <Link href="/profile">
-                      <CustomButton size="md" color="indigo" title={"Leave Community"} />
-                    </Link>
+                    <CustomButton
+                      onClickHandler={() => {
+                        removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                      }}
+                      size="md"
+                      color="indigo"
+                      title={"Leave Community"}
+                    />
                   )}
                 </div>
 
