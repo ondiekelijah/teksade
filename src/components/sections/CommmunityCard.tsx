@@ -6,8 +6,8 @@ import Link from "next/link";
 import React from "react";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { BsPerson } from "react-icons/bs";
-import Checkmark from "../custom-components/checkmark";
-import LocationIcon from "../custom-components/locationIcon";
+import Checkmark from "../custom-components/icons/checkmark";
+import LocationIcon from "../custom-components/icons/locationIcon";
 
 const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
 

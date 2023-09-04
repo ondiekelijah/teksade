@@ -9,16 +9,14 @@ export const likesRouter = createTRPCRouter({
         communityId: z.string(),
       })
     )
-    .mutation(async ({input , ctx}) => {
+    .mutation(async ({ input, ctx }) => {
       try {
-        
         const newLike = await ctx.prisma.like.create({
           data: {
             communityId: input.communityId,
-            memberId: input.memberId
-          }
+            memberId: input.memberId,
+          },
         });
-          
 
         if (newLike) {
           return true;
@@ -43,6 +41,12 @@ export const likesRouter = createTRPCRouter({
             id: input.communityId,
           },
           select: {
+            likes: {
+              select: {
+                id: true,
+                memberId: true,
+              },
+            },
             _count: {
               select: {
                 likes: true,
@@ -51,6 +55,24 @@ export const likesRouter = createTRPCRouter({
           },
         });
         return getNumberOfLikes;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  removeExistingLike: publicProcedure
+    .input(
+      z.object({
+        likeId: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const deletedLike = await ctx.prisma.like.delete({
+          where: {
+            id: input.likeId,
+          },
+        });
+        return deletedLike;
       } catch (error) {
         console.log(error);
       }

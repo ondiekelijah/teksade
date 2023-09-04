@@ -33,7 +33,7 @@ export default function MemberCard({ memberId, isCreator, isMultiple }: MemberCa
               <p className="text-xs">{isCreator ? "Contributor" : null}</p>
               <p>{memberInfo.data?.name}</p>
               <Text color="dimmed" className="whitespace-nowrap text-xs">
-                {memberInfo.data?.role} ,{memberInfo.data?.institution}
+                {memberInfo.data?.role}, {memberInfo.data?.institution}
               </Text>
             </div>
           )}
