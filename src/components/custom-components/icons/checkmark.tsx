@@ -2,7 +2,7 @@ import React from "react";
 
 const Checkmark = () => {
   return (
-    <span className="mr-2 inline-flex items-center justify-center rounded-full text-lg font-semibold text-blue-800  dark:text-blue-400" aria-label="Verified">
+    <span className="inline-flex items-center mr-2 text-lg font-semibold text-blue-800 dark:text-blue-400" aria-label="Verified">
     <svg className="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
         <path
           fill="currentColor"

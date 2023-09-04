@@ -69,7 +69,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     phone: FaPhone,
   };
   return (
-    <Group spacing="xs" noWrap className="my-6">
+    <Group spacing="xs" className="my-6">
       {Object.entries(icons).map(([key, Icon]) => (
         <Link key={key} href={links[key] ?? " "} passHref>
           <ActionIcon size="lg" variant="default" radius="xl">
@@ -208,10 +208,10 @@ export default function SingleCommunityPage() {
           <div className="py-10">
             {/* Top info: Community name, focus area, and location */}
             <div className="mb-6 flex flex-col space-y-5">
-              <h1 className="flex items-center space-x-2 text-2xl font-semibold md:text-2xl">
-                <span>{communityInfo.data?.name}</span>
-                <VerificationTooltip verified={communityInfo.data?.verified} />
+              <h1 className="flex items-center text-2xl font-semibold md:text-2xl">
+                {communityInfo.data?.name}
               </h1>
+
               <div className="flex items-center space-x-2">
                 <CategoryIcon />
                 <p className={`text-sm font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</p>
@@ -229,7 +229,7 @@ export default function SingleCommunityPage() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
               {/* Image */}
               <div className="h-full w-full">
-                  <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
+                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-contain" width={700} height={500} loading="lazy" />
               </div>
 
               {/* Description */}
@@ -281,8 +281,8 @@ export default function SingleCommunityPage() {
                 {/* Social Media Links */}
                 <div className="flex items-center  lg:items-end">
                   <SocialLinks links={linksData} />
-                  <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
                 </div>
+                <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
                 {/* Contributor info */}
                 <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
                 <p className={dark ? "text-slate-400" : "text-slate-600"}>Members</p>
