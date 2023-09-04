@@ -1,42 +1,56 @@
-import { Skeleton } from '@mantine/core';
+import { Skeleton } from "@mantine/core";
+import ImageSkeleton from "./FeaturedImage";
 
 function CommunitySkeleton() {
   return (
-    <div className="order-2 space-y-5 lg:order-1">
-      {/* Header with title and tooltip */}
-      <div className="mt-4 flex flex-col gap-4">
-        <Skeleton height={32} radius="xl" />
-        <Skeleton height={16} width="60%" radius="xl" />
+    <div className="py-10">
+      {/* Top info: Community name, focus area, and location */}
+      <div className="mb-6 flex flex-col space-y-5">
+        <div className="flex items-center space-x-2 text-2xl font-semibold md:text-2xl">
+          <Skeleton height={32} width="60%" radius="xl" />
+          <Skeleton height={24} width={24} circle />
+        </div>
+        <div className="flex items-center space-x-2">
+          <Skeleton height={16} width={16} circle />
+          <Skeleton height={16} width="40%" radius="xl" />
+        </div>
+        <div className="flex items-center space-x-2">
+          <Skeleton height={16} width={16} circle />
+          <Skeleton height={16} width="80%" radius="xl" />
+        </div>
       </div>
 
-      {/* Members and Location Information */}
-      <div className="flex items-center space-x-4 text-sm font-medium">
-        <Skeleton height={16} width="80px" radius="xl" className="flex items-center" />
-        <Skeleton height={16} width="120px" radius="xl" className="flex items-center" />
-        <Skeleton height={16} width="50px" radius="xl" className="flex items-center" />
-      </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
+        {/* Image */}
+        <ImageSkeleton />
+        {/* Description */}
+        <div className="order-2 space-y-10 lg:order-3">
+          <div className="flex justify-between pt-5">
+            <Skeleton height={40} width="150px" radius="xl" />
+            <div className="flex items-center space-x-2">
+              <Skeleton height={16} width="24px" radius="xl" />
+              <Skeleton height={40} width="40px" radius="xl" />
+            </div>
+          </div>
+          <Skeleton height={16} mt={6} width="90%" radius="xl" />
+          <Skeleton height={16} mt={6} width="70%" radius="xl" />
+          <Skeleton height={16} mt={6} width="80%" radius="xl" />
+        </div>
 
-      {/* Join Community or Profile Button */}
-      <Skeleton height={40} width="150px" mt={6} radius="xl" />
-
-      {/* Description */}
-      <Skeleton height={16} mt={6} width="90%" radius="xl" />
-      <Skeleton height={16} mt={6} width="70%" radius="xl" />
-      <Skeleton height={16} mt={6} width="80%" radius="xl" />
-
-      {/* SocialLinks and Technologies */}
-      <Skeleton height={32} mt={6} width="150px" radius="xl" />
-      <Skeleton height={32} mt={6} width="150px" radius="xl" />
-
-      {/* MemberCard for creator */}
-      <Skeleton height={50} mt={6} width="150px" radius="xl" />
-
-      {/* Members */}
-      <Skeleton height={16} mt={6} width="80px" radius="xl" />
-      <div className="flex mt={6}">
-        <Skeleton height={50} width={50} circle className="mr-2" />
-        <Skeleton height={50} width={50} circle className="mr-2" />
-        <Skeleton height={50} width={50} circle className="mr-2" />
+        {/* Right side content */}
+        <div className="order-3 space-y-5 lg:order-2">
+          <div className="flex items-center space-x-4 lg:items-end">
+            <Skeleton height={32} width="150px" radius="xl" />
+            <Skeleton height={32} width="150px" radius="xl" />
+          </div>
+          <Skeleton height={50} mt={6} width="150px" radius="xl" />
+          <Skeleton height={16} mt={6} width="80px" radius="xl" />
+          <div className="mt-6 flex space-x-2">
+            <Skeleton height={50} width={50} circle />
+            <Skeleton height={50} width={50} circle />
+            <Skeleton height={50} width={50} circle />
+          </div>
+        </div>
       </div>
     </div>
   );

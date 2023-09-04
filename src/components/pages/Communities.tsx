@@ -115,7 +115,7 @@ export default function CommunitiesPage() {
               ))
             : !communitiesList.isLoading && (
                 <div className="my-20 text-center sm:col-span-3 md:col-span-4">
-                  It looks like there aren`&apos;`t any communities that fit those specifics. Don`&apos;`t worry—adjusting your filters might help!
+                  It looks like there aren&apos;t any communities that fit those specifics. Don&apos;t worry—adjusting your filters might help!
                 </div>
               )}
         </section>
