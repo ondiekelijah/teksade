@@ -1,9 +1,12 @@
 import { api } from "@/utils/api";
 import { techFocusAreas, technologies } from "@/utils/constants";
-import { Button, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
+import { storageBucket } from "@/utils/firestoreConfig";
+import { Avatar, Button, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
-import { useEffect } from "react";
+import { deleteObject, ref } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { useDownloadURL, useUploadFile } from "react-firebase-hooks/storage";
 import { string, z } from "zod";
 
 interface CommunityUpdateModalProps {
@@ -19,6 +22,10 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       });
     },
   });
+  const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
+  const [uploadFile, uploading, , error] = useUploadFile();
+  const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
+
   useEffect(() => {
     updateForm.setValues({
       name: communityInfo.data?.name,
@@ -65,7 +72,22 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     ),
   });
 
+  function changeProfileImage() {
+    if (newProfileImage) {
+      const oldProfileRef = ref(storageBucket, `logos/${communityInfo.data?.logo_link}`);
+      deleteObject(oldProfileRef)
+        .then(() => {
+          void (async () => {
+            await uploadFile(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`), newProfileImage);
+          })();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
   function handleUpdate(values: typeof updateForm.values) {
+    changeProfileImage();
     updateCommunity.mutate({
       communityID: communityId,
       name: values.name,
@@ -81,8 +103,15 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       phone: values.phone,
     });
   }
+  if (error) {
+    console.log(error.message);
+  }
   return (
     <div>
+      <div className="flex cursor-pointer items-center gap-x-2">
+        <Avatar src={logoImage} size="lg" radius="xl" className=" object-cover" />
+        <FileInput value={newProfileImage} onChange={setNewProfileImage} variant="unstyled" placeholder="Change Profile" />
+      </div>
       <form onSubmit={updateForm.onSubmit((values) => handleUpdate(values))} className="flex flex-col gap-1">
         <LoadingOverlay visible={updateCommunity.isLoading || communityInfo.isLoading} />
         <TextInput {...updateForm.getInputProps("name")} label="Name" />
