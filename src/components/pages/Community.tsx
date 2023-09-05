@@ -26,12 +26,6 @@ import LocationIcon from "@/components/custom-components/icons/locationIcon";
 import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
 
-const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
-
-interface VerificationTooltipProps {
-  verified?: boolean | null;
-}
-
 interface SocialLinksProps {
   links: {
     twitter: string;
@@ -49,16 +43,6 @@ interface TechnologiesProps {
   dark: boolean;
 }
 
-const VerificationTooltip = ({ verified }: VerificationTooltipProps) => {
-  return verified ? (
-    <Tooltip withArrow label={verificationTooltip} arrowSize={5}>
-      <Text>
-        <Checkmark />
-      </Text>
-    </Tooltip>
-  ) : null;
-};
-
 const SocialLinks = ({ links }: SocialLinksProps) => {
   const icons = {
     twitter: FaTwitter,
@@ -69,7 +53,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     phone: FaPhone,
   };
   return (
-    <Group spacing="xs" noWrap className="my-6">
+    <Group spacing="xs" className="my-6">
       {Object.entries(icons).map(([key, Icon]) => (
         <Link key={key} href={links[key] ?? " "} passHref>
           <ActionIcon size="lg" variant="default" radius="xl">
@@ -208,28 +192,26 @@ export default function SingleCommunityPage() {
           <div className="py-10">
             {/* Top info: Community name, focus area, and location */}
             <div className="mb-6 flex flex-col space-y-5">
-              <h1 className="flex items-center space-x-2 text-2xl font-semibold md:text-2xl">
-                <span>{communityInfo.data?.name}</span>
-                <VerificationTooltip verified={communityInfo.data?.verified} />
-              </h1>
-              <div className="flex items-center space-x-2">
+              <h1 className="flex items-center text-2xl font-semibold md:text-4xl">{communityInfo.data?.name}</h1>
+
+              <div className="flex items-center space-x-1">
                 <CategoryIcon />
-                <p className={`text-sm font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</p>
+                <h2 className={`text-lg font-medium ${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.focus_area}</h2>
               </div>
               <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                <dd className={`flex items-center ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
+                <dd className={`flex items-center space-x-1.5 ${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>
                   <LocationIcon />
-                  <span className={`font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                  <h3 className={`text-base font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
                     {communityInfo.data?.location}, {communityInfo.data?.country}
-                  </span>
+                  </h3>
                 </dd>
               </span>
             </div>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
               {/* Image */}
-              <div className="h-full w-full">
-                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full rounded-lg object-cover" width={700} height={500} loading="lazy" />
+              <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
+                <Image src={logoImage ?? "/img/hero.jpg"} alt="featured-image" className="h-full w-full object-cover object-center" width={900} height={500} loading="lazy" />
               </div>
 
               {/* Description */}
@@ -267,12 +249,12 @@ export default function SingleCommunityPage() {
                   {/* Like button */}
                   <div>
                     {communityId && memberInfo.data?.name && (
-                      <span className="flex items-center focus:outline-none">
-                        <p className={`-mr-7 text-sm font-medium leading-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>{getCommunityLikeCount.data?._count.likes ?? 0}</p>
+                      <span className="flex items-center space-x-3">
                         <LikeButton
                           onClickHandler={() => {
                             memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
                           }}
+                          likes={getCommunityLikeCount.data?._count.likes ?? 0}
                           disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
                         />
                       </span>
@@ -287,8 +269,8 @@ export default function SingleCommunityPage() {
                 {/* Social Media Links */}
                 <div className="flex items-center  lg:items-end">
                   <SocialLinks links={linksData} />
-                  <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
                 </div>
+                <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
                 {/* Contributor info */}
                 <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
                 <p className={dark ? "text-slate-400" : "text-slate-600"}>Members</p>

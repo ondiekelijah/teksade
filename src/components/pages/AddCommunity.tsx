@@ -142,7 +142,7 @@ export default function NewCommunityPage() {
             <MultiSelect
               label="Related Technologies"
               data={techList}
-              placeholder="Add new ones if not included"
+              placeholder="Pick your technologies"
               searchable
               clearable
               {...form.getInputProps("technologies")}
@@ -156,7 +156,7 @@ export default function NewCommunityPage() {
               // }}
             />
             <div className="my-4 flex justify-end ">
-              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() && !form.isValid()} />
+              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() || !form.isValid()} />
             </div>
           </Stepper.Step>
 
@@ -172,14 +172,7 @@ export default function NewCommunityPage() {
                 size="xl"
                 icon={<FaUpload />}
               />
-              <CustomButton
-                size="md"
-                variant="filled"
-                type="submit"
-                title="Add Community"
-                onClickHandler={() => void handleLogoUpload()}
-                disabled={!profileImage}
-              />
+              <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
             </div>
           </Stepper.Step>
           <Stepper.Completed>Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</Stepper.Completed>

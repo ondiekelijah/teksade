@@ -6,10 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { BsPerson } from "react-icons/bs";
-import Checkmark from "../custom-components/icons/checkmark";
 import LocationIcon from "../custom-components/icons/locationIcon";
-
-const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
 
 interface CommmunityCardProps {
   id: string;
@@ -37,18 +34,9 @@ export default function CommmunityCard(community: CommmunityCardProps) {
             <LocationIcon />
             {community.country} , {community.location}
           </Text>
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center">
-              <h3 className="mr-2 flex grow items-center justify-between">{community.name}</h3>
-              {community.verified && (
-                <Tooltip withArrow label={verificationTooltip} arrowSize={5}>
-                  <Text>
-                    <Checkmark />
-                  </Text>
-                </Tooltip>
-              )}
-            </div>
-            <span className="flex items-center text-lg ">
+          <div className="flex items-center justify-between">
+            <h3 className="mr-2 flex grow items-center justify-between">{community.name}</h3>
+            <span className="flex items-center text-lg my-4">
               <BsPerson className="" /> <span className="text-xs ">{community.members}</span>
             </span>
           </div>
