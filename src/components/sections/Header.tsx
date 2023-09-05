@@ -42,7 +42,7 @@ export default function Header() {
 
           {userStatus.user ? (
             <>
-              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="bottom" offset={2} withArrow arrowPosition="center">
+              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="bottom" offset={10} withArrow arrowPosition="side">
                 <Menu.Target>
                   <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>
                 </Menu.Target>
