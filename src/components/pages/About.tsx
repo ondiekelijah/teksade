@@ -35,21 +35,21 @@ const About = () => {
           </div>
         </div>
         <div className="bg-[#5c7cfa] rounded-lg sm:rounded-none">
-          <div className="mx-auto flex max-w-xl flex-col-reverse items-center py-20 sm:flex-row">
+          <div className="mx-auto flex max-w-2xl flex-col-reverse items-center py-20 sm:flex-row">
             <p className={`mt-4 flex-1 text-center text-lg sm:text-left`}>{pageData.mission}</p>
-            <h2 className="flex-1 text-center text-xl font-bold sm:text-right sm:text-6xl">Mission</h2>
+            <h2 className="flex-1 text-center text-4xl font-bold sm:text-right sm:text-5xl lg:text-6xl/[70px]">Mission</h2>
           </div>
         </div>
 
-        <div className="mx-auto flex max-w-xl flex-col-reverse items-center py-20 sm:flex-row-reverse">
-          <p className={`mt-4 flex-1 text-center text-lg sm:text-right ${dark ? "text-slate-400" : "text-slate-600"}`}>{pageData.vision}</p>
-          <h2 className={`flex-1 text-center text-xl font-bold sm:text-left sm:text-6xl ${dark ? "text-[#5c7cfa]" : "text-[#00afef]"}`}>Vision</h2>
+        <div className="mx-auto flex max-w-2xl flex-col-reverse items-center py-20 sm:flex-row-reverse">
+          <p className={`mt-4 flex-1 text-center text-xl sm:text-right ${dark ? "text-slate-400" : "text-slate-600"}`}>{pageData.vision}</p>
+          <h2 className={`flex-1 text-center text-4xl font-bold sm:text-left sm:text-5xl lg:text-6xl/[70px] text-[#5c7cfa]`}>Vision</h2>
         </div>
 
         <div>
-          <div className="mx-auto flex max-w-xl flex-col-reverse items-center py-20 sm:flex-row">
-            <p className={`mt-4 flex-1 text-center text-lg sm:text-left ${dark ? "text-slate-400" : "text-slate-600"}`}>{pageData.culture}</p>
-            <h2 className={`flex-1 text-center text-xl font-bold sm:text-right sm:text-6xl ${dark ? "text-[#5c7cfa]" : "text-[#00afef]"}`}>Culture</h2>
+          <div className="mx-auto flex max-w-2xl flex-col-reverse items-center py-20 sm:flex-row">
+            <p className={`mt-4 flex-1 text-center text-xl sm:text-left ${dark ? "text-slate-400" : "text-slate-600"}`}>{pageData.culture}</p>
+            <h2 className={`flex-1 text-center text-4xl font-bold sm:text-right sm:text-5xl lg:text-6xl/[70px] text-[#5c7cfa]`}>Culture</h2>
           </div>
         </div>
 
