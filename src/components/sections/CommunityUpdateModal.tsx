@@ -112,9 +112,9 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
   }
   return (
     <div>
-      <div className="flex cursor-pointer items-center gap-x-2">
-        <Avatar src={logoImage} size="lg" radius="xl" className=" object-cover" />
-        <FileInput value={newProfileImage} onChange={setNewProfileImage} variant="unstyled" placeholder="Change Profile" />
+      <div className="flex cursor-pointer items-center gap-x-2 py-4">
+        <Avatar src={logoImage} size="xl" radius="xs" className=" object-cover" />
+        <FileInput value={newProfileImage} onChange={setNewProfileImage} variant="unstyled" placeholder="Update cover image" />
       </div>
       <form onSubmit={updateForm.onSubmit((values) => handleUpdate(values))} className="flex flex-col gap-1">
         <LoadingOverlay visible={updateCommunity.isLoading || communityInfo.isLoading} />
