@@ -22,7 +22,7 @@ export default function Hero() {
     <Container>
       <section className="z-0 flex h-[90vh] w-full flex-col items-center justify-center gap-y-7 bg-cover bg-center bg-no-repeat">
         {showBanner && announcement && <StickyBanner announcement={announcement} onClose={() => setShowBanner(false)} />}
-        <Text className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl/[90px]" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 95 }}>
+        <Text className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 95 }}>
           Discover the most vibrant and engaged tech communities.
         </Text>
 
