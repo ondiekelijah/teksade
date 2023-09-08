@@ -19,6 +19,15 @@ const siteMetadata = {
     analytics: {
       googleAnalyticsId: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, // e.g. UA-000000-2 or G-XXXXXXX
     },
+     aboutPageData: {
+      title: "Between Bytes and Bits, Teksade Seeks the Heartbeats",
+      description: [
+        "Teksade, at its core, is more than just a community discovery platform; it's a revolution in how the tech world connects. Born from a vision to make the vast tech landscape feel like a close-knit neighborhood, we prioritize collaboration over competition. We're not just here to grow; we're here to grow together, ensuring every tech enthusiast finds their tribe and their voice.",
+        "By partnering with tech trailblazers globally, we craft experiences that are transformative, inclusive, and devoid of the barriers traditional platforms present. With Teksade, it's not just about technology; it's about the people behind every line of code, every innovation, and every breakthrough."
+      ],
+      mission: "Unifying the global tech realm by bridging divides, nurturing relationships, and championing the spirit of innovation.",
+      vision: "Envisioning a world where technology transcends boundaries, fostering a close-knit global community that thrives on collaboration and shared passion."
+    }
   }
   
   export default siteMetadata
