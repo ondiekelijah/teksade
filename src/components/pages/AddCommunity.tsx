@@ -18,12 +18,14 @@ import { useRouter } from "next/router";
 import CustomButton from "@/components/custom-components/button";
 import { FaUpload } from "react-icons/fa";
 import { technologies as techList } from "@/utils/constants";
+import SectionTitle from "../custom-components/sectionTitle";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
   const { user } = useUser();
   const getMemberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const [uploadFile, uploading, , error] = useUploadFile();
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [active, setActive] = useState(0);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { colorScheme } = useMantineColorScheme();
@@ -52,6 +54,12 @@ export default function NewCommunityPage() {
       })
     ),
   });
+
+  function handleImageChange( profileImage: File | null) {
+    setHasInteracted(true);  // Add this line
+    setProfileImage(profileImage);
+  }
+  
 
   async function handleLogoUpload() {
     if (profileImage) {
@@ -99,6 +107,19 @@ export default function NewCommunityPage() {
     }
   }
 
+  // function to check if user has uploaded the right image format
+  function checkImageType() {
+    if (!profileImage) return false;
+
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.svg)$/i;
+
+    if (allowedExtensions.exec(profileImage.name)) {
+      return true;
+    }
+
+    return false;
+  }
+
   if (!getMemberInfo.isLoading && !(getMemberInfo.data?.name ?? getMemberInfo.data?.email)) {
     return (
       <div className=" flex w-full flex-col items-center justify-center space-y-4 py-10 text-center">
@@ -120,9 +141,13 @@ export default function NewCommunityPage() {
 
   return (
     <Container>
+      <SectionTitle
+        heading="Enrich Teksade, Add Your Community!"
+        description="By introducing your community, you're amplifying its voice and expanding its horizons. Let's make Teksade richer together!"
+      />
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2">
-        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 shadow-xl sm:w-[60vw]">
-          <Stepper.Step label="First step" description="General Info" className="">
+        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]">
+          <Stepper.Step label="Step 1" description="General Info" className="">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} size="md" className="mb-4" />
             <Textarea label="Description" withAsterisk required {...form.getInputProps("description")} className="mb-4" />
             <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2">
@@ -139,38 +164,27 @@ export default function NewCommunityPage() {
               withAsterisk
               placeholder="Select your major focus Area"
             />
-            <MultiSelect
-              label="Related Technologies"
-              data={techList}
-              placeholder="Pick your technologies"
-              searchable
-              clearable
-              {...form.getInputProps("technologies")}
-              // creatable
-              size="md"
-              // getCreateLabel={(query) => `+ Add ${query}`}
-              // onCreate={(query) => {
-              //   const item = { value: query, label: query };
-              //   setTechnologies((current) => [...current, item.value]);
-              //   return item;
-              // }}
-            />
+            <MultiSelect label="Related Technologies" data={techList} placeholder="Pick your technologies" searchable clearable {...form.getInputProps("technologies")} size="md" />
             <div className="my-4 flex justify-end ">
               <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() || !form.isValid()} />
             </div>
           </Stepper.Step>
 
-          <Stepper.Step label="Second step" description="Image upload">
+          <Stepper.Step label="Step 2" description="Image upload">
             <div className="flex flex-col gap-4 pt-4">
               <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
               <FileInput
-                placeholder="Upload your community logo"
+                placeholder="Got a perfect community snapshot? Share it here!"
                 value={profileImage}
-                onChange={setProfileImage}
+                onChange={handleImageChange}
+                error={hasInteracted && !checkImageType() ? "Please upload a valid image." : null}
                 label="Featured Image (Accepted formats: PNG, JPEG, SVG.)"
                 withAsterisk
-                size="xl"
+                size="md"
+                accept="image/png,image/jpeg,image/svg"
                 icon={<FaUpload />}
+                clearable
+                radius="lg"
               />
               <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
             </div>

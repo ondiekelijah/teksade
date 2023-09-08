@@ -45,13 +45,13 @@ const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) 
   
 
   // Conditions to display the banner
-  // if (!published || isExpired || (targetPage !== "all" && router.pathname !== targetPage)) return null;
+  if (!published || isExpired || (targetPage !== "all" && router.pathname !== targetPage)) return null;
 
   // Get current path, use it to style the banner appropriately.
   const isCommunitiesPage = router.pathname === "/communities";
 
   return (
-    <Box className={`left-0 z-50 flex ${isCommunitiesPage ? "top-2 mt-3 w-full" : "top-0 w-fit"} justify-between rounded-full border-b p-4 ${dark ? " bg-gray-700" : " bg-gray-200"}`}>
+    <Box className={`left-0 flex ${isCommunitiesPage ? "top-2 mt-3 w-full" : "top-0 w-fit"} justify-between rounded-full border-b p-4 ${dark ? " bg-gray-700" : " bg-gray-200"}`}>
       <div className="mx-auto flex items-center">
         <p className={`flex items-center text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
           <span className={`mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full  p-1 ${dark ? "bg-gray-600" : "bg-gray-200"}`}>

@@ -13,6 +13,7 @@ interface ButtonProps {
   isLoading?: boolean;
   loadingText?: string;
   icon?: React.ReactNode;
+  isRounded?: boolean;
 }
 
 const CustomButton: React.FC<ButtonProps> = ({
@@ -27,41 +28,23 @@ const CustomButton: React.FC<ButtonProps> = ({
   type = "button",
   isLoading = false,
   icon,
+  isRounded = true,
 }) => {
   const gradientValue = variant === "gradient" ? { from: "indigo", to: "cyan", deg: 45 } : undefined;
 
   return (
     <>
       {disabled ? (
-        <Button 
-          className={`rounded-full ${className}`} 
-          variant={variant} 
-          size={size} 
-          gradient={gradientValue} 
-          color={color} 
-          onClick={onClickHandler}
-          data-disabled
-          type={type}
-        >
+        <Button className={` ${className} ${isRounded && "rounded-full"}`} variant={variant} size={size} gradient={gradientValue} color={color} onClick={onClickHandler} data-disabled type={type}>
           {title}
         </Button>
       ) : (
-        <Button 
-          className={`rounded-full ${className}`} 
-          variant={variant} 
-          size={size} 
-          gradient={gradientValue} 
-          color={color} 
-          onClick={onClickHandler}
-          type={type}
-          rightIcon={icon}
-        >
+        <Button className={` ${className} ${isRounded && "rounded-full"}`} variant={variant} size={size} gradient={gradientValue} color={color} onClick={onClickHandler} type={type} rightIcon={icon}>
           {isLoading ? loadingText : title}
         </Button>
       )}
     </>
   );
-  
 };
 
 export default CustomButton;

@@ -10,6 +10,8 @@ import { useMantineColorScheme } from "@mantine/core";
 import Container from "@/components/custom-components/container";
 import useMantineNotify from "@/hooks/useNotify";
 import { PageSEO } from "../SEO";
+import SectionTitle from "../custom-components/sectionTitle";
+import CustomButton from "../custom-components/button";
 
 interface ProfileFormValues {
   name?: string;
@@ -144,16 +146,14 @@ export default function ProfilePage() {
       Teksade - your central hub for tech enthusiasts, innovators, and experts. Dive deep into discussions, 
       learn from the best, and connect with ${currentUser.data?.name ?? currentUser.data?.name} at the tech community HQ.`}
       />
-      <Container className={"py-20"}>
+      <Container className={"py-5"}>
         {updateUserInfo.isLoading && (
           <div className="flex h-10 w-full items-center justify-center py-10">
             <Loader size="xl" />
           </div>
         )}
-        <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Connect Better, Update Your Profile!</h1>
-          <p className={`mt-4 ${dark ? "text-slate-400" : "text-slate-600"}`}>Adding more details to your profile helps in building stronger connections.</p>
-        </div>
+
+        <SectionTitle heading="Connect Better, Update Your Profile!" description="Adding more details to your profile helps in building stronger connections." />
 
         <form onSubmit={form.onSubmit(handleFormSubmit)} className={` mx-auto max-w-screen-lg sm:w-[60vw]`}>
           <LoadingOverlay visible={updateUserInfo.isLoading} />
@@ -187,9 +187,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="my-6 flex justify-center">
-            <Button disabled={!form.isValid()} type="submit" size="lg" className="rounded-full text-base" color="indigo">
-              Save Changes
-            </Button>
+            <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!form.isValid()} />
           </div>
         </form>
       </Container>

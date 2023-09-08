@@ -10,7 +10,6 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import MemberCard from "@/components/sections/MemberCard";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { showNotification } from "@mantine/notifications";
 import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";
@@ -25,6 +24,8 @@ import ImageSkeleton from "@/components/custom-components/skeletons/Community/Fe
 import LocationIcon from "@/components/custom-components/icons/locationIcon";
 import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
+import useMantineNotify from "@/hooks/useNotify";
+
 
 interface SocialLinksProps {
   links: {
@@ -52,15 +53,22 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     whatsapp: FaWhatsapp,
     phone: FaPhone,
   };
+
   return (
     <Group spacing="xs" className="my-6">
-      {Object.entries(icons).map(([key, Icon]) => (
-        <Link key={key} href={links[key] ?? " "} passHref>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <Icon />
-          </ActionIcon>
-        </Link>
-      ))}
+      {Object.entries(icons).map(([key, Icon]) => {
+        const url = links[key];
+        if (url && url.trim() !== "") {  // Check if the URL exists and is not just whitespace
+          return (
+            <Link key={key} href={url} passHref>
+              <ActionIcon size="lg" variant="default" radius="xl">
+                <Icon />
+              </ActionIcon>
+            </Link>
+          );
+        }
+        return null;  // Explicitly return null if the link does not exist or is invalid
+      })}
     </Group>
   );
 };
@@ -84,6 +92,7 @@ export default function SingleCommunityPage() {
   const communityId = useRouter().query.id;
   const { user } = useUser();
   const queryClient = api.useContext();
+  const { notifyError, notifySuccess } = useMantineNotify();
   const memberInfo = api.members.getMemberInfo.useQuery({ memberId: user?.id ?? "" });
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId: communityId as string });
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
@@ -93,7 +102,7 @@ export default function SingleCommunityPage() {
   const removeMemberFromCommunity = api.communities.removeMemberFromCommunity.useMutation({
     onSuccess: () => {
       void queryClient.communities.getCommunityInfo.refetch({ communityId: communityId as string });
-      showNotification({
+      notifySuccess({
         title: "Exit complete",
         message: "You have left this community",
       });
@@ -153,13 +162,13 @@ export default function SingleCommunityPage() {
       })
       .then((returnValue) => {
         if (returnValue?._count.members) {
-          showNotification({
+          notifySuccess({
             title: "Welcome onboard",
             message: "You are now a member",
           });
           void queryClient.communities.getCommunityInfo.refetch();
         } else {
-          showNotification({
+          notifyError({
             title: "Error!",
             message: "Hmm, that wasn't supposed to happen.",
           });
