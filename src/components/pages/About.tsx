@@ -34,7 +34,7 @@ const About = () => {
             ))}
           </div>
         </div>
-        <div className="bg-[#5c7cfa]">
+        <div className="bg-[#5c7cfa] rounded-lg sm:rounded-none">
           <div className="mx-auto flex max-w-xl flex-col-reverse items-center py-20 sm:flex-row">
             <p className={`mt-4 flex-1 text-center text-lg sm:text-left`}>{pageData.mission}</p>
             <h2 className="flex-1 text-center text-xl font-bold sm:text-right sm:text-6xl">Mission</h2>
