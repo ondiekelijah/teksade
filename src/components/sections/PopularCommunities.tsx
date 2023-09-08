@@ -34,7 +34,6 @@ export default function PopularCommunities() {
         </p>
         <div className="mt-8 flex gap-2 overflow-x-scroll ">
           <Chip.Group multiple value={selectedTechnlogies} onChange={setselectedTechnlogies}>
-            <Chip value="All">ALL</Chip>
             {["All", ...techFocusAreas].map((tech) => (
               <Chip key={tech} value={tech}>
                 {tech}
