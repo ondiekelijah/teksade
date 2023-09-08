@@ -13,8 +13,9 @@ import Checkmark from "@/components/custom-components/icons/checkmark";
 import LocationIcon from "../custom-components/icons/locationIcon";
 import { useMantineColorScheme } from "@mantine/core";
 import CustomButton from "@/components/custom-components/button";
+import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
 
-const verificationTooltip = "Endorsed for its official connection with the named organization, this community is proudly verified.";
+const verificationTooltip = "Verified community";
 
 export default function PopularCommunities() {
   const popularCommunities = api.communities.getPopularCommunities.useQuery();
@@ -54,6 +55,19 @@ export default function PopularCommunities() {
             breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
             className="my-5 "
           >
+            {popularCommunities.isLoading && (
+              <>
+                <Carousel.Slide key={1} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+                <Carousel.Slide key={2} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+                <Carousel.Slide key={3} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+              </>
+            )}
             {popularCommunities.data?.map((community) => (
               <Carousel.Slide key={community.id} className="w-60 pb-10">
                 <Link href={`/communities/${community.id}`}>
@@ -68,13 +82,13 @@ export default function PopularCommunities() {
                       </Text>
                       <div className="flex items-center">
                         <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
-                        {community.verified && (
+                        {/* {community.verified && (
                           <Tooltip withArrow label={verificationTooltip} arrowSize={5}>
                             <Text>
                               <Checkmark />
                             </Text>
                           </Tooltip>
-                        )}
+                        )} */}
                       </div>
                       <div className="mt-2 flex flex-wrap items-center">
                         {community.technologies.slice(0, 10).map((tech) => (

@@ -2,20 +2,23 @@ import { api } from "@/utils/api";
 import { techFocusAreas, technologies } from "@/utils/constants";
 import { Button, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import { useEffect } from "react";
 import { string, z } from "zod";
+import CustomButton from "../custom-components/button";
+import useMantineNotify from "@/hooks/useNotify";
 
 interface CommunityUpdateModalProps {
   communityId: string;
+  onSubmission?: () => void;
 }
 export default function CommunityUpdateModal({ communityId }: CommunityUpdateModalProps) {
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId });
+  const { notifyError, notifySuccess } = useMantineNotify();
+
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
-      showNotification({
-        title: "success",
-        message: "Community details updated",
+      notifySuccess({
+        message: "Community information has been updated.",
       });
     },
   });
@@ -83,21 +86,21 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
   }
   return (
     <div>
-      <form onSubmit={updateForm.onSubmit((values) => handleUpdate(values))} className="flex flex-col gap-1">
+      <form onSubmit={updateForm.onSubmit((values) => handleUpdate(values))} className="flex flex-col gap-1 space-y-2">
         <LoadingOverlay visible={updateCommunity.isLoading || communityInfo.isLoading} />
-        <TextInput {...updateForm.getInputProps("name")} label="Name" />
-        <Textarea {...updateForm.getInputProps("description")} label="Desription" />
-        <Select {...updateForm.getInputProps("focusArea")} data={[...techFocusAreas, "Others"]} label="Focus Area" searchable clearable />
-        <MultiSelect {...updateForm.getInputProps("technologies")} data={technologies} label="Technologies" searchable clearable />
-        <TextInput {...updateForm.getInputProps("github")} label="Github Url" />
-        <TextInput {...updateForm.getInputProps("twitter")} label="Twitter Url" />
-        <TextInput {...updateForm.getInputProps("linkedin")} label="Linkedin Url" />
-        <TextInput {...updateForm.getInputProps("website")} label="Website Url" />
-        <TextInput {...updateForm.getInputProps("whatsapp")} label="Whatsapp Group Link" />
-        <TextInput {...updateForm.getInputProps("phone")} label="Contact Number" />
-        <Button disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading} type="submit">
-          Update
-        </Button>
+        <TextInput {...updateForm.getInputProps("name")} size="md" label="Name" />
+        <Textarea {...updateForm.getInputProps("description")} size="md" label="Desription" />
+        <Select {...updateForm.getInputProps("focusArea")} size="md" data={[...techFocusAreas, "Others"]} label="Focus Area" searchable clearable />
+        <MultiSelect {...updateForm.getInputProps("technologies")} size="md" data={technologies} label="Technologies" searchable clearable />
+        <TextInput {...updateForm.getInputProps("github")} size="md" label="GitHub Profile URL" />
+        <TextInput {...updateForm.getInputProps("twitter")} size="md" label="Twitter Profile URL" />
+        <TextInput {...updateForm.getInputProps("linkedin")} size="md" label="LinkedIn Profile URL" />
+        <TextInput {...updateForm.getInputProps("website")} size="md" label="Website URL" />
+        <TextInput {...updateForm.getInputProps("whatsapp")} size="md" label="WhatsApp Group Link" />
+        <TextInput {...updateForm.getInputProps("phone")} size="md" label="Contact Number" />
+        <div className="my-6 flex justify-center">
+          <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading} />
+        </div>
       </form>
     </div>
   );

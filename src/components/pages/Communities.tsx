@@ -13,6 +13,7 @@ import { PageSEO } from "@/components/SEO";
 import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
 import StickyBanner from "@/components/custom-components/newsBanner";
+import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
 
 export default function CommunitiesPage() {
   const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined);
@@ -94,9 +95,11 @@ export default function CommunitiesPage() {
           </Collapse>
         </div>
         {communitiesList.isLoading && (
-          <div className="flex h-10 w-full items-center justify-center py-10">
-            <Loader size="xl" />
-          </div>
+          <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
+            <CommunityCardSkeleton />
+            <CommunityCardSkeleton />
+            <CommunityCardSkeleton />
+          </section>
         )}
         <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
           {communitiesList.data?.length
