@@ -106,6 +106,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       whatsapp: values.website,
       phone: values.phone,
     });
+    // Refresh community info - not working
+    void communityInfo.refetch();
   }
   if (error) {
     console.log(error.message);
