@@ -17,6 +17,7 @@ interface CommmunityCardProps {
   members: number;
   logoUrl: string;
   verified: boolean;
+  actionButtons?: React.ReactNode;
 }
 export default function CommmunityCard(community: CommmunityCardProps) {
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${community.logoUrl}`));
@@ -26,7 +27,7 @@ export default function CommmunityCard(community: CommmunityCardProps) {
         <div className="relative ">
           <LoadingOverlay visible={loading} />
           <p className="absolute top-5 hidden w-full text-center group-hover:inline">{community.description}</p>
-          <img src={logoImage ?? "/img/hero.jpg"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
+          <img src={logoImage ?? "/img/twitter-card.svg"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
         </div>
 
         <div className="p-4">
@@ -36,10 +37,12 @@ export default function CommmunityCard(community: CommmunityCardProps) {
           </Text>
           <div className="flex items-center justify-between">
             <h3 className="mr-2 flex grow items-center justify-between">{community.name}</h3>
-            <span className="flex items-center text-lg my-4">
+            <span className="my-4 flex items-center text-lg">
               <BsPerson className="" /> <span className="text-xs ">{community.members}</span>
             </span>
           </div>
+          {/* Render action buttons, a react node */}
+          {community.actionButtons}
         </div>
       </Paper>
     </Link>

@@ -7,16 +7,16 @@ function CommunitySkeleton() {
       {/* Top info: Community name, focus area, and location */}
       <div className="mb-6 flex flex-col space-y-5">
         <div className="flex items-center space-x-2 text-2xl font-semibold md:text-2xl">
-          <Skeleton height={32} width="60%" radius="xl" />
+          <Skeleton height={32} width="50%" radius="xl" />
           <Skeleton height={24} width={24} circle />
         </div>
         <div className="flex items-center space-x-2">
           <Skeleton height={16} width={16} circle />
-          <Skeleton height={16} width="40%" radius="xl" />
+          <Skeleton height={16} width="20%" radius="xl" />
         </div>
         <div className="flex items-center space-x-2">
           <Skeleton height={16} width={16} circle />
-          <Skeleton height={16} width="80%" radius="xl" />
+          <Skeleton height={16} width="20%" radius="xl" />
         </div>
       </div>
 
@@ -40,15 +40,39 @@ function CommunitySkeleton() {
         {/* Right side content */}
         <div className="order-3 space-y-5 lg:order-2">
           <div className="flex items-center space-x-4 lg:items-end">
-            <Skeleton height={32} width="150px" radius="xl" />
-            <Skeleton height={32} width="150px" radius="xl" />
+            <Skeleton height={30} width={30} circle />
+            <Skeleton height={30} width={30} circle />
+            <Skeleton height={30} width={30} circle />
+            <Skeleton height={30} width={30} circle />
+            <Skeleton height={30} width={30} circle />
           </div>
-          <Skeleton height={50} mt={6} width="150px" radius="xl" />
-          <Skeleton height={16} mt={6} width="80px" radius="xl" />
-          <div className="mt-6 flex space-x-2">
+          {/* Technologies (Chips) Skeleton */}
+          <div className="flex items-center space-x-2 lg:items-end">
+            <Skeleton height={25} width={70} radius="xl" />
+            <Skeleton height={25} width={70} radius="xl" />
+            <Skeleton height={25} width={70} radius="xl" />
+            <Skeleton height={25} width={70} radius="xl" />
+            <Skeleton height={25} width={70} radius="xl" />
+          </div>
+
+          {/* Contributor Profile Skeleton */}
+          <div className="mt-6 flex items-center space-x-2">
             <Skeleton height={50} width={50} circle />
-            <Skeleton height={50} width={50} circle />
-            <Skeleton height={50} width={50} circle />
+            <div className="flex flex-col space-y-1">
+              <Skeleton height={10} width="80px" />
+              <Skeleton height={16} width="100px" />
+              <Skeleton height={10} width="80px" />
+            </div>
+          </div>
+
+          {/* Small Text "Members" Skeleton */}
+          <Skeleton height={16} mt={6} width="60px" />
+
+          {/* Members Profile (Rounded Circles) Skeleton */}
+          <div className="mt-2 flex space-x-1">
+            <Skeleton height={40} width={40} circle />
+            <Skeleton height={40} width={40} circle style={{ marginLeft: "-10px" }} />
+            <Skeleton height={40} width={40} circle style={{ marginLeft: "-10px" }} />
           </div>
         </div>
       </div>

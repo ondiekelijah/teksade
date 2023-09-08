@@ -51,7 +51,7 @@ export default function Header() {
                     <RenderButton href="/profile">Profile</RenderButton>
                   </Menu.Item>
                   <Menu.Item>
-                    <RenderButton href="/communities/created">My Communities</RenderButton>
+                    <RenderButton href="/communities/created">Created Communities</RenderButton>
                   </Menu.Item>
                   <Menu.Item>
                     <RenderButton href="/communities/new">Add Community</RenderButton>
@@ -105,7 +105,7 @@ export default function Header() {
                     <RenderButton href="/profile">Profile</RenderButton>
                   </Menu.Item>
                   <Menu.Item>
-                    <RenderButton href="/communities/created">My Communities</RenderButton>
+                    <RenderButton href="/communities/created">Created Communities</RenderButton>
                   </Menu.Item>
                   <Menu.Item>
                     <RenderButton href="/communities/new">Add Community</RenderButton>
