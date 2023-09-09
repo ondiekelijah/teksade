@@ -104,17 +104,21 @@ export default function CommunitiesPage() {
         <section className="grid grid-cols-1 gap-1 gap-x-2 sm:grid-cols-3 md:grid-cols-3 ">
           {communitiesList.data?.length
             ? communitiesList.data.map((community) => (
-                <CommmunityCard
-                  id={community.id}
-                  key={community.id}
-                  name={community.name}
-                  country={community.country}
-                  location={community.location}
-                  description={community.description}
-                  members={community._count.members}
-                  logoUrl={community.logo_link}
-                  verified={community.verified ?? false}
-                />
+                <>
+                  {community.published && (
+                    <CommmunityCard
+                      id={community.id}
+                      key={community.id}
+                      name={community.name}
+                      country={community.country}
+                      location={community.location}
+                      description={community.description}
+                      members={community._count.members}
+                      logoUrl={community.logo_link}
+                      verified={community.verified ?? false}
+                    />
+                  )}
+                </>
               ))
             : !communitiesList.isLoading && (
                 <div className="my-20 text-center sm:col-span-3 md:col-span-4">
