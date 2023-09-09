@@ -19,6 +19,7 @@ const siteMetadata = {
     analytics: {
       googleAnalyticsId: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, // e.g. UA-000000-2 or G-XXXXXXX
     },
+    verificationTooltip: "Verified community",
      aboutPageData: {
       title: "Between Bytes and Bits, Teksade Seeks the Heartbeats",
       description: [
