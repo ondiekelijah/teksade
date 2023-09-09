@@ -1,9 +1,8 @@
 import { api } from "@/utils/api";
 import { techFocusAreas, technologies } from "@/utils/constants";
 import { storageBucket } from "@/utils/firestoreConfig";
-import { Avatar, Button, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
+import { Avatar, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import { deleteObject, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useDownloadURL, useUploadFile } from "react-firebase-hooks/storage";
@@ -16,14 +15,16 @@ interface CommunityUpdateModalProps {
   onSubmission?: () => void;
 }
 export default function CommunityUpdateModal({ communityId }: CommunityUpdateModalProps) {
+  const queryClient = api.useContext();
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId });
-  const { notifyError, notifySuccess } = useMantineNotify();
+  const { notifySuccess } = useMantineNotify();
 
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
       notifySuccess({
         message: "Community information has been updated.",
       });
+      void queryClient.communities.getCommunityInfo.invalidate({ communityId });
     },
   });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
@@ -71,7 +72,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         linkedin: z.string().url().optional(),
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
-        phone: string().min(10).optional(),
+        phone: z.string().min(10).optional(),
       })
     ),
   });

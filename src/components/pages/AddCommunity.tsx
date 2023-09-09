@@ -7,7 +7,7 @@ import { Button, FileInput, LoadingOverlay, MultiSelect, Select, Stepper, TextIn
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { useForm, zodResolver } from "@mantine/form";
 import React, { useState } from "react";
-import { z } from "zod";
+import { string, z } from "zod";
 import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function NewCommunityPage() {
   const { notifyError, notifySuccess } = useMantineNotify();
   const router = useRouter();
 
-  const nextStep = () => setActive((current) => (current < 1 ? current + 1 : current));
+  const nextStep = () => setActive((current) => (current < 2 ? current + 1 : current));
 
   const form = useForm<{
     communityName: string;
@@ -42,6 +42,12 @@ export default function NewCommunityPage() {
     location: string;
     focusArea: string;
     technologies?: string[];
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+    whatsapp?: string;
+    phone?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -51,15 +57,20 @@ export default function NewCommunityPage() {
         country: z.string().nonempty("Select a country"),
         location: z.string().nonempty("Provide a location"),
         focusArea: z.string().nonempty("Select a focus area"),
+        whatsapp: z.string().url().optional(),
+        github: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        website: z.string().url().optional(),
+        phone: z.union([z.literal(""), z.string().min(10).optional()]),
       })
     ),
   });
 
-  function handleImageChange( profileImage: File | null) {
-    setHasInteracted(true);  // Add this line
+  function handleImageChange(profileImage: File | null) {
+    setHasInteracted(true); // Add this line
     setProfileImage(profileImage);
   }
-  
 
   async function handleLogoUpload() {
     if (profileImage) {
@@ -85,6 +96,12 @@ export default function NewCommunityPage() {
             focusArea: values.focusArea,
             technologies: values.technologies,
             logo_url: form.values.communityName.split(" ").join(""),
+            github: values.github,
+            twitter: values.twitter,
+            linkedin: values.linkedin,
+            website: values.website,
+            whatsapp: values.whatsapp,
+            phone: values.phone?.length ? values.phone : undefined,
           })
           .then((onfulfilledValue) => {
             if (onfulfilledValue?.country) {
@@ -146,8 +163,8 @@ export default function NewCommunityPage() {
         description="By introducing your community, you're amplifying its voice and expanding its horizons. Let's make Teksade richer together!"
       />
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2">
-        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]">
-          <Stepper.Step label="Step 1" description="General Info" className="">
+        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]" id="stepper">
+          <Stepper.Step label="Step 1" description="General Info" className="" id="step-1">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} size="md" className="mb-4" />
             <Textarea label="Description" withAsterisk required {...form.getInputProps("description")} className="mb-4" />
             <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2">
@@ -166,7 +183,29 @@ export default function NewCommunityPage() {
             />
             <MultiSelect label="Related Technologies" data={techList} placeholder="Pick your technologies" searchable clearable {...form.getInputProps("technologies")} size="md" />
             <div className="my-4 flex justify-end ">
-              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() || !form.isValid()} />
+              <CustomButton
+                size="md"
+                variant="filled"
+                title="Next"
+                onClickHandler={() => {
+                  nextStep();
+                  //Having an issue where this field takes the values of the community name , this is a temporary fix
+                  form.setFieldValue("phone", "");
+                }}
+                disabled={!form.isTouched() || !form.isValid()}
+              />
+            </div>
+          </Stepper.Step>
+          <Stepper.Step label="Step 2" description="Social Info" className="" id="step-2">
+            <TextInput label="Contact Number" {...form.getInputProps("phone")} size="md" className="mb-4" />
+            <TextInput label="Github Url" {...form.getInputProps("github")} size="md" className="mb-4" />
+            <TextInput label="Twitter Url" {...form.getInputProps("twitter")} size="md" className="mb-4" />
+            <TextInput label="Web Url" {...form.getInputProps("website")} size="md" className="mb-4" />
+            <TextInput label="Linkedin Url" {...form.getInputProps("linkedin")} size="md" className="mb-4" />
+            <TextInput label="Whatsapp group link" {...form.getInputProps("whatsapp")} size="md" className="mb-4" />
+            <div className="my-4 flex justify-between ">
+              <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />
+              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} />
             </div>
           </Stepper.Step>
 
