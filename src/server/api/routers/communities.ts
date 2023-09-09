@@ -152,6 +152,12 @@ export const communitiesRouter = createTRPCRouter({
         focusArea: z.string(),
         technologies: z.string().array().optional(),
         logo_url: z.string(),
+        github: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        website: z.string().url().optional(),
+        whatsapp: z.string().url().optional(),
+        phone: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -165,6 +171,13 @@ export const communitiesRouter = createTRPCRouter({
             focus_area: input.focusArea,
             technologies: input.technologies,
             logo_link: input.logo_url,
+            github: input.github,
+            twitter: input.twitter,
+            linkedin: input.linkedin,
+            website: input.website,
+            whatsapp: input.whatsapp,
+            phone: input.phone,
+
             creator: {
               connectOrCreate: {
                 where: {

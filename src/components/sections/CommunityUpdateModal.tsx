@@ -72,7 +72,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         linkedin: z.string().url().optional(),
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
-        phone: string().min(10).optional(),
+        phone: z.string().min(10).optional(),
       })
     ),
   });
