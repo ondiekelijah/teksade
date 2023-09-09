@@ -1,13 +1,12 @@
 import React from "react";
 
 interface Props {
-  className?: string;
   size?: number;
 }
 
-const Checkmark = ({ className, size = 4 }: Props) => {
+const Checkmark = ({ size = 4 }: Props) => {
   return (
-    <span className={`mr-2 inline-flex cursor-pointer items-center text-lg font-semibold text-blue-800 dark:text-blue-400 ${className}`} aria-label="Verified">
+    <span className={`mr-2 z-50 inline-flex cursor-pointer items-center text-lg font-semibold text-blue-800 dark:text-blue-400 align-middle`} aria-label="Verified">
       <svg className={`w-${size} h-${size}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
         <path
           fill="currentColor"

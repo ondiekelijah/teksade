@@ -62,7 +62,7 @@ const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) 
             <span className="sr-only">Light bulb</span>
           </span>
           <span>
-            <span className="font-bold">{title}</span> 
+            <span className="font-bold">{title}</span>{" "} 
             <span dangerouslySetInnerHTML={{ __html: message }} 
             className={` text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
             </span>
