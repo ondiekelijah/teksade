@@ -104,4 +104,33 @@ export const membersRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  getCommunitiesJoinedByMember: publicProcedure
+    .input(
+      z.object({
+        memberId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const joinedCommunites = await ctx.prisma.member.findUnique({
+          where: {
+            id: input.memberId,
+          },
+          select: {
+            communities_joined: {
+              include: {
+                _count: {
+                  select: {
+                    members: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+        return joinedCommunites;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });
