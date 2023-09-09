@@ -46,9 +46,6 @@ To sign in to Teksade after creating your account:
 
 Remember to keep your login credentials secure and consider using strong, unique passwords to protect your Teksade account.
 
-![Home Page](image-1.png)
-
-![My Communities, joined](image.png)
 
 # Technologies used at Teksade
 
