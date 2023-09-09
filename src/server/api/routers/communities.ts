@@ -1,56 +1,149 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { techFocusAreas } from "@/utils/constants";
+import { techFocusAreas, technologies } from "@/utils/constants";
 
 export const communitiesRouter = createTRPCRouter({
+  getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
+    try {
+      const communityInfo = ctx.prisma.community.findUnique({
+        where: {
+          id: input.communityId,
+          published: true,
+        },
+        include: {
+          members: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+      return communityInfo;
+    } catch (error) {
+      console.log(error);
+    }
+  }),
   getCommunitiesList: publicProcedure
     .input(
       z.object({
         limit: z.number(),
-        country: z.string(),
+        country: z.string().optional(),
         filterByNew: z.boolean(),
-        focusAreas: z.string().array(),
+        technologies: z.string().array().optional(),
+        focusAreas: z.string().array().optional(),
+        searchTerm: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
-      const communityList = await ctx.prisma.community.findMany({
-        where: {
-          country: input.country,
-          focus_area: { in: input.focusAreas.length ? input.focusAreas : techFocusAreas },
-        },
-        include: {
-          _count: {
-            select: {
-              members: true,
+      try {
+        const communityList = await ctx.prisma.community.findMany({
+          where: {
+            published: true,
+            AND: [
+              input.country
+                ? {
+                    country: input.country,
+                  }
+                : {},
+
+              input.technologies?.length
+                ? {
+                    technologies: {
+                      hasSome: input.technologies,
+                    },
+                  }
+                : {},
+              input.focusAreas?.length
+                ? {
+                    focus_area: {
+                      in: input.focusAreas,
+                    },
+                  }
+                : {},
+              input.searchTerm
+                ? {
+                    name: {
+                      contains: input.searchTerm,
+                      mode: "insensitive",
+                    },
+                  }
+                : {},
+            ],
+          },
+
+          include: {
+            _count: {
+              select: {
+                members: true,
+              },
             },
           },
-        },
-        take: input.limit,
-        orderBy: [
-          {
-            members: {
-              _count: "desc",
+          take: input.limit,
+          orderBy: [
+            {
+              members: {
+                _count: "desc",
+              },
             },
-          },
-          {
-            updated_at: input.filterByNew ? "asc" : "desc",
-          },
-        ],
-      });
-      return communityList;
+            {
+              created_at: input.filterByNew ? "desc" : "asc",
+            },
+          ],
+        });
+        return communityList;
+      } catch (error) {
+        console.log(error);
+      }
     }),
 
   getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
-    const popularCommnitiesFetch = await ctx.prisma.community.findMany({
-      orderBy: {
-        members: {
-          _count: "desc",
+    try {
+      const popularCommnitiesFetch = await ctx.prisma.community.findMany({
+        where: {
+          published: true,
         },
-      },
-      take: 10,
-    });
-    return popularCommnitiesFetch;
+        orderBy: {
+          members: {
+            _count: "desc",
+          },
+        },
+        take: 10,
+      });
+      return popularCommnitiesFetch;
+    } catch (error) {
+      console.log(error);
+    }
   }),
+
+  // Get community details
+  getCommunityDetails: publicProcedure
+    .input(
+      z.object({
+        communityId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const communityDetails = await ctx.prisma.community.findUnique({
+          where: {
+            id: input.communityId,
+            published: true,
+          },
+          include: {
+            members: true,
+            creator: true,
+            _count: {
+              select: {
+                members: true,
+              },
+            },
+          },
+        });
+        return communityDetails;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 
   createNewCommunity: publicProcedure
     .input(
@@ -61,42 +154,172 @@ export const communitiesRouter = createTRPCRouter({
         country: z.string(),
         location: z.string(),
         focusArea: z.string(),
-        technologies: z.string().array(),
+        technologies: z.string().array().optional(),
         logo_url: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const newCommunityCreation = await ctx.prisma.community.create({
-        data: {
-          name: input.communityName,
-          description: input.communityDescription,
-          country: input.country,
-          location: input.location,
-          focus_area: input.focusArea,
-          technologies: input.technologies,
-          logo_link: input.logo_url,
-          creator: {
-            connectOrCreate: {
-              where: {
-                id: input.creatorId,
+      try {
+        const newCommunityCreation = await ctx.prisma.community.create({
+          data: {
+            name: input.communityName,
+            description: input.communityDescription,
+            country: input.country,
+            location: input.location,
+            focus_area: input.focusArea,
+            technologies: input.technologies,
+            logo_link: input.logo_url,
+            creator: {
+              connectOrCreate: {
+                where: {
+                  id: input.creatorId,
+                },
+                create: {
+                  id: input.creatorId,
+                },
               },
-              create: {
-                id: input.creatorId,
+            },
+            members: {
+              connectOrCreate: {
+                where: {
+                  id: input.creatorId,
+                },
+                create: {
+                  id: input.creatorId,
+                },
               },
             },
           },
-          members: {
-            connectOrCreate: {
-              where: {
-                id: input.creatorId,
-              },
-              create: {
-                id: input.creatorId,
+        });
+        return newCommunityCreation;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  addMemberToCommunity: publicProcedure
+    .input(
+      z.object({
+        memberId: z.string(),
+        communityId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const addMember = await ctx.prisma.community.update({
+          where: {
+            id: input.communityId,
+          },
+          data: {
+            members: {
+              connectOrCreate: {
+                where: {
+                  id: input.memberId,
+                },
+                create: {
+                  id: input.memberId,
+                },
               },
             },
           },
-        },
-      });
-      return newCommunityCreation;
+          select: {
+            _count: {
+              select: {
+                members: true,
+              },
+            },
+          },
+        });
+        return addMember;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  updateCommunity: publicProcedure
+    .input(
+      z.object({
+        communityID: z.string(),
+        name: z.string().optional(),
+        focusArea: z.string().optional(),
+        description: z.string().optional(),
+        location: z.string().optional(),
+        technologies: z.string().array().optional(),
+        github: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        website: z.string().url().optional(),
+        whatsapp: z.string().url().optional(),
+        phone: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const communityUpdate = await ctx.prisma.community.update({
+          where: {
+            id: input.communityID,
+          },
+          data: {
+            name: input.name,
+            focus_area: input.focusArea,
+            description: input.description,
+            location: input.location,
+            technologies: input.technologies,
+            github: input.github,
+            twitter: input.twitter,
+            linkedin: input.linkedin,
+            website: input.website,
+            whatsapp: input.whatsapp,
+            phone: input.phone,
+          },
+        });
+        return communityUpdate.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  removeMemberFromCommunity: publicProcedure
+    .input(
+      z.object({
+        memberID: z.string(),
+        communityID: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const memberRemoval = await ctx.prisma.community.update({
+          where: {
+            id: input.communityID,
+          },
+          data: {
+            members: {
+              disconnect: {
+                id: input.memberID,
+              },
+            },
+          },
+        });
+        return memberRemoval.id;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  deleteCommunity: publicProcedure
+    .input(
+      z.object({
+        communityID: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const communityDeletion = await ctx.prisma.community.delete({
+          where: {
+            id: input.communityID,
+          },
+        });
+        return communityDeletion.id;
+      } catch (error) {
+        console.log(error);
+      }
     }),
 });

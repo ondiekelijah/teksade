@@ -1,64 +1,90 @@
 import React from "react";
-import { Burger, Button, Drawer, Paper } from "@mantine/core";
+import { Burger, Button, Drawer, Menu, Paper } from "@mantine/core";
 import { CgProfile } from "react-icons/cg";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import siteMetadata from "@/data/siteMetadata";
 
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
 
+  interface RenderButtonProps {
+    href: string;
+    children: React.ReactNode;
+  }
+  const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
+    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`} onClick={close}>
+      {children}
+    </Link>
+  );
+
   return (
-    <Paper className=" sticky top-0 z-50  flex w-full items-center justify-between p-2 px-4 shadow-xl">
-      <Burger opened={false} className=" text-2xl sm:hidden " onClick={open} />
-      <Link href="/" className=" text-3xl font-bold">
-        Teksade
+    <Paper className={`sticky-header container relative mx-auto flex max-w-screen-xl flex-wrap items-center justify-between bg-transparent px-4 py-3 sm:px-8 lg:justify-between lg:px-12`}>
+      <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
+
+      <Link href="/" className="items-center space-x-2 text-2xl font-bold">
+        <Image src={`${siteMetadata.siteLogo}`} width={45} height={45} alt="Teksade Logo" className="mb-1" />
+        <span className="hidden sm:inline">{siteMetadata.headerTitle}</span>
       </Link>
-      <section className=" mr-4 hidden grow items-center justify-end  sm:flex ">
-        <Link href="/communities">
-          <Button variant="subtle" className=" rounded-full">
+
+      <div className="flex items-center">
+        {" "}
+        {/* <- This is the added container */}
+        <section className="mr-4 hidden items-center space-x-10 sm:flex">
+          <RenderButton href="/communities">
             Communities
-          </Button>
-        </Link>
-        <Link href="/about">
-          <Button variant="subtle" className=" rounded-full">
-            About Us
-          </Button>
-        </Link>
+          </RenderButton>
+          <RenderButton href="/about">About Us</RenderButton>
 
-        {userStatus.user ? (
-          <Link href="/communities/new">
-            <Button variant="subtle" className=" rounded-full">
-              Add Community
-            </Button>
-          </Link>
-        ) : (
-          <SignInButton mode="modal">
-            <Button variant="subtle" className=" rounded-full">
-              Sign Up
-            </Button>
-          </SignInButton>
-        )}
-        {userStatus.user && (
-          <Link href="profile" className=" flex items-center gap-x-2">
-            <CgProfile className=" text-4xl" />
-            <UserButton />
-          </Link>
-        )}
-      </section>
-      <ThemeToggle />
-
-      {/* Drawer only displayed on small devices */}
+          {userStatus.user ? (
+            <>
+              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="bottom" offset={10} withArrow arrowPosition="side">
+                <Menu.Target>
+                  <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <RenderButton href="/profile">Profile</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/new">Add Community</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/created">Created Communities</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/joined">Joined Communities</RenderButton>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </>
+          ) : (
+            <SignInButton mode="modal">
+              <RenderButton href="/sign-up" className="mr-4">
+                Get Started
+              </RenderButton>
+            </SignInButton>
+          )}
+          {userStatus.user && (
+            <Link href="profile" className="flex items-center gap-x-2">
+              <UserButton />
+            </Link>
+          )}
+        </section>
+        <ThemeToggle />
+      </div>
 
       <Drawer
         opened={opened}
         onClose={close}
         size="xs"
         title={
-          <Link href="/" className=" w-full text-center text-3xl font-bold">
-            Teksade
+          <Link href="/" className="w-full text-center text-3xl font-bold">
+            <Image src={`${siteMetadata.siteLogo}`} width={50} height={50} alt="Teksade Logo" />
           </Link>
         }
         overlayProps={{ opacity: 0.5, blur: 4 }}
@@ -68,26 +94,35 @@ export default function Header() {
           timingFunction: "linear",
         }}
       >
-        <section className=" flex flex-col gap-y-4">
-          <Link href="/communities">
-            <Button variant="subtle" className=" rounded-full">
-              Communities
-            </Button>
-          </Link>
-          <Link href="/about">
-            <Button variant="subtle" className=" rounded-full">
-              About Us
-            </Button>
-          </Link>
-
-          <div className=" flex items-center justify-between gap-2">
+        <section className="flex flex-col gap-y-4 pl-0">
+          <RenderButton href="/communities">Communities</RenderButton>
+          <RenderButton href="/about">About Us</RenderButton>
+          {userStatus.user && (
+            <div>
+              <Menu trigger="hover" openDelay={100} closeDelay={4000} position="right" offset={22} withArrow arrowPosition="center">
+                <Menu.Target>
+                  <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <RenderButton href="/profile">Profile</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/new">Add Community</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/created">Created Communities</RenderButton>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <RenderButton href="/communities/joined">Joined Communities</RenderButton>
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </div>
+          )}
+          <div className="flex items-center justify-between gap-2">
             {userStatus.user && (
               <>
-                <Link href="/communities/new">
-                  <Button variant="subtle" className=" rounded-full">
-                    Add Community
-                  </Button>
-                </Link>
                 <UserButton />
               </>
             )}

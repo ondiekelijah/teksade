@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { techFocusAreas } from "@/utils/constants";
-import { Button, Chip, LoadingOverlay, Paper, rem } from "@mantine/core";
+import { Button, Chip, LoadingOverlay, Paper, rem, Text, Tooltip } from "@mantine/core";
 import React, { useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
@@ -8,67 +8,112 @@ import { api } from "@/utils/api";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
 import { storageBucket } from "@/utils/firestoreConfig";
+import Container from "@/components/custom-components/container";
+import Checkmark from "@/components/custom-components/icons/checkmark";
+import LocationIcon from "../custom-components/icons/locationIcon";
+import { useMantineColorScheme } from "@mantine/core";
+import CustomButton from "@/components/custom-components/button";
+import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
+import siteMetadata from "@/data/siteMetadata";
 
 export default function PopularCommunities() {
   const popularCommunities = api.communities.getPopularCommunities.useQuery();
   const [selectedTechnlogies, setselectedTechnlogies] = useState(["JavaScript", "React", "Django", "Laravel"]);
+  const { colorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
 
   return (
-    <div id="popular" className=" container mx-auto min-h-[80vh] pt-20 ">
-      <p className="flex w-full justify-between text-lg font-bold ">
-        <span className="">Popular Communities</span>{" "}
-        <Link href="communities">
-          <Button className="rounded-full ">Show All</Button>
-        </Link>
-      </p>
-      <div className="my-3 flex gap-2 overflow-x-scroll ">
-        <Chip.Group multiple value={selectedTechnlogies} onChange={setselectedTechnlogies}>
-          <Chip value="All" variant="filled">
-            ALL
-          </Chip>
-          {["All", ...techFocusAreas].map((tech) => (
-            <Chip key={tech} value={tech} variant="filled">
-              {tech}
-            </Chip>
-          ))}
-        </Chip.Group>
-      </div>
-      <div className="overflow-x-auto p-3 shadow-xl">
-        <Carousel slideGap="md" loop align="start" slidesToScroll={1} controlsOffset="3%" slideSize="33.33%" breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]} className="my-5 ">
-          {popularCommunities.data?.map((community) => (
-            <Carousel.Slide key={community.id} className="w-60 rounded  shadow-xl">
-              <Link href={`/communities/${community.id}`}>
-                <Paper withBorder className="h-full ">
-                  <div className="">
-                    <CommunityImage communityName={community.name.split(" ").join("")} />
-                  </div>
-                  <div className="p-2 ">
-                    <h3 className="flex items-center justify-between ">{community.name}</h3>
-                    <div className="flex items-center  overflow-x-scroll ">
-                      {community.technologies.map((tech) => (
-                        <span className="flex" key={tech}>
-                          #{tech.split(" ")}
-                        </span>
-                      ))}
+    <Container>
+      <div id="popular" className="py-20 ">
+        <p className="flex w-full items-center justify-between text-xl font-bold">
+          <span className="">Popular Communities</span>{" "}
+          <Link href="/communities">
+            <CustomButton size="sm" variant="outline" title="Show All" />
+          </Link>
+        </p>
+        <div className="mt-8 flex gap-2 overflow-x-scroll ">
+          <Chip.Group multiple value={selectedTechnlogies} onChange={setselectedTechnlogies}>
+            {["All", ...techFocusAreas].map((tech) => (
+              <Chip key={tech} value={tech}>
+                {tech}
+              </Chip>
+            ))}
+          </Chip.Group>
+        </div>
+        <div className="overflow-x-auto">
+          <Carousel
+            slideGap="md"
+            loop
+            dragFree
+            align="start"
+            slidesToScroll={1}
+            controlsOffset="1%"
+            controlSize={30}
+            slideSize="33.33%"
+            breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
+            className="my-5 "
+          >
+            {popularCommunities.isLoading && (
+              <>
+                <Carousel.Slide key={1} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+                <Carousel.Slide key={2} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+                <Carousel.Slide key={3} className="w-60 pb-10">
+                  <CommunityCardSkeleton showTags={true} />
+                </Carousel.Slide>
+              </>
+            )}
+            {popularCommunities.data?.map((community) => (
+              <Carousel.Slide key={community.id} className="w-60 pb-10">
+                <Link href={`/communities/${community.id}`}>
+                  <Paper className="h-full rounded-lg shadow-lg">
+                    <div className="">
+                      <CommunityImage communityName={community.name.split(" ").join("")} />
                     </div>
-                  </div>
-                </Paper>
-              </Link>
-            </Carousel.Slide>
-          ))}
-        </Carousel>
+                    <div className="p-2">
+                      <Text color="dimmed" className="flex items-center py-2 text-xs font-bold">
+                        <LocationIcon />
+                        {community.country} , {community.location}
+                      </Text>
+                      <div className="flex items-center">
+                        <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
+                        {community.verified && (
+                          <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
+                            <Text>
+                              <Checkmark />
+                            </Text>
+                          </Tooltip>
+                        )}
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center">
+                        {community.technologies.slice(0, 10).map((tech) => (
+                          <Chip key={tech} value={tech} className="mb-1 mr-0.5 ">
+                            <p className={`${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>{tech}</p>
+                          </Chip>
+                        ))}
+                      </div>
+                    </div>
+                  </Paper>
+                </Link>
+              </Carousel.Slide>
+            ))}
+          </Carousel>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
 function CommunityImage({ communityName }: { communityName: string }) {
-  const [value, loading] = useDownloadURL(ref(storageBucket, communityName));
+  const [value, loading] = useDownloadURL(ref(storageBucket, `logos/${communityName}`));
 
   return (
     <div className="">
       <LoadingOverlay visible={loading} />
-      <img src={value ? value : "/img/g-1.jpg"} alt="community log" className="h-60 w-full object-cover" />
+      <img src={value ? value : "/img/g-1.jpg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
     </div>
   );
 }
