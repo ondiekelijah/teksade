@@ -1,9 +1,8 @@
 import { api } from "@/utils/api";
 import { techFocusAreas, technologies } from "@/utils/constants";
 import { storageBucket } from "@/utils/firestoreConfig";
-import { Avatar, Button, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
+import { Avatar, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import { deleteObject, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useDownloadURL, useUploadFile } from "react-firebase-hooks/storage";
