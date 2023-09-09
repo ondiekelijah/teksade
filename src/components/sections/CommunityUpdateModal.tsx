@@ -16,14 +16,16 @@ interface CommunityUpdateModalProps {
   onSubmission?: () => void;
 }
 export default function CommunityUpdateModal({ communityId }: CommunityUpdateModalProps) {
+  const queryClient = api.useContext();
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId });
-  const { notifyError, notifySuccess } = useMantineNotify();
+  const { notifySuccess } = useMantineNotify();
 
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
       notifySuccess({
         message: "Community information has been updated.",
       });
+      void queryClient.communities.getCommunityInfo.invalidate({ communityId });
     },
   });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
