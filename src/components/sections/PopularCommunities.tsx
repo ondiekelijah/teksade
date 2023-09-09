@@ -14,8 +14,7 @@ import LocationIcon from "../custom-components/icons/locationIcon";
 import { useMantineColorScheme } from "@mantine/core";
 import CustomButton from "@/components/custom-components/button";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
-
-const verificationTooltip = "Verified community";
+import siteMetadata from "@/data/siteMetadata";
 
 export default function PopularCommunities() {
   const popularCommunities = api.communities.getPopularCommunities.useQuery();
@@ -79,15 +78,15 @@ export default function PopularCommunities() {
                         <LocationIcon />
                         {community.country} , {community.location}
                       </Text>
-                      <div className="flex items-center">
-                        <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
-                        {/* {community.verified && (
-                          <Tooltip withArrow label={verificationTooltip} arrowSize={5}>
-                            <Text>
-                              <Checkmark />
+                      <div className="flex">
+                        <h3 className="mr-2">{community.name}</h3>
+                        {community.verified && (
+                          <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
+                            <Text className="align-middle">
+                              <Checkmark className="align-middle" />
                             </Text>
                           </Tooltip>
-                        )} */}
+                        )}
                       </div>
                       <div className="mt-2 flex flex-wrap items-center">
                         {community.technologies.slice(0, 10).map((tech) => (

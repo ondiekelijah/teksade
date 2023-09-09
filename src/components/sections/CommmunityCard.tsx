@@ -7,6 +7,8 @@ import React from "react";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { BsPerson } from "react-icons/bs";
 import LocationIcon from "../custom-components/icons/locationIcon";
+import siteMetadata from "@/data/siteMetadata";
+import Checkmark from "../custom-components/icons/checkmark";
 
 interface CommmunityCardProps {
   id: string;
@@ -36,7 +38,15 @@ export default function CommmunityCard(community: CommmunityCardProps) {
             {community.country} , {community.location}
           </Text>
           <div className="flex items-center justify-between">
-            <h3 className="mr-2 flex grow items-center justify-between">{community.name}</h3>
+            <div className="flex items-center">
+              <h3 className="flex-grow">{community.name}</h3>
+              {community.verified && (
+                <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
+                  <Checkmark size={5} className="ml-2 align-middle" />
+                </Tooltip>
+              )}
+            </div>
+
             <span className="my-4 flex items-center text-lg">
               <BsPerson className="" /> <span className="text-xs ">{community.members}</span>
             </span>

@@ -25,7 +25,7 @@ import LocationIcon from "@/components/custom-components/icons/locationIcon";
 import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
 import useMantineNotify from "@/hooks/useNotify";
-
+import siteMetadata from "@/data/siteMetadata";
 
 interface SocialLinksProps {
   links: {
@@ -58,7 +58,8 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     <Group spacing="xs" className="my-6">
       {Object.entries(icons).map(([key, Icon]) => {
         const url = links[key];
-        if (url && url.trim() !== "") {  // Check if the URL exists and is not just whitespace
+        if (url && url.trim() !== "") {
+          // Check if the URL exists and is not just whitespace
           return (
             <Link key={key} href={url} passHref>
               <ActionIcon size="lg" variant="default" radius="xl">
@@ -67,7 +68,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
             </Link>
           );
         }
-        return null;  // Explicitly return null if the link does not exist or is invalid
+        return null; // Explicitly return null if the link does not exist or is invalid
       })}
     </Group>
   );
@@ -182,6 +183,7 @@ export default function SingleCommunityPage() {
     });
   };
 
+  console.log(communityInfo.data);
   return (
     <>
       <CommunitySEO
@@ -201,7 +203,18 @@ export default function SingleCommunityPage() {
           <div className="py-10">
             {/* Top info: Community name, focus area, and location */}
             <div className="mb-6 flex flex-col space-y-5">
-              <h1 className="flex items-center text-2xl font-semibold md:text-4xl">{communityInfo.data?.name}</h1>
+              <div className="flex items-center">
+                <h1 className="text-2xl font-semibold md:text-4xl">{communityInfo.data?.name}</h1>
+                <span className="ml-2">
+                  {communityInfo.data?.verified && (
+                    <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
+                      <Text className="align-middle">
+                        <Checkmark size={5} className="align-middle" />
+                      </Text>
+                    </Tooltip>
+                  )}
+                </span>
+              </div>
 
               <div className="flex items-center space-x-1">
                 <CategoryIcon />
