@@ -52,6 +52,7 @@ model Community {
   whatsapp     String?
   phone        String?  @unique
   logo_link    String
+  published    Boolean? @default(false)
 
   creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
   creatorId String

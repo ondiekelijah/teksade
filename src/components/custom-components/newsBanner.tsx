@@ -40,9 +40,10 @@ const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) 
   // Create a message with dynamic link
   const message = content.replace(
     linkedText,
-    `<a target="_blank" href="${link}" class="${dark ? 'decoration-500 text-[#00afef]' : 'decoration-600 text-indigo-600'} underline decoration-solid underline-offset-2 hover:no-underline">${linkedText}</a>`
+    `<a target="_blank" href="${link}" class="${
+      dark ? "decoration-500 text-[#00afef]" : "decoration-600 text-indigo-600"
+    } underline decoration-solid underline-offset-2 hover:no-underline">${linkedText}</a>`
   );
-  
 
   // Conditions to display the banner
   if (!published || isExpired || (targetPage !== "all" && router.pathname !== targetPage)) return null;
@@ -61,7 +62,10 @@ const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) 
             <span className="sr-only">Light bulb</span>
           </span>
           <span>
-            <span className="font-bold">{title}</span> <span dangerouslySetInnerHTML={{ __html: message }} className={` text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}></span>
+            <span className="font-bold">{title}</span> 
+            <span dangerouslySetInnerHTML={{ __html: message }} 
+            className={` text-sm font-normal ${dark ? "text-slate-400" : "text-slate-600"}`}>
+            </span>
           </span>
         </p>
       </div>

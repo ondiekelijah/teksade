@@ -8,6 +8,7 @@ export const communitiesRouter = createTRPCRouter({
       const communityInfo = ctx.prisma.community.findUnique({
         where: {
           id: input.communityId,
+          published: true,
         },
         include: {
           members: {
@@ -37,6 +38,7 @@ export const communitiesRouter = createTRPCRouter({
       try {
         const communityList = await ctx.prisma.community.findMany({
           where: {
+            published: true,
             AND: [
               input.country
                 ? {
@@ -68,6 +70,7 @@ export const communitiesRouter = createTRPCRouter({
                 : {},
             ],
           },
+
           include: {
             _count: {
               select: {
@@ -96,6 +99,9 @@ export const communitiesRouter = createTRPCRouter({
   getPopularCommunities: publicProcedure.query(async ({ ctx }) => {
     try {
       const popularCommnitiesFetch = await ctx.prisma.community.findMany({
+        where: {
+          published: true,
+        },
         orderBy: {
           members: {
             _count: "desc",
@@ -121,6 +127,7 @@ export const communitiesRouter = createTRPCRouter({
         const communityDetails = await ctx.prisma.community.findUnique({
           where: {
             id: input.communityId,
+            published: true,
           },
           include: {
             members: true,
