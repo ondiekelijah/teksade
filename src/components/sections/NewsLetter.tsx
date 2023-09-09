@@ -30,7 +30,8 @@ export default function NewsLetter() {
 
   function handleSubscribe() {
     void addSubscriber.mutateAsync(
-      { email: form.values.email },
+      // strip spaces from email
+      { email: form.values.email.trim() },
       {
         onSuccess: () => {
           notifySuccess({ title: "Success! 🎉", message: "You've just hopped onto an exciting journey with us." });
@@ -49,12 +50,12 @@ export default function NewsLetter() {
     <Container>
       <div className="mx-auto my-20 grid w-full grid-cols-1 gap-3 rounded-lg px-8 py-10 shadow-lg sm:grid-cols-2">
         <div className=" flex  w-full grow flex-col  justify-center gap-y-4">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Innovative Minds & News</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
           <p className={`text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
-            We are glad you are here! So why not subscribe today and stay up-to-date on all the latest news and information about what is going on in the tech community?
+            Teksade is your compass to global tech communities. Subscribe, and never lose your way in the digital realm!{" "}
           </p>
           <div className=" relative flex w-full items-center">
-            <TextInput radius="xl" size="lg" required error {...form.getInputProps("email")} className=" w-full" placeholder="Your email address" />
+            <TextInput radius="xl" size="lg" required error {...form.getInputProps("email")} className=" w-full" placeholder="Your email" />
             <CustomButton size="md" className=" absolute right-1 top-1 z-20 rounded-full" variant="gradient" title="Subscribe" onClickHandler={handleSubscribe} />
           </div>
         </div>
