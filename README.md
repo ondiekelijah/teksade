@@ -46,6 +46,11 @@ To sign in to Teksade after creating your account:
 
 Remember to keep your login credentials secure and consider using strong, unique passwords to protect your Teksade account.
 
+![image](https://github.com/Lochipi/teksade/assets/108942025/2da2aa67-4734-4a31-9537-34bb7f2984e9)
+
+![image](https://github.com/Lochipi/teksade/assets/108942025/3262e4c3-fde5-4a49-b7ab-ac922b671f5d)
+
+
 
 # Technologies used at Teksade
 
