@@ -42,7 +42,9 @@ export default function CommmunityCard(community: CommmunityCardProps) {
               <h3 className="flex-grow">{community.name}</h3>
               {community.verified && (
                 <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
-                  <Checkmark size={5} className="ml-2 align-middle" />
+                  <Text className="align-middle">
+                    <Checkmark size={5} />
+                  </Text>
                 </Tooltip>
               )}
             </div>
