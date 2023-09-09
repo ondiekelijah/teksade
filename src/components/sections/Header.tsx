@@ -35,7 +35,7 @@ export default function Header() {
         {" "}
         {/* <- This is the added container */}
         <section className="mr-4 hidden items-center space-x-10 sm:flex">
-          <RenderButton href="/communities" className="mr-4">
+          <RenderButton href="/communities">
             Communities
           </RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
