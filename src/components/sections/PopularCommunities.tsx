@@ -78,12 +78,12 @@ export default function PopularCommunities() {
                         <LocationIcon />
                         {community.country} , {community.location}
                       </Text>
-                      <div className="flex">
-                        <h3 className="mr-2">{community.name}</h3>
+                      <div className="flex items-center">
+                        <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
                         {community.verified && (
                           <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
-                            <Text className="align-middle">
-                              <Checkmark className="align-middle" />
+                            <Text>
+                              <Checkmark />
                             </Text>
                           </Tooltip>
                         )}
