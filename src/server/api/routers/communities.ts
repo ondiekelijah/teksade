@@ -158,6 +158,7 @@ export const communitiesRouter = createTRPCRouter({
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
         phone: z.string().optional(),
+        youtube: z.string().url().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -177,6 +178,7 @@ export const communitiesRouter = createTRPCRouter({
             website: input.website,
             whatsapp: input.whatsapp,
             phone: input.phone,
+            youtube: input.youtube,
 
             creator: {
               connectOrCreate: {
@@ -259,6 +261,7 @@ export const communitiesRouter = createTRPCRouter({
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
         phone: z.string().optional(),
+        youtube: z.string().url().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -279,6 +282,7 @@ export const communitiesRouter = createTRPCRouter({
             website: input.website,
             whatsapp: input.whatsapp,
             phone: input.phone,
+            youtube: input.youtube
           },
         });
         return communityUpdate.id;

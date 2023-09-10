@@ -48,6 +48,7 @@ export default function NewCommunityPage() {
     website?: string;
     whatsapp?: string;
     phone?: string;
+    youtube?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -63,6 +64,7 @@ export default function NewCommunityPage() {
         linkedin: z.string().url().optional(),
         website: z.string().url().optional(),
         phone: z.union([z.literal(""), z.string().min(10).optional()]),
+        youtube: z.string().url().optional(),
       })
     ),
   });
@@ -102,6 +104,7 @@ export default function NewCommunityPage() {
             website: values.website,
             whatsapp: values.whatsapp,
             phone: values.phone?.length ? values.phone : undefined,
+            youtube: values.youtube,
           })
           .then((onfulfilledValue) => {
             if (onfulfilledValue?.country) {
@@ -109,7 +112,8 @@ export default function NewCommunityPage() {
                 title: "Success",
                 message: "Community successfully set up!",
               });
-              void router.push(`/communities/${onfulfilledValue.id}`);
+              nextStep();
+              // void router.push(`/communities/${onfulfilledValue.id}`);
             } else {
               notifyError({
                 message: "Hang tight! We faced a glitch while creating your community.",
@@ -163,6 +167,7 @@ export default function NewCommunityPage() {
         description="By introducing your community, you're amplifying its voice and expanding its horizons. Let's make Teksade richer together!"
       />
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2">
+        <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]" id="stepper">
           <Stepper.Step label="Step 1" description="General Info" className="" id="step-1">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} size="md" className="mb-4" />
@@ -183,35 +188,28 @@ export default function NewCommunityPage() {
             />
             <MultiSelect label="Related Technologies" data={techList} placeholder="Pick your technologies" searchable clearable {...form.getInputProps("technologies")} size="md" />
             <div className="my-4 flex justify-end ">
-              <CustomButton
-                size="md"
-                variant="filled"
-                title="Next"
-                onClickHandler={() => {
-                  nextStep();
-                  //Having an issue where this field takes the values of the community name , this is a temporary fix
-                  form.setFieldValue("phone", "");
-                }}
-                disabled={!form.isTouched() || !form.isValid()}
-              />
+              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() || !form.isValid()} />
             </div>
           </Stepper.Step>
           <Stepper.Step label="Step 2" description="Social Info" className="" id="step-2">
-            <TextInput label="Contact Number" {...form.getInputProps("phone")} size="md" className="mb-4" />
-            <TextInput label="Github Url" {...form.getInputProps("github")} size="md" className="mb-4" />
-            <TextInput label="Twitter Url" {...form.getInputProps("twitter")} size="md" className="mb-4" />
-            <TextInput label="Web Url" {...form.getInputProps("website")} size="md" className="mb-4" />
-            <TextInput label="Linkedin Url" {...form.getInputProps("linkedin")} size="md" className="mb-4" />
-            <TextInput label="Whatsapp group link" {...form.getInputProps("whatsapp")} size="md" className="mb-4" />
-            <div className="my-4 flex justify-between ">
-              <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />
-              <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} />
+            <div className="flex flex-col space-y-4">
+              <div className="space-y-4">
+                <TextInput label="Phone Number" {...form.getInputProps("phone")} size="md" />
+                <TextInput label="GitHub Profile URL" {...form.getInputProps("github")} size="md" />
+                <TextInput label="Twitter Profile URL" {...form.getInputProps("twitter")} size="md" />
+                <TextInput label="Website or Meetup Page" {...form.getInputProps("website")} size="md" />
+                <TextInput label="LinkedIn Profile URL" {...form.getInputProps("linkedin")} size="md" />
+                <TextInput label="WhatsApp Group Link" {...form.getInputProps("whatsapp")} size="md" />
+                <TextInput label="YouTube Channel Link" {...form.getInputProps("youtube")} size="md" />
+              </div>
+              <div className="flex justify-between ">
+                <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />
+                <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} />
+              </div>
             </div>
           </Stepper.Step>
-
-          <Stepper.Step label="Step 2" description="Image upload">
+          <Stepper.Step label="Step 3" description="Image Upload">
             <div className="flex flex-col gap-4 pt-4">
-              <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
               <FileInput
                 placeholder="Got a perfect community snapshot? Share it here!"
                 value={profileImage}
@@ -225,7 +223,14 @@ export default function NewCommunityPage() {
                 clearable
                 radius="lg"
               />
-              <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
+              <CustomButton
+                size="md"
+                variant="filled"
+                type="submit"
+                title="Add Community"
+                onClickHandler={nextStep}
+                disabled={!profileImage}
+              />
             </div>
           </Stepper.Step>
           <Stepper.Completed>Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</Stepper.Completed>

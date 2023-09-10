@@ -51,6 +51,7 @@ model Community {
   website      String?  @unique
   whatsapp     String?
   phone        String?  @unique
+  youtube      String?  @unique
   logo_link    String
   published    Boolean? @default(false)
 
