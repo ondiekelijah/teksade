@@ -23,7 +23,8 @@ export default function NewsLetter() {
     validateInputOnBlur: true,
     validate: zodResolver(
       z.object({
-        email: z.string().email("Invalid email").nonempty(""),
+        // trim spaces from email
+        email: z.string().email("Invalid email").nonempty("").transform((val) => val.trim()),
       })
     ),
   });

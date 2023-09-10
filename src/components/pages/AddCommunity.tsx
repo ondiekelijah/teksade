@@ -115,7 +115,7 @@ export default function NewCommunityPage() {
               setActive(3);
               setTimeout(() => {
                 void router.push(`/communities/${onfulfilledValue.id}`);
-              }, 6000);
+              }, 4000);
             } else {
               notifyError({
                 message: "Hang tight! We faced a glitch while creating your community.",

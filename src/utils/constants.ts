@@ -234,6 +234,8 @@ export const techFocusAreas: string[] = [
   "Containerization",
   "Testing and QA",
   "NLP",
+  "Low-Code Development",
+  "No-Code Development",
   "Bioinformatics",
   "Quantum Computing",
   "Embedded Systems",
