@@ -3,9 +3,9 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   publicRoutes: [
     "/",
-    "/api/trpc/communities.getPopularCommunities",
-    "/api/trpc/announcements.getAnnouncements",
-  ],
+    "/communities",
+   "/api/trpc/announcements.getAnnouncements,communities.getPopularCommunities", 
+   "/api/trpc/communities.getCommunitiesList,announcements.getAnnouncements"],
 });
 
 export const config = {
