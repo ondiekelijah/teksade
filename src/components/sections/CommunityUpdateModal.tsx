@@ -1,9 +1,8 @@
 import { api } from "@/utils/api";
 import { techFocusAreas, technologies } from "@/utils/constants";
 import { storageBucket } from "@/utils/firestoreConfig";
-import { Avatar, Button, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
+import { Avatar, FileInput, LoadingOverlay, MultiSelect, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
 import { deleteObject, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useDownloadURL, useUploadFile } from "react-firebase-hooks/storage";
@@ -16,14 +15,16 @@ interface CommunityUpdateModalProps {
   onSubmission?: () => void;
 }
 export default function CommunityUpdateModal({ communityId }: CommunityUpdateModalProps) {
+  const queryClient = api.useContext();
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId });
-  const { notifyError, notifySuccess } = useMantineNotify();
+  const { notifySuccess } = useMantineNotify();
 
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
       notifySuccess({
         message: "Community information has been updated.",
       });
+      void queryClient.communities.getCommunityInfo.invalidate({ communityId });
     },
   });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
@@ -43,6 +44,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       website: communityInfo.data?.website ? communityInfo.data.website : undefined,
       whatsapp: communityInfo.data?.whatsapp ? communityInfo.data.whatsapp : undefined,
       phone: communityInfo.data?.phone ? communityInfo.data.phone : undefined,
+      youtube: communityInfo.data?.youtube ? communityInfo.data.youtube : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [communityInfo.data]);
@@ -58,6 +60,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     website?: string;
     whatsapp?: string;
     phone?: string;
+    youtube?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -71,7 +74,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         linkedin: z.string().url().optional(),
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
-        phone: string().min(10).optional(),
+        phone: z.string().min(10).optional(),
+        youtube: z.string().url().optional(),
       })
     ),
   });
@@ -105,6 +109,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       website: values.website,
       whatsapp: values.website,
       phone: values.phone,
+      youtube: values.youtube,
     });
     // Refresh community info - not working
     void communityInfo.refetch();
@@ -130,6 +135,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         <TextInput {...updateForm.getInputProps("website")} size="md" label="Website URL" />
         <TextInput {...updateForm.getInputProps("whatsapp")} size="md" label="WhatsApp Group Link" />
         <TextInput {...updateForm.getInputProps("phone")} size="md" label="Contact Number" />
+        <TextInput {...updateForm.getInputProps("youtube")} size="md" label="YouTube Channel Link" />
         <div className="my-6 flex justify-center">
           <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading} />
         </div>

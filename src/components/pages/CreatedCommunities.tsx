@@ -9,10 +9,12 @@ import { useState } from "react";
 import CustomButton from "../custom-components/button";
 import SectionTitle from "../custom-components/sectionTitle";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
+import { useRouter } from "next/router";
 
 export default function CreatedCommunitiesPage() {
   const theme = useMantineTheme();
   const { user } = useUser();
+  const router = useRouter();
   const queryClient = api.useContext();
   const communitiesCreatedByMember = api.members.getCommunitiesCreatedByMember.useQuery({ memberId: user?.id ?? "" });
   const deleteCreatedCommunity = api.communities.deleteCommunity.useMutation({
@@ -21,7 +23,6 @@ export default function CreatedCommunitiesPage() {
     },
   });
 
-  const dark = theme.colorScheme === "dark";
 
   function handleDelete(communityID: string) {
     openConfirmModal({
@@ -33,6 +34,7 @@ export default function CreatedCommunitiesPage() {
         deleteCreatedCommunity.mutate({
           communityID: communityID,
         });
+        void router.push("/communities/created");
       },
     });
   }

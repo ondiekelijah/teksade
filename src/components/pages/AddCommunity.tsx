@@ -7,7 +7,7 @@ import { Button, FileInput, LoadingOverlay, MultiSelect, Select, Stepper, TextIn
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { useForm, zodResolver } from "@mantine/form";
 import React, { useState } from "react";
-import { z } from "zod";
+import { string, z } from "zod";
 import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function NewCommunityPage() {
   const { notifyError, notifySuccess } = useMantineNotify();
   const router = useRouter();
 
-  const nextStep = () => setActive((current) => (current < 1 ? current + 1 : current));
+  const nextStep = () => setActive((current) => (current < 2 ? current + 1 : current));
 
   const form = useForm<{
     communityName: string;
@@ -42,6 +42,13 @@ export default function NewCommunityPage() {
     location: string;
     focusArea: string;
     technologies?: string[];
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+    whatsapp?: string;
+    phone?: string;
+    youtube?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -51,15 +58,21 @@ export default function NewCommunityPage() {
         country: z.string().nonempty("Select a country"),
         location: z.string().nonempty("Provide a location"),
         focusArea: z.string().nonempty("Select a focus area"),
+        whatsapp: z.string().url().optional(),
+        github: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        website: z.string().url().optional(),
+        phone: z.union([z.literal(""), z.string().min(10).optional()]),
+        youtube: z.string().url().optional(),
       })
     ),
   });
 
-  function handleImageChange( profileImage: File | null) {
-    setHasInteracted(true);  // Add this line
+  function handleImageChange(profileImage: File | null) {
+    setHasInteracted(true); // Add this line
     setProfileImage(profileImage);
   }
-  
 
   async function handleLogoUpload() {
     if (profileImage) {
@@ -85,6 +98,13 @@ export default function NewCommunityPage() {
             focusArea: values.focusArea,
             technologies: values.technologies,
             logo_url: form.values.communityName.split(" ").join(""),
+            github: values.github,
+            twitter: values.twitter,
+            linkedin: values.linkedin,
+            website: values.website,
+            whatsapp: values.whatsapp,
+            phone: values.phone?.length ? values.phone : undefined,
+            youtube: values.youtube,
           })
           .then((onfulfilledValue) => {
             if (onfulfilledValue?.country) {
@@ -92,7 +112,8 @@ export default function NewCommunityPage() {
                 title: "Success",
                 message: "Community successfully set up!",
               });
-              void router.push(`/communities/${onfulfilledValue.id}`);
+              nextStep();
+              // void router.push(`/communities/${onfulfilledValue.id}`);
             } else {
               notifyError({
                 message: "Hang tight! We faced a glitch while creating your community.",
@@ -146,8 +167,9 @@ export default function NewCommunityPage() {
         description="By introducing your community, you're amplifying its voice and expanding its horizons. Let's make Teksade richer together!"
       />
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2">
-        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]">
-          <Stepper.Step label="Step 1" description="General Info" className="">
+        <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
+        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]" id="stepper">
+          <Stepper.Step label="Step 1" description="General Info" className="" id="step-1">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} size="md" className="mb-4" />
             <Textarea label="Description" withAsterisk required {...form.getInputProps("description")} className="mb-4" />
             <div className="grid grid-cols-1 items-center gap-2 sm:grid-cols-2">
@@ -169,10 +191,25 @@ export default function NewCommunityPage() {
               <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} disabled={!form.isTouched() || !form.isValid()} />
             </div>
           </Stepper.Step>
-
-          <Stepper.Step label="Step 2" description="Image upload">
+          <Stepper.Step label="Step 2" description="Social Info" className="" id="step-2">
+            <div className="flex flex-col space-y-4">
+              <div className="space-y-4">
+                <TextInput label="Phone Number" {...form.getInputProps("phone")} size="md" />
+                <TextInput label="GitHub Profile URL" {...form.getInputProps("github")} size="md" />
+                <TextInput label="Twitter Profile URL" {...form.getInputProps("twitter")} size="md" />
+                <TextInput label="Website or Meetup Page" {...form.getInputProps("website")} size="md" />
+                <TextInput label="LinkedIn Profile URL" {...form.getInputProps("linkedin")} size="md" />
+                <TextInput label="WhatsApp Group Link" {...form.getInputProps("whatsapp")} size="md" />
+                <TextInput label="YouTube Channel Link" {...form.getInputProps("youtube")} size="md" />
+              </div>
+              <div className="flex justify-between ">
+                <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />
+                <CustomButton size="md" variant="filled" title="Next" onClickHandler={nextStep} />
+              </div>
+            </div>
+          </Stepper.Step>
+          <Stepper.Step label="Step 3" description="Image Upload">
             <div className="flex flex-col gap-4 pt-4">
-              <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
               <FileInput
                 placeholder="Got a perfect community snapshot? Share it here!"
                 value={profileImage}
@@ -186,7 +223,14 @@ export default function NewCommunityPage() {
                 clearable
                 radius="lg"
               />
-              <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
+              <CustomButton
+                size="md"
+                variant="filled"
+                type="submit"
+                title="Add Community"
+                onClickHandler={nextStep}
+                disabled={!profileImage}
+              />
             </div>
           </Stepper.Step>
           <Stepper.Completed>Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</Stepper.Completed>
