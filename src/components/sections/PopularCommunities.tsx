@@ -118,7 +118,7 @@ function CommunityImage({ communityName }: { communityName: string }) {
   return (
     <div className="">
       <LoadingOverlay visible={loading} />
-      <img src={value ? value : "/img/g-1.jpg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
+      <img src={value ? value : "/img/twitter-card.svg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
     </div>
   );
 }
