@@ -112,8 +112,10 @@ export default function NewCommunityPage() {
                 title: "Success",
                 message: "Community successfully set up!",
               });
-              nextStep();
-              // void router.push(`/communities/${onfulfilledValue.id}`);
+              setActive(3);
+              setTimeout(() => {
+                void router.push(`/communities/${onfulfilledValue.id}`);
+              }, 6000);
             } else {
               notifyError({
                 message: "Hang tight! We faced a glitch while creating your community.",
@@ -223,17 +225,12 @@ export default function NewCommunityPage() {
                 clearable
                 radius="lg"
               />
-              <CustomButton
-                size="md"
-                variant="filled"
-                type="submit"
-                title="Add Community"
-                onClickHandler={nextStep}
-                disabled={!profileImage}
-              />
+              <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
             </div>
           </Stepper.Step>
-          <Stepper.Completed>Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</Stepper.Completed>
+          <Stepper.Completed>
+            <div className="flex flex-col items-center justify-center space-y-4 py-10 text-center">Great job! Your community has been created. We&apos;ll publish it once it&apos;s approved.</div>
+          </Stepper.Completed>
         </Stepper>
       </form>
     </Container>

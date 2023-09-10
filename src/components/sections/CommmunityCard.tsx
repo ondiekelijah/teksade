@@ -38,7 +38,7 @@ export default function CommmunityCard(community: CommmunityCardProps) {
             {community.country} , {community.location}
           </Text>
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center space-x-1">
               <h3 className="flex-grow">{community.name}</h3>
               {community.verified && (
                 <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
