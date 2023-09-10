@@ -186,7 +186,6 @@ export default function SingleCommunityPage() {
     });
   };
 
-  console.log(communityInfo.data);
   return (
     <>
       <CommunitySEO

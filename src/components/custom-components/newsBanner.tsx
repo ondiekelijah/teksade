@@ -82,13 +82,3 @@ const StickyBanner: FC<StickyBannerProps> = ({ announcement, onClose, onOpen }) 
 };
 
 export default StickyBanner;
-
-// Usage example:
-// <StickyBanner
-//   message="New brand identity has been launched for the"
-//   link="https://flowbite.com"
-//   content="Flowbite Library"
-//   onClose={() => {
-//     console.log('Banner closed!');
-//   }}
-// />

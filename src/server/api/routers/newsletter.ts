@@ -23,7 +23,7 @@ export const newsletterRouter = createTRPCRouter({
           return false;
         }
       } catch (error) {
-        console.log(error);
+        console.log("error", error);
       }
     }),
 });

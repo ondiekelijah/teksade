@@ -17,8 +17,11 @@ import CommunityCardSkeleton from "../custom-components/skeletons/Community/Comm
 import siteMetadata from "@/data/siteMetadata";
 
 export default function PopularCommunities() {
-  const popularCommunities = api.communities.getPopularCommunities.useQuery();
-  const [selectedTechnlogies, setselectedTechnlogies] = useState(["JavaScript", "React", "Django", "Laravel"]);
+  const defaultList = ["All"];
+  const [selectedTechnlogies, setselectedTechnlogies] = useState(defaultList);
+  const popularCommunities = api.communities.getPopularCommunities.useQuery({
+    focus_area: selectedTechnlogies,
+  });
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
@@ -32,80 +35,117 @@ export default function PopularCommunities() {
           </Link>
         </p>
         <div className="mt-8 flex gap-2 overflow-x-scroll ">
-          <Chip.Group multiple value={selectedTechnlogies} onChange={setselectedTechnlogies}>
+          <Chip.Group
+            multiple
+            value={selectedTechnlogies}
+            onChange={(value) => {
+              // If 'All' is in the new selection and the previous value was not 'All'
+              if (value.includes("All") && !selectedTechnlogies.includes("All")) {
+                setselectedTechnlogies(["All"]);
+              }
+              // If 'All' was deselected, no changes
+              else if (!value.includes("All") && selectedTechnlogies.includes("All")) {
+                return;
+              }
+              // If the user selects any other option when "All" is present
+              else if (value.length > selectedTechnlogies.length) {
+                setselectedTechnlogies(value.filter((item) => item !== "All"));
+              }
+              // If the user deselects any option other than "All"
+              else {
+                setselectedTechnlogies(value);
+              }
+
+              // If nothing is selected, default to "All"
+              if (value.length === 0) {
+                setselectedTechnlogies(["All"]);
+              }
+            }}
+          >
             {["All", ...techFocusAreas].map((tech) => (
-              <Chip key={tech} value={tech}>
+              <Chip
+                key={tech}
+                value={tech}
+                checked={selectedTechnlogies.includes(tech)}
+                color="indigo"
+                variant={selectedTechnlogies.includes(tech) ? "filled" : "outline"}
+              >
                 {tech}
               </Chip>
             ))}
           </Chip.Group>
         </div>
         <div className="overflow-x-auto">
-          <Carousel
-            slideGap="md"
-            loop
-            dragFree
-            align="start"
-            slidesToScroll={1}
-            controlsOffset="1%"
-            controlSize={30}
-            slideSize="33.33%"
-            breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
-            className="my-5 "
-          >
-            {popularCommunities.isLoading && (
-              <>
-                <Carousel.Slide key={1} className="w-60 pb-10">
-                  <CommunityCardSkeleton showTags={true} />
-                </Carousel.Slide>
-                <Carousel.Slide key={2} className="w-60 pb-10">
-                  <CommunityCardSkeleton showTags={true} />
-                </Carousel.Slide>
-                <Carousel.Slide key={3} className="w-60 pb-10">
-                  <CommunityCardSkeleton showTags={true} />
-                </Carousel.Slide>
-              </>
-            )}
-            {!popularCommunities.isLoading && popularCommunities.data?.length === 0 && (
-              <div className="flex h-60 w-full items-center justify-center">
-                <Text>No Communities Found</Text>
-              </div>
-            )}
-            {popularCommunities.data?.map((community) => (
-              <Carousel.Slide key={community.id} className="w-60 pb-10">
-                <Link href={`/communities/${community.id}`}>
-                  <Paper className="h-full rounded-lg shadow-lg">
-                    <div className="">
-                      <CommunityImage communityName={community.name.split(" ").join("")} />
-                    </div>
-                    <div className="p-2">
-                      <Text color="dimmed" className="flex items-center py-2 text-xs font-bold">
-                        <LocationIcon />
-                        {community.country} , {community.location}
-                      </Text>
-                      <div className="flex items-center">
-                        <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
-                        {community.verified && (
-                          <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
-                            <Text>
-                              <Checkmark />
-                            </Text>
-                          </Tooltip>
-                        )}
+          {!popularCommunities.isLoading && popularCommunities.data?.length === 0 ? (
+            <div className="flex h-60 w-full items-center justify-center px-20 text-center">
+              <Text>
+                Hmmm... No communities seem to fit the
+                <span className={`${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}> {selectedTechnlogies.join(", ")} </span>
+                filter. Want to explore other categories?
+              </Text>
+            </div>
+          ) : (
+            <Carousel
+              slideGap="md"
+              loop
+              dragFree
+              align="start"
+              slidesToScroll={1}
+              controlsOffset="1%"
+              controlSize={30}
+              slideSize="33.33%"
+              breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
+              className="my-5 "
+            >
+              {popularCommunities.isLoading && (
+                <>
+                  <Carousel.Slide key={1} className="w-60 pb-10">
+                    <CommunityCardSkeleton showTags={true} />
+                  </Carousel.Slide>
+                  <Carousel.Slide key={2} className="w-60 pb-10">
+                    <CommunityCardSkeleton showTags={true} />
+                  </Carousel.Slide>
+                  <Carousel.Slide key={3} className="w-60 pb-10">
+                    <CommunityCardSkeleton showTags={true} />
+                  </Carousel.Slide>
+                </>
+              )}
+              {popularCommunities.data?.map((community) => (
+                <Carousel.Slide key={community.id} className="w-60 pb-10">
+                  <Link href={`/communities/${community.id}`}>
+                    <Paper className="h-full rounded-lg shadow-lg">
+                      <div className="">
+                        <CommunityImage communityName={community.name.split(" ").join("")} />
                       </div>
-                      <div className="mt-2 flex flex-wrap items-center">
-                        {community.technologies.slice(0, 10).map((tech) => (
-                          <Chip key={tech} value={tech} className="mb-1 mr-0.5 ">
-                            <p className={`${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>{tech}</p>
-                          </Chip>
-                        ))}
+                      <div className="p-2">
+                        <Text color="dimmed" className="flex items-center py-2 text-xs font-bold">
+                          <LocationIcon />
+                          {community.country} , {community.location}
+                        </Text>
+                        <div className="flex items-center">
+                          <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
+                          {community.verified && (
+                            <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
+                              <Text>
+                                <Checkmark />
+                              </Text>
+                            </Tooltip>
+                          )}
+                        </div>
+                        <div className="mt-2 flex flex-wrap items-center">
+                          {community.technologies.slice(0, 10).map((tech) => (
+                            <Chip key={tech} value={tech} className="mb-1 mr-0.5 ">
+                              <p className={`${dark ? "text-[#00afef]" : "text-[#1A56DB]"}`}>{tech}</p>
+                            </Chip>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </Paper>
-                </Link>
-              </Carousel.Slide>
-            ))}
-          </Carousel>
+                    </Paper>
+                  </Link>
+                </Carousel.Slide>
+              ))}
+            </Carousel>
+          )}
         </div>
       </div>
     </Container>
@@ -117,7 +157,7 @@ function CommunityImage({ communityName }: { communityName: string }) {
 
   return (
     <div className="">
-      <LoadingOverlay visible={loading} />
+      {/* <LoadingOverlay visible={loading} /> */}
       <img src={value ? value : "/img/twitter-card.svg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
     </div>
   );
