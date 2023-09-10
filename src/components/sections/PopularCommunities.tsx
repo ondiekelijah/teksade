@@ -66,6 +66,11 @@ export default function PopularCommunities() {
                 </Carousel.Slide>
               </>
             )}
+            {!popularCommunities.isLoading && popularCommunities.data?.length === 0 && (
+              <div className="flex h-60 w-full items-center justify-center">
+                <Text>No Communities Found</Text>
+              </div>
+            )}
             {popularCommunities.data?.map((community) => (
               <Carousel.Slide key={community.id} className="w-60 pb-10">
                 <Link href={`/communities/${community.id}`}>

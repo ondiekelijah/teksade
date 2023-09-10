@@ -35,6 +35,7 @@ interface SocialLinksProps {
     website: string;
     whatsapp: string;
     phone: string;
+    youtube: string;
     [key: string]: string | undefined;
   };
 }
@@ -52,6 +53,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     website: FaGlobe,
     whatsapp: FaWhatsapp,
     phone: FaPhone,
+    youtube: FaYoutube,
   };
 
   return (
@@ -121,6 +123,7 @@ export default function SingleCommunityPage() {
     website: communityInfo.data?.website ?? "",
     whatsapp: communityInfo.data?.whatsapp ?? "",
     phone: communityInfo.data?.phone ?? "",
+    youtube: communityInfo.data?.youtube ?? "",
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {

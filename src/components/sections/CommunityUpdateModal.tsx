@@ -44,6 +44,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       website: communityInfo.data?.website ? communityInfo.data.website : undefined,
       whatsapp: communityInfo.data?.whatsapp ? communityInfo.data.whatsapp : undefined,
       phone: communityInfo.data?.phone ? communityInfo.data.phone : undefined,
+      youtube: communityInfo.data?.youtube ? communityInfo.data.youtube : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [communityInfo.data]);
@@ -59,6 +60,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     website?: string;
     whatsapp?: string;
     phone?: string;
+    youtube?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -73,6 +75,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         website: z.string().url().optional(),
         whatsapp: z.string().url().optional(),
         phone: z.string().min(10).optional(),
+        youtube: z.string().url().optional(),
       })
     ),
   });
@@ -106,6 +109,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       website: values.website,
       whatsapp: values.website,
       phone: values.phone,
+      youtube: values.youtube,
     });
     // Refresh community info - not working
     void communityInfo.refetch();
@@ -131,6 +135,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         <TextInput {...updateForm.getInputProps("website")} size="md" label="Website URL" />
         <TextInput {...updateForm.getInputProps("whatsapp")} size="md" label="WhatsApp Group Link" />
         <TextInput {...updateForm.getInputProps("phone")} size="md" label="Contact Number" />
+        <TextInput {...updateForm.getInputProps("youtube")} size="md" label="YouTube Channel Link" />
         <div className="my-6 flex justify-center">
           <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading} />
         </div>
