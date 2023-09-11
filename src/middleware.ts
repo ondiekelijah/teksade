@@ -5,7 +5,9 @@ export default authMiddleware({
     "/",
     "/communities",
     "/api/trpc/announcements.getAnnouncements,communities.getPopularCommunities",
+    "/api/trpc/newsletter.subscribeToNewsletter",
     "/api/trpc/communities.getPopularCommunities",
+    "/api/trpc/communities.getCommunitiesList",
     "/api/trpc/communities.getCommunitiesList,announcements.getAnnouncements",
   ],
 });
