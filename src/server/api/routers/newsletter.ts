@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { TRPCError } from "@trpc/server";
+import { Prisma } from "@prisma/client";
 
 // Handle email subscriptions
 export const newsletterRouter = createTRPCRouter({
@@ -24,6 +26,11 @@ export const newsletterRouter = createTRPCRouter({
         }
       } catch (error) {
         console.log("error", error);
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === "P2002") {
+            return "The user already exists in the Newsletter list";
+          }
+        }
       }
     }),
 });
