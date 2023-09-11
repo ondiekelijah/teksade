@@ -1,12 +1,12 @@
-# Teksade: The Global Tech Community Headquarters
+# Teksade: The Global Tech Community Headquarters - 🌍💼
 
-## Introduction - What is Teksade all about?
+## Introduction - What is Teksade all about? - 📖🤔
 
 At its core, Teksade is a dynamic community platform designed for tech enthusiasts. It provides a space for individuals to either join vibrant existing communities or initiate their own. Teksade is all about bringing together like-minded individuals, sparking ideas, and nurturing lasting connections within a nurturing tech space.
 
 Discover more about our mission and vision [here](https://www.teksade.com/about)
 
-## Ready to Join Your Tech Tribe?
+## Ready to Join Your Tech Tribe? - 🤝👩‍💻
 
 Jump right in by visiting our website [teksade](https://teksade.com)
 
@@ -35,8 +35,7 @@ Whether you're a tech newbie or a seasoned pro, getting started with Teksade is 
    - Grant the necessary permissions and you will be redirected back to Teksade.
    - Your Teksade account will now be linked to your Google account, and you can sign in using your Google credentials.
 
-**Quick Login Guide:**
-**After account creation:**
+**Quick Login Guide: After account creation: - 🔐🚀**
 
 - Visit Teksade and hit "Sign In".
 - Opt for your sign-in mode: email/password, GitHub, or Google.
@@ -54,22 +53,22 @@ Whether you're a tech newbie or a seasoned pro, getting started with Teksade is 
 
 
 
-# Technologies used at Teksade
+# Technologies used at Teksade - 🛠️💡
 
-## Frontend Tech Stack
+## Frontend Tech Stack - 👩‍💻🖥️
 - **Web Framework**: Next.js 13
 - **Programming Language**: TypeScript
 - **UI Libraries**: MantimeUI & TailwindCSS
 - **Icon Library**: React Icons
   
-## Backend Tech Stack
+## Backend Tech Stack - 👩‍💻🔧
 - **ORM**: Prisma
 - **Remote Procedure Calls**: TRPC
 - **Validation Library**: Zod
 - **User Management**: Clerk
 - **Image Storage**: Firebase
 
-### Setup and Installation
+### Setup and Installation - ⚙️📦
 
 Project directories are structured as follows:
 
@@ -154,9 +153,17 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 To every contributor not mentioned here, please know that your efforts have not gone unnoticed. Teksade wouldn't be what it is today without your commitment and dedication. 🌟
 
-## Community 
-Connect with us and stay updated on the latest community news, discussions, and events.
+## 🌍 Community Connection
 
-- Follow us on [Twitter](https://twitter.com/teksadehq): Get real-time updates, engage in conversations, and discover valuable resources.
+Stay connected and be in the loop with the latest from our vibrant tech community.
 
-- Contribute to our projects on [GitHub](https://github.com/ondiekelijah/teksade): Collaborate with our open-source community, share your ideas, and contribute code to enhance our projects.
+- Follow us on [Twitter](https://twitter.com/teksadehq): Dive into real-time updates, join dynamic tech chats, and uncover essential tools and tips.
+
+- Contribute on [GitHub](https://github.com/ondiekelijah/teksade): Team up with our open-source tribe, pitch fresh ideas, and boost our projects with your code contributions.
+
+Be a part of our mission to unite tech enthusiasts globally! 🚀
+
+
+
+
+
