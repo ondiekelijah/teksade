@@ -1,42 +1,41 @@
-# Teksade: The Global Tech Community Headquarters
+# Teksade: The Global Tech Community Headquarters - 🌍💼
 
-## Introduction - What is Teksade all about?
+## Introduction - What is Teksade all about? - 📖🤔
 
 At its core, Teksade is a dynamic community platform designed for tech enthusiasts. It provides a space for individuals to either join vibrant existing communities or initiate their own. Teksade is all about bringing together like-minded individuals, sparking ideas, and nurturing lasting connections within a nurturing tech space.
 
 Discover more about our mission and vision [here](https://www.teksade.com/about)
 
-## Ready to Join Your Tech Tribe?
+## Ready to Join Your Tech Tribe? - 🤝👩‍💻
 
 Jump right in by visiting our website [teksade](https://teksade.com)
 
 Whether you're a tech newbie or a seasoned pro, getting started with Teksade is a breeze. We offer three user-friendly sign-up and login methods: using your email, GitHub, or Google account. Here's a concise guide:
 
 **1. Email and Password:**
-   - Go to the Teksade website and click the "Sign Up" button.
-   - You will be prompted to enter your email address and create a password.
-   - Fill in the required information and click the "Sign Up" button.
-   - A verification email may be sent to your email address. Follow the instructions to verify your account.
-   - Once your account is verified, you can sign in using your email address and password.
+   - _Go to the Teksade website and click the "Sign Up" button_.
+   - _You will be prompted to enter your email address and create a password_.
+   - _Fill in the required information and click the "Sign Up" button_.
+   - _A verification email may be sent to your email address. Follow the instructions to verify your account_.
+   - _Once your account is verified, you can sign in using your email address and password_.
 
 **2. GitHub:**
-   - Click on the "Sign Up" button on the Teksade website.
-   - Select the "Sign up with GitHub" option.
-   - You will be redirected to the GitHub website to authenticate your account.
-   - If you are already logged in to GitHub, you may be asked to authorize Teksade to access your GitHub account information.
-   - Authorize the access and you will be redirected back to Teksade.
-   - Your Teksade account will now be linked to your GitHub account, and you can sign in using your GitHub credentials.
+   - _Click on the "Sign Up" button on the Teksade website_.
+   - _Select the "Sign up with GitHub" option_.
+   - _You will be redirected to the GitHub website to authenticate your account_.
+   - _If you are already logged in to GitHub, you may be asked to authorize Teksade to access your GitHub account information_.
+   - _Authorize the access and you will be redirected back to Teksade_.
+   - _Your Teksade account will now be linked to your GitHub account, and you can sign in using your GitHub credentials_.
 
 **3. Google:**   
-   - Click on the "Sign Up" button on the Teksade website.
-   - Choose the "Sign up with Google" option.
-   - You will be redirected to the Google sign-in page.
-   - If you are already logged in to Google, you may be asked to authorize Teksade to access your Google account information.
-   - Grant the necessary permissions and you will be redirected back to Teksade.
-   - Your Teksade account will now be linked to your Google account, and you can sign in using your Google credentials.
+   - _Click on the "Sign Up" button on the Teksade website_.
+   - _Choose the "Sign up with Google" option_.
+   - _You will be redirected to the Google sign-in page_.
+   - _If you are already logged in to Google, you may be asked to authorize Teksade to access your Google account information_.
+   - _Grant the necessary permissions and you will be redirected back to Teksade_.
+   - _Your Teksade account will now be linked to your Google account, and you can sign in using your Google credentials_.
 
-**Quick Login Guide:**
-**After account creation:**
+**Quick Login Guide: After account creation: - 🔐🚀**
 
 - Visit Teksade and hit "Sign In".
 - Opt for your sign-in mode: email/password, GitHub, or Google.
@@ -54,22 +53,22 @@ Whether you're a tech newbie or a seasoned pro, getting started with Teksade is 
 
 
 
-# Technologies used at Teksade
+# Technologies used at Teksade - 🛠️💡
 
-## Frontend Tech Stack
-- **Web Framework**: Next.js 13
-- **Programming Language**: TypeScript
-- **UI Libraries**: MantimeUI & TailwindCSS
-- **Icon Library**: React Icons
+## Frontend Tech Stack - 👩‍💻🖥️
+- **Web Framework**: _Next.js 13_
+- **Programming Language**: _TypeScript_
+- **UI Libraries**: _MantimeUI & TailwindCSS_
+- **Icon Library**: _React Icons_
   
-## Backend Tech Stack
-- **ORM**: Prisma
-- **Remote Procedure Calls**: TRPC
-- **Validation Library**: Zod
-- **User Management**: Clerk
-- **Image Storage**: Firebase
+## Backend Tech Stack - 👩‍💻🔧
+- **ORM**: _Prisma_
+- **Remote Procedure Calls**: _TRPC_
+- **Validation Library**: _Zod_
+- **User Management**: _Clerk_
+- **Image Storage**: _Firebase_
 
-### Setup and Installation
+### Setup and Installation - ⚙️📦
 
 Project directories are structured as follows:
 
@@ -154,9 +153,17 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 To every contributor not mentioned here, please know that your efforts have not gone unnoticed. Teksade wouldn't be what it is today without your commitment and dedication. 🌟
 
-## Community 
-Connect with us and stay updated on the latest community news, discussions, and events.
+## 🌍 Community Connection
 
-- Follow us on [Twitter](https://twitter.com/teksadehq): Get real-time updates, engage in conversations, and discover valuable resources.
+Stay connected and be in the loop with the latest from our vibrant tech community.
 
-- Contribute to our projects on [GitHub](https://github.com/ondiekelijah/teksade): Collaborate with our open-source community, share your ideas, and contribute code to enhance our projects.
+- Follow us on [Twitter](https://twitter.com/teksadehq): Dive into real-time updates, join dynamic tech chats, and uncover essential tools and tips.
+
+- Contribute on [GitHub](https://github.com/ondiekelijah/teksade): Team up with our open-source tribe, pitch fresh ideas, and boost our projects with your code contributions.
+
+Be a part of our mission to unite tech enthusiasts globally! 🚀
+
+
+
+
+
