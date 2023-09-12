@@ -17,7 +17,7 @@ import { useMantineColorScheme } from "@mantine/core";
 import Checkmark from "@/components/custom-components/icons/checkmark";
 import Container from "@/components/custom-components/container";
 import CustomButton from "@/components/custom-components/button";
-import { CommunitySEO } from "@/components/SEO";
+import { CommunitySEO, PageSEO } from "@/components/SEO";
 import LikeButton from "@/components/custom-components/likeButton";
 import CommunitySkeleton from "@/components/custom-components/skeletons/Community/Community";
 import ImageSkeleton from "@/components/custom-components/skeletons/Community/FeaturedImage";
@@ -188,16 +188,7 @@ export default function SingleCommunityPage() {
 
   return (
     <>
-      <CommunitySEO
-        name={communityInfo.data?.name ?? " "}
-        description={communityInfo.data?.description ?? " "}
-        logoLink={communityInfo.data?.logo_link ?? " "}
-        website={communityInfo.data?.website ?? " "}
-        technologies={communityInfo.data?.technologies ?? []}
-        country={communityInfo.data?.country ?? " "}
-        location={communityInfo.data?.location ?? " "}
-        focusArea={communityInfo.data?.focus_area ?? " "}
-      />
+      <PageSEO title={"Community"} description={siteMetadata.community_description} />
       <Container>
         {communityInfo.isLoading ? (
           <CommunitySkeleton />

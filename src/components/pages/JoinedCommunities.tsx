@@ -4,9 +4,12 @@ import { useUser } from "@clerk/nextjs";
 import CommmunityCard from "../sections/CommmunityCard";
 import SectionTitle from "../custom-components/sectionTitle";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
+import CustomButton from "../custom-components/button";
+import { useRouter } from "next/router";
 
 export default function JoinedCommunities() {
   const { user } = useUser();
+  const router = useRouter();
   const communitiesJoinedByMember = api.members.getCommunitiesJoinedByMember.useQuery({ memberId: user?.id ?? "" });
   return (
     <Container>
@@ -35,6 +38,15 @@ export default function JoinedCommunities() {
               />
             </div>
           ))}
+        </div>
+      )}
+
+      {!communitiesJoinedByMember.data?.communities_joined && (
+        <div className="my-20 text-center sm:col-span-3 md:col-span-4">
+          Haven&apos;t found your tribe? 🤔 Explore Communities now!
+          <div className="my-6 flex justify-center">
+            <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Explore Communities" onClickHandler={() => void router.push("/communities")} />
+          </div>
         </div>
       )}
     </Container>

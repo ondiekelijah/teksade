@@ -1,3 +1,4 @@
+import { ErrorIcon, SuccessIcon } from "@/components/custom-components/icons/actionIcons";
 import { showNotification } from "@mantine/notifications";
 
 interface NotificationOptions {
@@ -11,6 +12,7 @@ const useMantineNotify = () => {
       title,
       message,
       color: "green",
+      icon: <SuccessIcon />,
     });
   };
 
@@ -19,6 +21,7 @@ const useMantineNotify = () => {
       title,
       message,
       color: "red",
+      icon: <ErrorIcon />,
     });
   };
 

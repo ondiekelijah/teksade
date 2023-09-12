@@ -12,6 +12,7 @@ import useMantineNotify from "@/hooks/useNotify";
 import { PageSEO } from "../SEO";
 import SectionTitle from "../custom-components/sectionTitle";
 import CustomButton from "../custom-components/button";
+import siteMetadata from "@/data/siteMetadata";
 
 interface ProfileFormValues {
   name?: string;
@@ -140,12 +141,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <PageSEO
-        title={"Profile"}
-        description={`Explore ${currentUser.data?.name ?? currentUser.data?.name}'s tech insights and contributions on 
-      Teksade - your central hub for tech enthusiasts, innovators, and experts. Dive deep into discussions, 
-      learn from the best, and connect with ${currentUser.data?.name ?? currentUser.data?.name} at the tech community HQ.`}
-      />
+      <PageSEO title={"Profile"} description={siteMetadata.common_description} />
       <Container className={"py-5"}>
         {updateUserInfo.isLoading && (
           <div className="flex h-10 w-full items-center justify-center py-10">
@@ -157,6 +153,7 @@ export default function ProfilePage() {
 
         <form onSubmit={form.onSubmit(handleFormSubmit)} className={` mx-auto max-w-screen-lg sm:w-[60vw]`}>
           <LoadingOverlay visible={updateUserInfo.isLoading} />
+          <LoadingOverlay visible={currentUser.isLoading} />
           <TextInput {...form.getInputProps("name")} label="Name" withAsterisk size="md" required className="mb-4" />
 
           <div className=" mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -187,7 +184,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="my-6 flex justify-center">
-            <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!form.isValid()} />
+            <CustomButton size="lg" className="text-base" variant="filled" type="submit" title={updateUserInfo.isLoading ? "Updating..." : "Update Profile"} disabled={!form.isValid()} />
           </div>
         </form>
       </Container>
