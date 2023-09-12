@@ -11,21 +11,21 @@ export default function Contribute() {
   return (
     <Container>
       <div className="flex flex-col items-center justify-center gap-y-10 p-5">
-        <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Got passion? Fuel our vision!</h1>
+        <h1 className="text-center text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Got passion? Fuel our vision!</h1>
         <Text className={`mx-auto text-center text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
           Make your mark on the open-source community. We are on the hunt for skilled developers and designers to contribute to our project. This is your chance to collaborate with a team of
           like-minded individuals and create something truly groundbreaking.
         </Text>
         <div className="flex flex-col gap-5 sm:flex-row">
           <Link href="https://github.com/ondiekelijah/teksade" target="_blank">
-            <Button variant="default" className={`w-full rounded-full sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`} size="md" leftIcon={<GitHub dark={dark} />}>
+            <Button variant="default" className={`w-full tracking-wide rounded-full sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`} size="md" leftIcon={<GitHub dark={dark} />}>
               Contribute on Github
             </Button>
           </Link>
           <Link href="https://twitter.com/teksadehq" target="_blank">
             <Button
               variant="default"
-              className={`w-full rounded-full sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`}
+              className={`w-full rounded-full tracking-wide sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`}
               size="md"
               leftIcon={<Twitter />}
               color={dark ? "white" : "black"}

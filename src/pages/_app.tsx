@@ -46,7 +46,7 @@ function App({ Component, pageProps }: AppProps) {
                 teksade: ["#ACC8FF", "#81ACFF", "#5A92FF", "#377AFF", "#1F68FF", "#175CF7", "#1A56DB", "#0847D5", "#003AD0", "#0031C3"],
               },
               loader: "dots",
-              fontFamily: "Inter, sans-serif",
+              fontFamily: "Epilogue, sans-serif",
             }}
           >
             <ModalsProvider>

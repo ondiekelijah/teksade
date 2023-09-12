@@ -211,7 +211,7 @@ export default function SingleCommunityPage() {
                   {communityInfo.data?.verified && (
                     <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                       <Text className="align-middle">
-                        <Checkmark size={5} />
+                        <Checkmark  />
                       </Text>
                     </Tooltip>
                   )}

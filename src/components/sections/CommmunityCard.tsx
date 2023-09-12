@@ -43,7 +43,7 @@ export default function CommmunityCard(community: CommmunityCardProps) {
               {community.verified && (
                 <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                   <Text className="align-middle">
-                    <Checkmark size={5} />
+                    <Checkmark  />
                   </Text>
                 </Tooltip>
               )}
