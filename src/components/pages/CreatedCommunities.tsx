@@ -23,7 +23,6 @@ export default function CreatedCommunitiesPage() {
     },
   });
 
-
   function handleDelete(communityID: string) {
     openConfirmModal({
       title: "Confirm Deletion",
@@ -90,6 +89,15 @@ export default function CreatedCommunitiesPage() {
               />
             </div>
           ))}
+
+          {!communitiesCreatedByMember.data?.length && (
+            <div className="my-20 text-center sm:col-span-3 md:col-span-4">
+              It looks like you haven&apos;t added any communities to Teksade. Let&apos;s get started!
+              <div className="my-6 flex justify-center">
+                <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Add Community" onClickHandler={() => void router.push("/communities/new")} />
+              </div>
+            </div>
+          )}
         </div>
       )}
     </Container>

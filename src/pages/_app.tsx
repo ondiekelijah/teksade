@@ -50,7 +50,7 @@ function App({ Component, pageProps }: AppProps) {
             }}
           >
             <ModalsProvider>
-              <Notifications position="top-right" />
+              <Notifications position="top-center" />
               <MainLayout>
                 <Component {...pageProps} />
               </MainLayout>

@@ -164,12 +164,12 @@ export default function NewCommunityPage() {
 
   return (
     <Container>
+      <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />{" "}
       <SectionTitle
         heading="Enrich Teksade, Add Your Community!"
         description="By introducing your community, you're amplifying its voice and expanding its horizons. Let's make Teksade richer together!"
       />
       <form onSubmit={form.onSubmit((values) => void handleNewCommunity(values))} className="flex animate-slideInDown flex-col gap-2">
-        <LoadingOverlay visible={createNewCommunity.isLoading || uploading} />
         <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false} breakpoint="xl" className=" mx-auto my-auto mt-10 w-full p-4 sm:w-[60vw]" id="stepper">
           <Stepper.Step label="Step 1" description="General Info" className="" id="step-1">
             <TextInput label="Community Name" withAsterisk required {...form.getInputProps("communityName")} size="md" className="mb-4" />
