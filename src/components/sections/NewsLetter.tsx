@@ -51,7 +51,7 @@ export default function NewsLetter() {
     <Container>
       <div className="mx-auto my-20 grid w-full grid-cols-1 gap-3 rounded-lg px-8 py-10 shadow-lg sm:grid-cols-2">
         <div className=" flex  w-full grow flex-col  justify-center gap-y-4">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
+          <h1 className="text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
           <p className={`text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
             Teksade is your compass to global tech communities. Subscribe, and never lose your way in the digital realm!{" "}
           </p>

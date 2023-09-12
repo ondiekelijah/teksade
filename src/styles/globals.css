@@ -15,10 +15,6 @@ a:active {
   color: inherit;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-}
-
 .sticky-header {
   @apply z-[9999] bg-opacity-80 transition;
   backdrop-filter: blur(5px);

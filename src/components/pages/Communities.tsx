@@ -32,17 +32,13 @@ export default function CommunitiesPage() {
     technologies: selectedTechnologies,
     searchTerm: searchTerm,
   });
-  const announcements = api.announcements.getAnnouncements.useQuery();
-  const announcement = announcements.data?.[0];
   const [filtersOpen, { toggle }] = useDisclosure(false);
-  const [showBanner, setShowBanner] = useState(true);
 
   return (
     <>
       <PageSEO title={"Communities"} description={siteMetadata.community_description} />
       <Container>
         <div className="">
-          {showBanner && announcement && <StickyBanner announcement={announcement} onClose={() => setShowBanner(false)} />}
           <section className="my-8 flex w-full items-center justify-between ">
             <Menu trigger="hover" openDelay={100} closeDelay={4000}>
               <Menu.Target>

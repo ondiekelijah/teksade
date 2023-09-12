@@ -1,28 +1,21 @@
-import { api } from "@/utils/api";
-import { SignUpButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { Text } from "@mantine/core";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import Container from "@/components/custom-components/container";
 import { useMantineColorScheme } from "@mantine/core";
 import CustomButton from "@/components/custom-components/button";
-import StickyBanner from "@/components/custom-components/newsBanner";
 
 export default function Hero() {
   const { user } = useUser();
-  const [showBanner, setShowBanner] = useState(true);
-
-  const announcements = api.announcements.getAnnouncements.useQuery();
-  const announcement = announcements.data?.[0];
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
   return (
     <Container>
-      <section className="z-0 flex h-[90vh] w-full flex-col items-center justify-center gap-y-7 bg-cover bg-center bg-no-repeat">
-        {showBanner && announcement && <StickyBanner announcement={announcement} onClose={() => setShowBanner(false)} />}
-        <Text className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 95 }}>
+      <section className="z-0 flex min-h-max w-full flex-col items-center justify-center gap-y-7 py-16 bg-cover bg-center bg-no-repeat">
+        <Text className="text-center text-4xl font-black tracking-normal sm:text-5xl lg:text-7xl/[90px]" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 95 }}>
           Discover the most vibrant and engaged tech communities.
         </Text>
 
@@ -35,11 +28,11 @@ export default function Hero() {
         >
           {user ? (
             <Link href="#popular">
-              <CustomButton size="lg" variant="gradient" title="Get Started" />
+              <CustomButton size="lg" variant="gradient" title="Get Started" isWithArrow/>
             </Link>
           ) : (
             <Link href="/sign-up">
-              <CustomButton size="lg" variant="gradient" title="Join Us" />
+              <CustomButton size="lg" variant="gradient" title="Join Us" isWithArrow/>
             </Link>
           )}
           <Link href="/about">
