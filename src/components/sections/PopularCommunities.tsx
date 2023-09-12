@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { techFocusAreas } from "@/utils/constants";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Button, Chip, LoadingOverlay, Paper, rem, Text, Tooltip } from "@mantine/core";
 import React, { useState } from "react";
 import { Carousel } from "@mantine/carousel";
@@ -34,7 +35,7 @@ export default function PopularCommunities() {
             <CustomButton size="sm" variant="outline" title="Show All" />
           </Link>
         </p>
-        <div className="mt-8 flex gap-2 overflow-x-scroll ">
+        {/* <div className="mt-8 flex gap-2 overflow-x-auto">
           <Chip.Group
             multiple
             value={selectedTechnlogies}
@@ -62,19 +63,13 @@ export default function PopularCommunities() {
               }
             }}
           >
-            {["All", ...techFocusAreas].map((tech) => (
-              <Chip
-                key={tech}
-                value={tech}
-                checked={selectedTechnlogies.includes(tech)}
-                color="indigo"
-                variant={selectedTechnlogies.includes(tech) ? "filled" : "outline"}
-              >
+            {["All", ...techFocusAreas].map((tech, index) => (
+              <Chip key={tech} value={tech} checked={selectedTechnlogies.includes(tech)} color="indigo" variant={selectedTechnlogies.includes(tech) ? "filled" : "outline"}>
                 {tech}
               </Chip>
             ))}
           </Chip.Group>
-        </div>
+        </div> */}
         <div className="overflow-x-auto">
           {!popularCommunities.isLoading && popularCommunities.data?.length === 0 ? (
             <div className="flex h-60 w-full items-center justify-center px-20 text-center">

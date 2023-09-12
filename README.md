@@ -145,8 +145,8 @@ At Teksade, we believe in the power of community and collaboration. Being an ope
 ## Contributors
 We are truly grateful to each and every individual who has been a part of this journey. Your contributions, big or small, have been instrumental in bringing Teksade to life. Here's a shoutout to all the amazing minds who have helped shape this platform:
 
-<a href="https://github.com/ondiekelijah/teksade/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ondiekelijah/teksade" />
+<a href="https://github.com/Lochipi/teksade/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Lochipi/teksade" />
 </a>
 
 Made with [contrib.rocks](https://contrib.rocks).
