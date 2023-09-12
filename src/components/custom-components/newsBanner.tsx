@@ -76,7 +76,7 @@ const StickyBanner = () => {
     <Box className={`text-muted-foreground flex items-center justify-center p-1 text-center ${bgColor} w-full`}>
       <div className="mx-auto flex items-center">
         <p className={`flex items-center text-sm font-normal ${textColor}`}>
-          <span className={`mr-3 inline-flex h-6 w-6 hidden lg:block items-center justify-center rounded-full p-1 ${bulbBgColor}`}>
+          <span className={`mr-3 hidden h-6 w-6 lg:block items-center justify-center rounded-full p-1 ${bulbBgColor}`}>
             <LightBulbIcon />
             <span className="sr-only">Light bulb</span>
           </span>

@@ -52,7 +52,7 @@ const CustomButton: React.FC<ButtonProps> = ({
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
+              strokeLinecap="round"
               strokeLinejoin="round"
               className="ml-4"
             >
