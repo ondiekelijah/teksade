@@ -24,7 +24,11 @@ export default function NewsLetter() {
     validate: zodResolver(
       z.object({
         // trim spaces from email
-        email: z.string().email("Invalid email").nonempty("").transform((val) => val.trim()),
+        email: z
+          .string()
+          .email("Invalid email")
+          .nonempty("")
+          .transform((val) => val.trim()),
       })
     ),
   });
@@ -34,14 +38,17 @@ export default function NewsLetter() {
       // strip spaces from email
       { email: form.values.email.trim() },
       {
-        onSuccess: () => {
-          notifySuccess({ title: "Success! 🎉", message: "You've just hopped onto an exciting journey with us." });
-          // Reset form
-          form.reset();
-          form.setFieldValue("email", "");
-        },
-        onError: () => {
-          notifyError({ title: "Error", message: "Opps! That did not go well. Please try again!" });
+        onSuccess: (returnValue) => {
+          if (returnValue) {
+            if (typeof returnValue === "boolean") {
+              notifySuccess({ title: "Success! 🎉", message: "You've just hopped onto an exciting journey with us." });
+              // Reset form
+              form.reset();
+              form.setFieldValue("email", "");
+            } else {
+              notifyError({ title: "Error", message: returnValue });
+            }
+          }
         },
       }
     );
