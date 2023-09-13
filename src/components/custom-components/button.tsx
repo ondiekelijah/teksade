@@ -10,8 +10,6 @@ interface ButtonProps {
   onClickHandler?: () => void;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
-  isLoading?: boolean;
-  loadingText?: string;
   icon?: React.ReactNode;
   isRounded?: boolean;
   isWithArrow?: boolean;
@@ -22,12 +20,10 @@ const CustomButton: React.FC<ButtonProps> = ({
   className = "",
   variant = "filled", // Default value, change as needed
   title,
-  loadingText,
   color = "indigo", // Default value, change as needed
   onClickHandler,
   disabled = false,
   type = "button",
-  isLoading = false,
   icon,
   isRounded = true,
   isWithArrow = false,
@@ -42,7 +38,7 @@ const CustomButton: React.FC<ButtonProps> = ({
         </Button>
       ) : (
         <Button className={` ${className} ${isRounded && "rounded-full align-middle tracking-wide"}`} variant={variant} size={size} gradient={gradientValue} color={color} onClick={onClickHandler} type={type} rightIcon={icon}>
-          {isLoading ? loadingText : title}
+          {title}
           {isWithArrow && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
