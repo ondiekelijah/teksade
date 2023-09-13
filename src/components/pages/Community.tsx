@@ -106,8 +106,8 @@ export default function SingleCommunityPage() {
     onSuccess: () => {
       void queryClient.communities.getCommunityInfo.refetch({ communityId: communityId as string });
       notifySuccess({
-        title: "Exit complete",
-        message: "You have left this community",
+        title: "Goodbye for now!",
+        message: "Adventure awaits! Feel free to come back anytime.",
       });
     },
   });
@@ -167,8 +167,8 @@ export default function SingleCommunityPage() {
       .then((returnValue) => {
         if (returnValue?._count.members) {
           notifySuccess({
-            title: "Welcome onboard",
-            message: "You are now a member",
+            title: "Excited to have you join us!",
+            message: "Cheers to the new beginnings!",
           });
           void queryClient.communities.getCommunityInfo.refetch();
         } else {
@@ -234,7 +234,6 @@ export default function SingleCommunityPage() {
                 <div className="flex justify-between pt-5">
                   {/* CTA button */}
                   <div>
-                    <LoadingOverlay visible={addMemberToCommunity.isLoading} />
                     {!isMember ? (
                       <CustomButton
                         size="md"
