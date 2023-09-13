@@ -1,5 +1,5 @@
 import React from "react";
-import { Burger, Button, Drawer, Menu, Paper } from "@mantine/core";
+import { Burger, Button, Drawer, Menu, Paper, useMantineColorScheme } from "@mantine/core";
 import { CgProfile } from "react-icons/cg";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -11,13 +11,15 @@ import siteMetadata from "@/data/siteMetadata";
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
+  const { colorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
 
   interface RenderButtonProps {
     href: string;
     children: React.ReactNode;
   }
   const RenderButton: React.FC<RenderButtonProps & { className?: string }> = ({ href, children, className }) => (
-    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${className ?? className}`} onClick={close}>
+    <Link href={href} className={`mr-3 w-full whitespace-nowrap py-2 text-base sm:px-0 ${dark ? "hover:text-[#00afef]" : "hover:text-[#1A56DB]"} ${className ?? className}`} onClick={close}>
       {children}
     </Link>
   );
@@ -94,11 +96,11 @@ export default function Header() {
           timingFunction: "linear",
         }}
       >
-        <section className="flex flex-col gap-y-4 pl-0">
+        <section className="flex flex-col pl-0 space-y-6">
           <RenderButton href="/communities">Communities</RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
           {userStatus.user && (
-            <div>
+            <div className="py-2">
               <Menu trigger="hover" openDelay={100} closeDelay={4000} position="right" offset={22} withArrow arrowPosition="center">
                 <Menu.Target>
                   <button className="cursor-pointer border-none bg-transparent outline-none hover:bg-transparent focus:outline-none active:outline-none">Account</button>

@@ -6,6 +6,7 @@ const siteMetadata = {
     about_description: "Discover the story behind Teksade - the ultimate hub for global tech communities. Dive into our mission to connect and empower tech enthusiasts worldwide at our tech community HQ.",
     community_description: "Teksade: The heartbeat of the global tech community. Discover, engage, and grow with tech enthusiasts worldwide, all from a single platform.",
     add_community_description: "Join Teksade, the tech community HQ, by adding your unique tech community today! Elevate your network, share knowledge, and collaborate seamlessly. Be part of the future of tech collaboration.",
+    common_description: "Discover tech insights and contributions on Teksade, the hub for tech enthusiasts. Engage in discussions, learn, and connect at the tech community HQ.",
     language: 'en-us',
     siteUrl: 'https://www.teksade.com',
     siteRepo: 'https://github.com/ondiekelijah/teksade',
