@@ -239,12 +239,10 @@ export default function SingleCommunityPage() {
                       <CustomButton
                         size="md"
                         color="indigo"
-                        title={"Join Community"}
+                        title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
                         onClickHandler={() => {
                           memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
                         }}
-                        loadingText="Joining..."
-                        isLoading={addMemberToCommunity.isLoading}
                       />
                     ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
                       <Link href="/communities/created">
@@ -257,7 +255,7 @@ export default function SingleCommunityPage() {
                         }}
                         size="md"
                         color="indigo"
-                        title={"Leave Community"}
+                        title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
                       />
                     )}
                   </div>
