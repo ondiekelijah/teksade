@@ -225,6 +225,7 @@ export default function NewCommunityPage() {
                 clearable
                 radius="lg"
               />
+              <div className="flex h-56 w-full justify-center">{profileImage && <img src={URL.createObjectURL(profileImage)} alt="profile-priview" className="h-full object-cover" />}</div>
               <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
             </div>
           </Stepper.Step>
