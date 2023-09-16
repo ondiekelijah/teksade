@@ -113,6 +113,7 @@ export const membersRouter = createTRPCRouter({
     .input(
       z.object({
         memberId: z.string(),
+        searchTerm: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -128,6 +129,12 @@ export const membersRouter = createTRPCRouter({
                   select: {
                     members: true,
                   },
+                },
+              },
+              where: {
+                name: {
+                  contains: input.searchTerm,
+                  mode: "insensitive",
                 },
               },
             },
