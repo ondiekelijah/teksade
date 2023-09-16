@@ -63,9 +63,12 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
   return (
     <Group spacing="xs" className="my-6">
       {Object.entries(icons).map(([key, Icon]) => {
-        const url = links[key];
+        let url = links[key];
+        if (key === "phone" && url) {
+          url = `tel:${url}`;
+        }
+  
         if (url && url.trim() !== "") {
-          // Check if the URL exists and is not just whitespace
           return (
             <Link key={key} href={url} passHref>
               <ActionIcon size="lg" variant="default" radius="xl">
@@ -78,6 +81,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
       })}
     </Group>
   );
+  
 };
 
 const Technologies = ({ technologies, dark }: TechnologiesProps) => {

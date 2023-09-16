@@ -14,8 +14,10 @@ import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
 import { useDebounce } from "use-debounce";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
+import CustomButton from "../custom-components/button";
 
 export default function CommunitiesPage() {
+  const [limit, setLimit] = useState(20);
   const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined);
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[] | undefined>(undefined);
@@ -27,7 +29,7 @@ export default function CommunitiesPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   const communitiesList = api.communities.getCommunitiesList.useQuery({
-    limit: 50,
+    limit: limit,
     country: selectedCountry,
     filterByNew: filterByNewlyCreated,
     focusAreas: selectedFocusAreas,
@@ -44,6 +46,12 @@ export default function CommunitiesPage() {
     void communitiesList.refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
+
+  const handleShowMore = () => {
+    setLimit((prevLimit) => prevLimit + 20);
+  };
+
+  const mightHaveMore = communitiesList.data?.length === limit;
 
   return (
     <>
@@ -133,6 +141,11 @@ export default function CommunitiesPage() {
                 </div>
               )}
         </section>
+        {mightHaveMore && (
+          <div className="my-6 flex justify-center">
+            <CustomButton size="lg" className="text-base" variant="filled" type="submit" title={communitiesList.isLoading ? "Loading..." : "Show More"} onClickHandler={handleShowMore} />
+          </div>
+        )}
       </Container>
     </>
   );

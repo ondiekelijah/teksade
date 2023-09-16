@@ -9,7 +9,7 @@ interface CommunityPublishedEmaillProps {
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "";
 
 export const CommunityPublishedEmail = ({ communityName = "Tech community", communityId }: CommunityPublishedEmaillProps) => {
-  const previewText = `Community ${communityName} published on Teksade`;
+  const previewText = `🎉 Community ${communityName} published on Teksade`;
 
   return (
     <Html>
@@ -19,15 +19,15 @@ export const CommunityPublishedEmail = ({ communityName = "Tech community", comm
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-[40px] w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
             <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-normal text-black">
-              <strong>{communityName}</strong> published on <strong>Teksade</strong>
+              🎉<strong>{communityName}</strong> published on <strong>Teksade</strong>
             </Heading>
             <Text className="text-[14px] leading-[24px] text-black">Jambo there 👋,</Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              We are pleased to inform you that your community {}(
+              🚀 Great news! Your community {}(
               <Link href={`https://www.teksade.com/communities/${communityId}`} className="text-blue-600 no-underline">
                 {communityName}
               </Link>
-              ) has been published and is now live on <strong>Teksade</strong>.
+              ) has taken flight and is now live on <strong>Teksade</strong>! 🌟
             </Text>
 
             <Section className="mb-[32px] mt-[32px] text-center">
@@ -38,8 +38,8 @@ export const CommunityPublishedEmail = ({ communityName = "Tech community", comm
 
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
-              This Email was sent from the Teksade team and was intended for a community creator who recently added a community on ,<Link href="https://www.teksade.com">Teksade</Link> . If you were
-              not expecting such email, you can ignore this email. If you are concerned about your account&apos;s safety, please reply to this email to get in touch with us.
+              This email comes to you from the Teksade team in recognition of a community recently added to <Link href="https://www.teksade.com">Teksade</Link>. If this doesn&apos;t sound familiar,
+              feel free to disregard this message. Should you have any concerns about the security of your account, please respond directly to this email, and we&apos;ll be here to assist you.
             </Text>
           </Container>
         </Body>

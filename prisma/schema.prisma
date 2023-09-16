@@ -20,7 +20,8 @@ model Member {
   phone               String?     @unique
   about               String?
   institution         String?
-  role                String?
+  role                String?     
+  db_role             String?     @default("member")
   country             String?
   location            String?
   github              String?     @unique

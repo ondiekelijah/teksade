@@ -4,11 +4,13 @@ import Container from "@/components/custom-components/container";
 import SectionTitle from "@/components/custom-components/sectionTitle";
 import CommmunityCard from "@/components/sections/CommmunityCard";
 import siteMetadata from "@/data/siteMetadata";
+import useAdminCheck from "@/hooks/useAuth";
 import { api } from "@/utils/api";
 import { useUser } from "@clerk/nextjs";
 
 export default function PublishCommunityPage() {
   const { user } = useUser();
+  const userIsAdmin = useAdminCheck();
   const unpulblishedCommunities = api.communities.getUnpulishedCommunities.useQuery();
   const publishAndSendEmail = api.emails.publishAndsendCommunityPublishedEmail.useMutation();
   function handlePublish(communityId: string) {
@@ -21,7 +23,7 @@ export default function PublishCommunityPage() {
       <PageSEO title={"Admin"} description={siteMetadata.community_description} />
       <SectionTitle heading="Admin Panel" description="Publish Communities" />
       <section className=" grid grid-cols-1 gap-2 sm:grid-cols-3">
-        {user?.primaryEmailAddress?.emailAddress === "teksadeproject@gmail.com" ? (
+        {user?.primaryEmailAddress?.emailAddress && userIsAdmin ? (
           unpulblishedCommunities.data?.map((community) => (
             <CommmunityCard
               key={community.name}
@@ -42,7 +44,7 @@ export default function PublishCommunityPage() {
             />
           ))
         ) : (
-          <div className=" text-center sm:col-span-3">{`Oops! You don't have permission to view this.`}</div>
+          <div className="text-center sm:col-span-3">{`Oops! You don't have permission to view this.`}</div>
         )}
       </section>
     </Container>
