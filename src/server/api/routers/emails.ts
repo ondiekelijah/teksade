@@ -31,7 +31,7 @@ export const emailsRouter = createTRPCRouter({
           },
         });
         const sendCommunityPublishedEmail = await resend.emails.send({
-          from: "contact@teksade.com",
+          from: "Teksade <contact@teksade.com>",
           to: communityToPublish.creator.email ?? "teksadeproject@gmail.com",
           subject: "🎉 Hooray! Your community is now live!",
           react: CommunityPublishedEmail({

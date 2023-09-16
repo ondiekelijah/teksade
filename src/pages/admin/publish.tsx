@@ -5,18 +5,21 @@ import SectionTitle from "@/components/custom-components/sectionTitle";
 import CommmunityCard from "@/components/sections/CommmunityCard";
 import siteMetadata from "@/data/siteMetadata";
 import useAdminCheck from "@/hooks/useAuth";
+import useMantineNotify from "@/hooks/useNotify";
 import { api } from "@/utils/api";
 import { useUser } from "@clerk/nextjs";
 
 export default function PublishCommunityPage() {
+  const { notifyError, notifySuccess } = useMantineNotify();
   const { user } = useUser();
   const userIsAdmin = useAdminCheck();
   const unpulblishedCommunities = api.communities.getUnpulishedCommunities.useQuery();
   const publishAndSendEmail = api.emails.publishAndsendCommunityPublishedEmail.useMutation();
+
   function handlePublish(communityId: string) {
     publishAndSendEmail.mutate({
       communityId,
-    });
+    })
   }
   return (
     <Container>
