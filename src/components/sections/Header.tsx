@@ -7,10 +7,12 @@ import ThemeToggle from "./ThemeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import siteMetadata from "@/data/siteMetadata";
+import useAdminCheck from "@/hooks/useAuth";
 
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false);
   const userStatus = useUser();
+  const userIsAdmin = useAdminCheck();
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
@@ -41,7 +43,6 @@ export default function Header() {
             Communities
           </RenderButton>
           <RenderButton href="/about">About Us</RenderButton>
-
           {userStatus.user ? (
             <>
               <Menu trigger="hover" openDelay={100} closeDelay={4000} position="bottom" offset={10} withArrow arrowPosition="side">
@@ -61,6 +62,11 @@ export default function Header() {
                   <Menu.Item>
                     <RenderButton href="/communities/joined">Joined Communities</RenderButton>
                   </Menu.Item>
+                  {userIsAdmin && (
+                    <Menu.Item>
+                      <RenderButton href="/admin/publish">Admin</RenderButton>
+                    </Menu.Item>
+                  )}
                 </Menu.Dropdown>
               </Menu>
             </>
@@ -118,6 +124,11 @@ export default function Header() {
                   <Menu.Item>
                     <RenderButton href="/communities/joined">Joined Communities</RenderButton>
                   </Menu.Item>
+                  {userIsAdmin && (
+                    <Menu.Item>
+                      <RenderButton href="/admin/publish">Admin</RenderButton>
+                    </Menu.Item>
+                  )}
                 </Menu.Dropdown>
               </Menu>
             </div>
