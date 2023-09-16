@@ -1,6 +1,7 @@
 import siteMetadata from "@/data/siteMetadata";
-import { Body, Button, Container, Head, Heading, Hr, Html, Img, Link, Preview, Section, Tailwind, Text } from "@react-email/components";
+import { Body, Button, Container, Head, Heading, Hr, Html, Link, Preview, Section, Tailwind, Text } from "@react-email/components";
 import * as React from "react";
+import { Img } from '@react-email/img';
 
 interface CommunityPublishedEmaillProps {
   communityName: string;
