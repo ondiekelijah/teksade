@@ -91,6 +91,7 @@ export default function NewCommunityPage() {
         const onfulfilledValue = await createNewCommunity
           .mutateAsync({
             creatorId: user.id,
+            creatorEmail: user.primaryEmailAddress?.emailAddress ?? "teksadeproject@gmail.com",
             communityName: values.communityName,
             communityDescription: values.description,
             country: values.country,
