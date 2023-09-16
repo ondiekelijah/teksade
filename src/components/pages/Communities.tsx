@@ -3,7 +3,7 @@ import { api } from "@/utils/api";
 import { Button, Collapse, Menu, Select, TextInput } from "@mantine/core";
 import { BsFilter, BsFire, BsSearch } from "react-icons/bs";
 import { VscDiffAdded } from "react-icons/vsc";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommmunityCard from "@/components/sections/CommmunityCard";
 import { useDisclosure } from "@mantine/hooks";
 import { countries, techFocusAreas, technologies } from "@/utils/constants";
@@ -12,7 +12,7 @@ import { MultiSelect } from "@mantine/core";
 import { PageSEO } from "@/components/SEO";
 import siteMetadata from "@/data/siteMetadata";
 import { useMantineColorScheme } from "@mantine/core";
-import StickyBanner from "@/components/custom-components/newsBanner";
+import { useDebounce } from "use-debounce";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
 
 export default function CommunitiesPage() {
@@ -21,6 +21,8 @@ export default function CommunitiesPage() {
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[] | undefined>(undefined);
   const [selectedFocusAreas, setSelectedFocusares] = useState<string[] | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [debouncedValue] = useDebounce(debouncedSearchTerm, 500);
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -30,9 +32,18 @@ export default function CommunitiesPage() {
     filterByNew: filterByNewlyCreated,
     focusAreas: selectedFocusAreas,
     technologies: selectedTechnologies,
-    searchTerm: searchTerm,
+    searchTerm: debouncedValue,
   });
   const [filtersOpen, { toggle }] = useDisclosure(false);
+
+  useEffect(() => {
+    setDebouncedSearchTerm(searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    void communitiesList.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue]);
 
   return (
     <>

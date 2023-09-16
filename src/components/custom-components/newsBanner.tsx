@@ -1,49 +1,41 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { api } from "@/utils/api";
 import { Box, useMantineColorScheme } from "@mantine/core";
 import { useRouter } from "next/router";
 
-// interface Announcement {
-//   created_at: Date;
-//   updated_at: Date;
-//   title: string;
-//   content: string;
-//   link: string;
-//   published: boolean;
-//   isAdvertisement: boolean;
-//   targetPage: string;
-//   duration: number;
-//   linkedText: string;
-// }
-
-interface StickyBannerProps {
-  // announcement: Announcement | undefined; // This explicitly allows it to be undefined
-  onClose: () => void;
-  onOpen?: () => void;
-}
-
 const StickyBanner = () => {
-  // Get current path and match with targetPage
   const router = useRouter();
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
-  const [showBanner, setShowBanner] = useState(true);
-
   const announcements = api.announcements.getAnnouncements.useQuery();
   const announcement = announcements.data?.[0];
 
-  if (!announcement) return null; // or handle it however you'd like
+  // Initialize a state variable for the last closed announcement
+  const [lastClosedAnnouncement, setLastClosedAnnouncement] = useState<string | null>(null);
+
+  // Only show the banner if the latest announcement hasn't been closed yet
+  const [showBanner, setShowBanner] = useState(true);
+
+  // Effect to get the stored value from localStorage once after the component mounts
+  useEffect(() => {
+    const storedValue = localStorage.getItem("lastClosedAnnouncement");
+    setLastClosedAnnouncement(storedValue);
+    
+    if (announcement && storedValue === announcement.created_at.toString()) {
+      setShowBanner(false);
+    }
+  }, [announcement]);
+
+  if (!announcement) return null;
 
   const { title, content, link, published, isAdvertisement, targetPage = "all", duration, linkedText, created_at } = announcement;
 
-  // Calculate if announcement has expired
   const currentDate = new Date();
   const createdDate = new Date(created_at);
   const expireDate = new Date(createdDate.setDate(createdDate.getDate() + duration));
   const isExpired = currentDate > expireDate;
 
-  // Create a message with dynamic link
   const message = content.replace(
     linkedText,
     `<a target="_blank" href="${link}" class="${
@@ -51,12 +43,18 @@ const StickyBanner = () => {
     } underline decoration-solid underline-offset-2 hover:no-underline">${linkedText}</a>`
   );
 
-  // Conditions to display the banner
   if (!published || isExpired || (targetPage !== "all" && router.pathname !== targetPage)) return null;
 
   const bgColor = dark ? "bg-gray-700" : "bg-gray-200";
   const textColor = dark ? "text-slate-400" : "text-slate-600";
   const bulbBgColor = dark ? "bg-gray-600" : "bg-gray-200";
+
+  const handleCloseBanner = () => {
+    if (announcement) {
+      localStorage.setItem("lastClosedAnnouncement", announcement.created_at.toString());
+      setShowBanner(false);
+    }
+  };
 
   const LightBulbIcon = () => (
     <svg className={`h-3 w-3 ${textColor}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#00afef" viewBox="0 0 18 19">
@@ -76,7 +74,7 @@ const StickyBanner = () => {
     <Box className={`text-muted-foreground flex items-center justify-center p-1 text-center ${bgColor} w-full`}>
       <div className="mx-auto flex items-center">
         <p className={`flex items-center text-sm font-normal ${textColor}`}>
-          <span className={`mr-3 hidden h-6 w-6 lg:block items-center justify-center rounded-full p-1 ${bulbBgColor}`}>
+          <span className={`mr-3 hidden h-6 w-6 items-center justify-center rounded-full p-1 lg:block ${bulbBgColor}`}>
             <LightBulbIcon />
             <span className="sr-only">Light bulb</span>
           </span>
@@ -87,7 +85,7 @@ const StickyBanner = () => {
         </p>
       </div>
       <div className="ml-4 flex items-center">
-        <span className="inline-flex h-7 w-7 flex-shrink-0 cursor-pointer items-center justify-center" onClick={() => setShowBanner(false)}>
+        <span className="inline-flex h-7 w-7 flex-shrink-0 cursor-pointer items-center justify-center" onClick={handleCloseBanner}>
           <CloseIcon />
           <span className="sr-only">Close banner</span>
         </span>
