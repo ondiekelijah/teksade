@@ -168,6 +168,7 @@ export const communitiesRouter = createTRPCRouter({
     .input(
       z.object({
         creatorId: z.string(),
+        creatorEmail: z.string(),
         communityName: z.string(),
         communityDescription: z.string(),
         country: z.string(),
@@ -347,6 +348,18 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  getUnpulishedCommunities: publicProcedure.query(async ({ input, ctx }) => {
+    try {
+      const unpulishedCommunities = await ctx.prisma.community.findMany({
+        where: {
+          published: false,
+        },
+      });
+      return unpulishedCommunities;
+    } catch (error) {
+      console.log(error);
+    }
+  }),
 
   deleteCommunity: publicProcedure
     .input(
