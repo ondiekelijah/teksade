@@ -19,6 +19,7 @@ import CustomButton from "@/components/custom-components/button";
 import { FaUpload } from "react-icons/fa";
 import { technologies as techList } from "@/utils/constants";
 import SectionTitle from "../custom-components/sectionTitle";
+import useCheckImageType from "@/hooks/useCheckImageType";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
@@ -32,6 +33,7 @@ export default function NewCommunityPage() {
   const dark = colorScheme === "dark";
   const { notifyError, notifySuccess } = useMantineNotify();
   const router = useRouter();
+  const { isValidImageType } = useCheckImageType(profileImage);
 
   const nextStep = () => setActive((current) => (current < 2 ? current + 1 : current));
 
@@ -49,6 +51,8 @@ export default function NewCommunityPage() {
     whatsapp?: string;
     phone?: string;
     youtube?: string;
+    slack?: string;
+    discord?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -65,6 +69,8 @@ export default function NewCommunityPage() {
         website: z.string().url().optional(),
         phone: z.union([z.literal(""), z.string().min(10).optional()]),
         youtube: z.string().url().optional(),
+        slack: z.string().url().optional(),
+        discord: z.string().url().optional(),
       })
     ),
   });
@@ -91,6 +97,7 @@ export default function NewCommunityPage() {
         const onfulfilledValue = await createNewCommunity
           .mutateAsync({
             creatorId: user.id,
+            creatorEmail: user.primaryEmailAddress?.emailAddress ?? "teksadeproject@gmail.com",
             communityName: values.communityName,
             communityDescription: values.description,
             country: values.country,
@@ -105,6 +112,8 @@ export default function NewCommunityPage() {
             whatsapp: values.whatsapp,
             phone: values.phone?.length ? values.phone : undefined,
             youtube: values.youtube,
+            slack: values.slack,
+            discord: values.discord,
           })
           .then((onfulfilledValue) => {
             if (onfulfilledValue?.country) {
@@ -128,19 +137,6 @@ export default function NewCommunityPage() {
         });
       }
     }
-  }
-
-  // function to check if user has uploaded the right image format
-  function checkImageType() {
-    if (!profileImage) return false;
-
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.svg)$/i;
-
-    if (allowedExtensions.exec(profileImage.name)) {
-      return true;
-    }
-
-    return false;
   }
 
   if (!getMemberInfo.isLoading && !(getMemberInfo.data?.name ?? getMemberInfo.data?.email)) {
@@ -203,6 +199,8 @@ export default function NewCommunityPage() {
                 <TextInput label="LinkedIn Profile URL" {...form.getInputProps("linkedin")} size="md" />
                 <TextInput label="WhatsApp Group Link" {...form.getInputProps("whatsapp")} size="md" />
                 <TextInput label="YouTube Channel Link" {...form.getInputProps("youtube")} size="md" />
+                <TextInput label="Slack Group Link" {...form.getInputProps("slack")} size="md" />
+                <TextInput label="Discord Group Link" {...form.getInputProps("discord")} size="md" />
               </div>
               <div className="flex justify-between ">
                 <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />
@@ -216,7 +214,7 @@ export default function NewCommunityPage() {
                 placeholder="Got a perfect community snapshot? Share it here!"
                 value={profileImage}
                 onChange={handleImageChange}
-                error={hasInteracted && !checkImageType() ? "Please upload a valid image." : null}
+                error={hasInteracted && !isValidImageType ? "Please upload a valid image." : null}
                 label="Featured Image (Accepted formats: PNG, JPEG, SVG.)"
                 withAsterisk
                 size="md"
@@ -225,8 +223,19 @@ export default function NewCommunityPage() {
                 clearable
                 radius="lg"
               />
-              <div className="flex h-56 w-full justify-center">{profileImage && <img src={URL.createObjectURL(profileImage)} alt="profile-priview" className="h-full object-cover" />}</div>
-              <CustomButton size="md" variant="filled" type="submit" title="Add Community" onClickHandler={() => void handleLogoUpload()} disabled={!profileImage} />
+              {profileImage && isValidImageType && (
+                <div className="flex h-56 w-full justify-center">
+                  <img src={URL.createObjectURL(profileImage)} alt="cover-photo" className="h-full object-cover" />
+                </div>
+              )}
+              <CustomButton
+                size="md"
+                variant="filled"
+                type="submit"
+                title={createNewCommunity.isLoading || uploading ? "Creating ..." : "Add Community"}
+                onClickHandler={() => void handleLogoUpload()}
+                disabled={!profileImage || !isValidImageType}
+              />
             </div>
           </Stepper.Step>
           <Stepper.Completed>

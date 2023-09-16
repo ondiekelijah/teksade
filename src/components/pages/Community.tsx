@@ -10,7 +10,7 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import MemberCard from "@/components/sections/MemberCard";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaSlack, FaDiscord, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";
 import { useMantineColorScheme } from "@mantine/core";
@@ -36,6 +36,8 @@ interface SocialLinksProps {
     whatsapp: string;
     phone: string;
     youtube: string;
+    slack: string;
+    discord: string;
     [key: string]: string | undefined;
   };
 }
@@ -54,6 +56,8 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     whatsapp: FaWhatsapp,
     phone: FaPhone,
     youtube: FaYoutube,
+    slack: FaSlack,
+    discord: FaDiscord,
   };
 
   return (
@@ -124,6 +128,8 @@ export default function SingleCommunityPage() {
     whatsapp: communityInfo.data?.whatsapp ?? "",
     phone: communityInfo.data?.phone ?? "",
     youtube: communityInfo.data?.youtube ?? "",
+    slack: communityInfo.data?.slack ?? "",
+    discord: communityInfo.data?.discord ?? "",
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {

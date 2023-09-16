@@ -83,6 +83,7 @@ export const membersRouter = createTRPCRouter({
     .input(
       z.object({
         memberId: z.string(),
+        searchTerm: z.string().optional(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -90,6 +91,10 @@ export const membersRouter = createTRPCRouter({
         const createdCommunities = await ctx.prisma.community.findMany({
           where: {
             creatorId: input.memberId,
+            name: {
+              contains: input.searchTerm,
+              mode: "insensitive",
+            },
           },
           include: {
             _count: {

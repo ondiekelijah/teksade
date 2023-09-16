@@ -9,6 +9,8 @@ import { useDownloadURL, useUploadFile } from "react-firebase-hooks/storage";
 import { string, z } from "zod";
 import CustomButton from "../custom-components/button";
 import useMantineNotify from "@/hooks/useNotify";
+import useCheckImageType from "@/hooks/useCheckImageType";
+import { FaUpload } from "react-icons/fa";
 
 interface CommunityUpdateModalProps {
   communityId: string;
@@ -18,6 +20,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
   const queryClient = api.useContext();
   const communityInfo = api.communities.getCommunityInfo.useQuery({ communityId });
   const { notifySuccess } = useMantineNotify();
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
@@ -30,6 +33,7 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
   const [uploadFile, uploading, , error] = useUploadFile();
   const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
+  const { isValidImageType } = useCheckImageType(newProfileImage);
 
   useEffect(() => {
     updateForm.setValues({
@@ -45,6 +49,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       whatsapp: communityInfo.data?.whatsapp ? communityInfo.data.whatsapp : undefined,
       phone: communityInfo.data?.phone ? communityInfo.data.phone : undefined,
       youtube: communityInfo.data?.youtube ? communityInfo.data.youtube : undefined,
+      slack: communityInfo.data?.slack ? communityInfo.data.slack : undefined,
+      discord: communityInfo.data?.discord ? communityInfo.data.discord : undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [communityInfo.data]);
@@ -61,6 +67,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     whatsapp?: string;
     phone?: string;
     youtube?: string;
+    slack?: string;
+    discord?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -76,6 +84,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         whatsapp: z.string().url().optional(),
         phone: z.string().min(10).optional(),
         youtube: z.string().url().optional(),
+        slack: z.string().url().optional(),
+        discord: z.string().url().optional(),
       })
     ),
   });
@@ -94,6 +104,11 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         });
     }
   }
+  function handleImageChange(profileImage: File | null) {
+    setHasInteracted(true); // Add this line
+    setNewProfileImage(profileImage);
+  }
+
   function handleUpdate(values: typeof updateForm.values) {
     changeProfileImage();
     updateCommunity.mutate({
@@ -110,6 +125,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       whatsapp: values.website,
       phone: values.phone,
       youtube: values.youtube,
+      slack: values.slack,
+      discord: values.discord,
     });
     // Refresh community info - not working
     void communityInfo.refetch();
@@ -118,26 +135,53 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     console.log(error.message);
   }
   return (
-    <div>
-      <div className="flex cursor-pointer items-center gap-x-2 py-4">
-        <Avatar src={logoImage} size="xl" radius="xs" className=" object-cover" />
-        <FileInput value={newProfileImage} onChange={setNewProfileImage} variant="unstyled" placeholder="Update cover image" />
+    <div className="rounded-lg p-6 shadow-md">
+      <div className="mb-8 flex flex-col items-center gap-4">
+        <div className="mb-4 flex h-56 w-full justify-center">
+          <img src={newProfileImage && isValidImageType ? URL.createObjectURL(newProfileImage) : logoImage} alt="cover-photo" className="h-full rounded-md object-cover shadow-sm" />
+        </div>
+        <FileInput
+          placeholder="Update cover image"
+          value={newProfileImage}
+          onChange={setNewProfileImage}
+          error={hasInteracted && !isValidImageType ? "Please upload a valid image." : null}
+          label="Cover Image (Accepted formats: PNG, JPEG, SVG.)"
+          withAsterisk
+          size="md"
+          accept="image/png,image/jpeg,image/svg"
+          icon={<FaUpload />}
+          clearable
+          radius="lg"
+          className="rounded-md border-2 border-dashed border-gray-300 p-2 text-sm"
+        />
       </div>
       <form onSubmit={updateForm.onSubmit((values) => handleUpdate(values))} className="flex flex-col gap-1">
-        <LoadingOverlay visible={updateCommunity.isLoading || communityInfo.isLoading} />
+        <LoadingOverlay visible={communityInfo.isLoading} />
         <TextInput {...updateForm.getInputProps("name")} size="md" label="Name" />
         <Textarea {...updateForm.getInputProps("description")} size="md" label="Desription" />
         <Select {...updateForm.getInputProps("focusArea")} size="md" data={[...techFocusAreas, "Others"]} label="Focus Area" searchable clearable />
         <MultiSelect {...updateForm.getInputProps("technologies")} size="md" data={technologies} label="Technologies" searchable clearable />
-        <TextInput {...updateForm.getInputProps("github")} size="md" label="GitHub Profile URL" />
-        <TextInput {...updateForm.getInputProps("twitter")} size="md" label="Twitter Profile URL" />
-        <TextInput {...updateForm.getInputProps("linkedin")} size="md" label="LinkedIn Profile URL" />
-        <TextInput {...updateForm.getInputProps("website")} size="md" label="Website URL" />
-        <TextInput {...updateForm.getInputProps("whatsapp")} size="md" label="WhatsApp Group Link" />
-        <TextInput {...updateForm.getInputProps("phone")} size="md" label="Contact Number" />
-        <TextInput {...updateForm.getInputProps("youtube")} size="md" label="YouTube Channel Link" />
+        <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <TextInput {...updateForm.getInputProps("github")} size="md" label="GitHub Profile URL" />
+          <TextInput {...updateForm.getInputProps("twitter")} size="md" label="Twitter Profile URL" />
+          <TextInput {...updateForm.getInputProps("linkedin")} size="md" label="LinkedIn Profile URL" />
+          <TextInput {...updateForm.getInputProps("website")} size="md" label="Website URL" />
+          <TextInput {...updateForm.getInputProps("whatsapp")} size="md" label="WhatsApp Group Link" />
+          <TextInput {...updateForm.getInputProps("phone")} size="md" label="Contact Number" />
+          <TextInput {...updateForm.getInputProps("youtube")} size="md" label="YouTube Channel Link" />
+          <TextInput {...updateForm.getInputProps("slack")} size="md" label="Slack Group Link" />
+          <TextInput {...updateForm.getInputProps("discord")} size="md" label="Discord Group Link" />
+        </div>
+
         <div className="my-6 flex justify-center">
-          <CustomButton size="lg" className="text-base" variant="filled" type="submit" title="Save Changes" disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading} />
+          <CustomButton
+            size="lg"
+            className="text-base"
+            variant="filled"
+            type="submit"
+            title={updateCommunity.isLoading || communityInfo.isLoading ? "Updating..." : "Update"}
+            disabled={!updateForm.isValid() || updateCommunity.isLoading || communityInfo.isLoading}
+          />
         </div>
       </form>
     </div>

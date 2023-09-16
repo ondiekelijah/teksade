@@ -2,7 +2,7 @@
 import { techFocusAreas } from "@/utils/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button, Chip, LoadingOverlay, Paper, rem, Text, Tooltip } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
 import { api } from "@/utils/api";
@@ -16,6 +16,7 @@ import { useMantineColorScheme } from "@mantine/core";
 import CustomButton from "@/components/custom-components/button";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
 import siteMetadata from "@/data/siteMetadata";
+import { NextIcon, PrevIcon } from "../custom-components/icons/navigationIcons";
 
 export default function PopularCommunities() {
   const defaultList = ["All"];
@@ -25,6 +26,31 @@ export default function PopularCommunities() {
   });
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+  const handleNext = () => {
+    if (scrollContainer.current) {
+      const containerWidth = scrollContainer.current.offsetWidth;
+      scrollContainer.current.scrollBy({
+        left: containerWidth,
+        behavior: "smooth",
+      });
+      setScrollPosition(scrollContainer.current.scrollLeft);
+    }
+  };
+  
+  const handlePrev = () => {
+    if (scrollContainer.current) {
+      const containerWidth = scrollContainer.current.offsetWidth;
+      scrollContainer.current.scrollBy({
+        left: -containerWidth,
+        behavior: "smooth",
+      });
+      setScrollPosition(scrollContainer.current.scrollLeft);
+    }
+  };
+  
 
   return (
     <Container>
@@ -35,41 +61,51 @@ export default function PopularCommunities() {
             <CustomButton size="sm" variant="outline" title="Show All" />
           </Link>
         </p>
-        {/* <div className="mt-8 flex gap-2 overflow-x-auto">
-          <Chip.Group
-            multiple
-            value={selectedTechnlogies}
-            onChange={(value) => {
-              // If 'All' is in the new selection and the previous value was not 'All'
-              if (value.includes("All") && !selectedTechnlogies.includes("All")) {
-                setselectedTechnlogies(["All"]);
-              }
-              // If 'All' was deselected, no changes
-              else if (!value.includes("All") && selectedTechnlogies.includes("All")) {
-                return;
-              }
-              // If the user selects any other option when "All" is present
-              else if (value.length > selectedTechnlogies.length) {
-                setselectedTechnlogies(value.filter((item) => item !== "All"));
-              }
-              // If the user deselects any option other than "All"
-              else {
-                setselectedTechnlogies(value);
-              }
+        {/* Scrollable chips */}
+        <div className=" flex items-center gap-2 pt-4">
+          <button onClick={handlePrev}>
+            <PrevIcon size={30} />
+          </button>
+          <div ref={scrollContainer} className="hide-scrollbar flex gap-2 overflow-x-auto">
+            <Chip.Group
+              multiple
+              value={selectedTechnlogies}
+              onChange={(value) => {
+                // If 'All' is in the new selection and the previous value was not 'All'
+                if (value.includes("All") && !selectedTechnlogies.includes("All")) {
+                  setselectedTechnlogies(["All"]);
+                }
+                // If 'All' was deselected, no changes
+                else if (!value.includes("All") && selectedTechnlogies.includes("All")) {
+                  return;
+                }
+                // If the user selects any other option when "All" is present
+                else if (value.length > selectedTechnlogies.length) {
+                  setselectedTechnlogies(value.filter((item) => item !== "All"));
+                }
+                // If the user deselects any option other than "All"
+                else {
+                  setselectedTechnlogies(value);
+                }
 
-              // If nothing is selected, default to "All"
-              if (value.length === 0) {
-                setselectedTechnlogies(["All"]);
-              }
-            }}
-          >
-            {["All", ...techFocusAreas].map((tech, index) => (
-              <Chip key={tech} value={tech} checked={selectedTechnlogies.includes(tech)} color="indigo" variant={selectedTechnlogies.includes(tech) ? "filled" : "outline"}>
-                {tech}
-              </Chip>
-            ))}
-          </Chip.Group>
-        </div> */}
+                // If nothing is selected, default to "All"
+                if (value.length === 0) {
+                  setselectedTechnlogies(["All"]);
+                }
+              }}
+            >
+              {["All", ...techFocusAreas].map((tech, index) => (
+                <Chip key={tech} value={tech} checked={selectedTechnlogies.includes(tech)} color="indigo" variant={selectedTechnlogies.includes(tech) ? "filled" : "outline"}>
+                  {tech}
+                </Chip>
+              ))}
+            </Chip.Group>
+          </div>
+          <button onClick={handleNext}>
+            <NextIcon size={30} />
+          </button>
+        </div>
+        {/*  */}
         <div className="overflow-x-auto">
           {!popularCommunities.isLoading && popularCommunities.data?.length === 0 ? (
             <div className="flex h-60 w-full items-center justify-center px-20 text-center">
@@ -91,6 +127,8 @@ export default function PopularCommunities() {
               slideSize="33.33%"
               breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
               className="my-5 "
+              nextControlIcon={<NextIcon hideCircle={true} />}
+              previousControlIcon={<PrevIcon hideCircle={true} />}
             >
               {popularCommunities.isLoading && (
                 <>
