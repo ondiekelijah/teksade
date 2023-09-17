@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { clerkClient } from "@clerk/nextjs";
 
 export const membersRouter = createTRPCRouter({
   getMemberInfo: publicProcedure
@@ -10,12 +11,17 @@ export const membersRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       try {
+        const authInfo = await clerkClient.users.getUser(input.memberId);
         const memberInfo = await ctx.prisma.member.findUnique({
           where: {
             id: input.memberId,
           },
         });
-        return memberInfo;
+
+        return {
+          ...memberInfo,
+          imageUrl: authInfo.imageUrl,
+        };
       } catch (error) {
         console.log(error);
       }
