@@ -10,7 +10,7 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import MemberCard from "@/components/sections/MemberCard";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaSlack, FaDiscord, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";
 import { useMantineColorScheme } from "@mantine/core";
@@ -36,6 +36,8 @@ interface SocialLinksProps {
     whatsapp: string;
     phone: string;
     youtube: string;
+    slack: string;
+    discord: string;
     [key: string]: string | undefined;
   };
 }
@@ -54,14 +56,19 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     whatsapp: FaWhatsapp,
     phone: FaPhone,
     youtube: FaYoutube,
+    slack: FaSlack,
+    discord: FaDiscord,
   };
 
   return (
     <Group spacing="xs" className="my-6">
       {Object.entries(icons).map(([key, Icon]) => {
-        const url = links[key];
+        let url = links[key];
+        if (key === "phone" && url) {
+          url = `tel:${url}`;
+        }
+  
         if (url && url.trim() !== "") {
-          // Check if the URL exists and is not just whitespace
           return (
             <Link key={key} href={url} passHref>
               <ActionIcon size="lg" variant="default" radius="xl">
@@ -74,6 +81,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
       })}
     </Group>
   );
+  
 };
 
 const Technologies = ({ technologies, dark }: TechnologiesProps) => {
@@ -124,6 +132,8 @@ export default function SingleCommunityPage() {
     whatsapp: communityInfo.data?.whatsapp ?? "",
     phone: communityInfo.data?.phone ?? "",
     youtube: communityInfo.data?.youtube ?? "",
+    slack: communityInfo.data?.slack ?? "",
+    discord: communityInfo.data?.discord ?? "",
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {

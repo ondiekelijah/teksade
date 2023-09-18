@@ -20,7 +20,8 @@ model Member {
   phone               String?     @unique
   about               String?
   institution         String?
-  role                String?
+  role                String?     
+  db_role             String?     @default("member")
   country             String?
   location            String?
   github              String?     @unique
@@ -54,6 +55,8 @@ model Community {
   youtube      String?  @unique
   logo_link    String
   published    Boolean? @default(false)
+  slack       String?  @unique
+  discord     String?  @unique
 
   creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
   creatorId String

@@ -14,7 +14,7 @@ export default function Hero() {
 
   return (
     <Container>
-      <section className="z-0 flex min-h-max w-full flex-col items-center justify-center gap-y-7 py-16 bg-cover bg-center bg-no-repeat">
+      <section className="z-0 flex min-h-max w-full flex-col items-center justify-center gap-y-7 py-20 bg-cover bg-center bg-no-repeat">
         <Text className="text-center text-4xl font-black tracking-normal sm:text-5xl lg:text-7xl/[90px]" variant="gradient" gradient={{ from: "indigo", to: "cyan", deg: 95 }}>
           Discover the most vibrant and engaged tech communities.
         </Text>
