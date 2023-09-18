@@ -168,3 +168,8 @@ Stay connected and be in the loop with the latest from our vibrant tech communit
 - Contribute on [GitHub](https://github.com/ondiekelijah/teksade): Team up with our open-source tribe, pitch fresh ideas, and boost our projects with your code contributions.
 
 Be a part of our mission to unite tech enthusiasts globally! 🚀
+
+## License
+
+This project is licensed under the terms of the [MIT License](https://opensource.org/license/mit/).
+
