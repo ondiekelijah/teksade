@@ -153,7 +153,7 @@ export default function SingleCommunityPage() {
         .then((returnValue) => {
           if (returnValue) {
             void confetti({
-              particleCount: 400,
+              particleCount: 150,
               scalar: 0.6,
               ticks: 400,
               spread: 180,
@@ -176,6 +176,16 @@ export default function SingleCommunityPage() {
       })
       .then((returnValue) => {
         if (returnValue?._count.members) {
+          void confetti({
+            particleCount: 600,
+            scalar: 0.6,
+            ticks: 400,
+            spread: 180,
+            origin: {
+              y: 0,
+              x: 0.5,
+            },
+          });
           notifySuccess({
             title: "Excited to have you join us!",
             message: "Cheers to the new beginnings!",
