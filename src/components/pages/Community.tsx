@@ -203,7 +203,7 @@ export default function SingleCommunityPage() {
 
   return (
     <>
-      <PageSEO title={"Community"} description={siteMetadata.community_description} />
+      <PageSEO title={`Community${communityInfo?.data?.name ? ` - ${communityInfo.data.name}` : ""}`} description={siteMetadata.community_description} />
       <Container>
         {communityInfo.isLoading ? (
           <CommunitySkeleton />
