@@ -29,7 +29,10 @@ const siteMetadata = {
       ],
       mission: "Unifying the global tech realm by bridging divides, nurturing relationships, and championing the spirit of innovation.",
       vision: "Envisioning a world where technology transcends boundaries, fostering a close-knit global community that thrives on collaboration and shared passion."
-    }
+    },
+    signInPage_description: "Access the premier tech community portal. Engage with vibrant communities, explore the latest tech trends, and join interactive discussions.",
+    signUpPage_description: "Create your account and dive into a world of technology insights. Become a part of our growing tech community and unleash endless opportunities.",
+
   }
   
   export default siteMetadata
