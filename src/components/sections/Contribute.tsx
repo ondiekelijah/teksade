@@ -17,12 +17,12 @@ export default function Contribute() {
           like-minded individuals and create something truly groundbreaking.
         </Text>
         <div className="flex flex-col gap-5 sm:flex-row">
-          <Link href="https://github.com/ondiekelijah/teksade" target="_blank">
+          <Link href="https://github.com/ondiekelijah/teksade" target="_blank" rel="noopener">
             <Button variant="default" className={`w-full tracking-wide rounded-full sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`} size="md" leftIcon={<GitHub dark={dark} />}>
               Contribute on Github
             </Button>
           </Link>
-          <Link href="https://twitter.com/teksadehq" target="_blank">
+          <Link href="https://twitter.com/teksadehq" target="_blank" rel="noopener">
             <Button
               variant="default"
               className={`w-full rounded-full tracking-wide sm:w-auto ${dark ? " text-white" : "bg-white text-black"}`}

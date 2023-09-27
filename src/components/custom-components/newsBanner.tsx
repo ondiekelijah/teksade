@@ -38,7 +38,7 @@ const StickyBanner = () => {
 
   const message = content.replace(
     linkedText,
-    `<a target="_blank" href="${link}" class="${
+    `<a target="_blank" rel="noopener" href="${link}" class="${
       dark ? "decoration-500 text-[#00afef]" : "decoration-600 text-indigo-600"
     } underline decoration-solid underline-offset-2 hover:no-underline">${linkedText}</a>`
   );

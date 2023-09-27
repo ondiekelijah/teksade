@@ -1,5 +1,5 @@
 const siteMetadata = {
-    title: 'Teksade: The Tech Community HQ',
+    title: 'The Tech Community HQ',
     author: 'Teksade',
     headerTitle: 'Teksade',
     description: "Teksade is where global tech communities converge. Find your tribe, share ideas, and drive innovation. Step into the epicenter of tech dialogue and action.",

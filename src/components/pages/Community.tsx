@@ -156,11 +156,7 @@ export default function SingleCommunityPage() {
               particleCount: 150,
               scalar: 0.6,
               ticks: 400,
-              spread: 180,
-              origin: {
-                y: 0,
-                x: 0.5,
-              },
+              spread: 60,
             });
             void queryClient.likes.getCommunintyLikes.refetch({ communityId: communityId });
           }
@@ -246,7 +242,7 @@ export default function SingleCommunityPage() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
               {/* Image */}
               <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
-                <Image src={logoImage ?? "/img/twitter-card.svg"} alt="featured-image" className="h-full w-full object-cover object-center" width={900} height={500} loading="lazy" />
+                <Image src={logoImage ?? "/img/twitter-card.webp"} alt="featured-image" className="h-full w-full object-cover object-center" width={900} height={500} loading="lazy" />
               </div>
 
               {/* Description */}

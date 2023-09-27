@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { storageBucket } from "@/utils/firestoreConfig";
-import { LoadingOverlay, Paper, Text, Tooltip } from "@mantine/core";
+import { LoadingOverlay, Paper, Text, Title, Tooltip } from "@mantine/core";
 import { ref } from "firebase/storage";
 import Link from "next/link";
 import React from "react";
@@ -29,7 +29,7 @@ export default function CommmunityCard(community: CommmunityCardProps) {
         <div className="relative ">
           <LoadingOverlay visible={loading} />
           <p className="absolute top-5 hidden w-full text-center group-hover:inline">{community.description}</p>
-          <img src={logoImage ?? "/img/twitter-card.svg"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
+          <img src={logoImage ?? "/img/twitter-card.webp"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
         </div>
 
         <div className="p-4">
@@ -39,7 +39,7 @@ export default function CommmunityCard(community: CommmunityCardProps) {
           </Text>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1">
-              <h3 className="flex-grow">{community.name}</h3>
+              <Title order={1} size="h3" className="flex-grow">{community.name}</Title>
               {community.verified && (
                 <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                   <Text className="align-middle">
