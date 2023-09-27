@@ -8,7 +8,7 @@ import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
 import { storageBucket } from "@/utils/firestoreConfig";
 import MemberCard from "@/components/sections/MemberCard";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaSlack, FaDiscord, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
@@ -20,7 +20,6 @@ import CustomButton from "@/components/custom-components/button";
 import { CommunitySEO, PageSEO } from "@/components/SEO";
 import LikeButton from "@/components/custom-components/likeButton";
 import CommunitySkeleton from "@/components/custom-components/skeletons/Community/Community";
-import ImageSkeleton from "@/components/custom-components/skeletons/Community/FeaturedImage";
 import LocationIcon from "@/components/custom-components/icons/locationIcon";
 import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
@@ -67,7 +66,7 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
         if (key === "phone" && url) {
           url = `tel:${url}`;
         }
-  
+
         if (url && url.trim() !== "") {
           return (
             <Link key={key} href={url} passHref>
@@ -81,7 +80,6 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
       })}
     </Group>
   );
-  
 };
 
 const Technologies = ({ technologies, dark }: TechnologiesProps) => {
@@ -100,7 +98,8 @@ const Technologies = ({ technologies, dark }: TechnologiesProps) => {
 export default function SingleCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-  const communityId = useRouter().query.id;
+  const router = useRouter();
+  const communityId = router.query.id;
   const { user } = useUser();
   const queryClient = api.useContext();
   const { notifyError, notifySuccess } = useMantineNotify();
@@ -122,7 +121,7 @@ export default function SingleCommunityPage() {
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
 
   // Check if current member is already a member of the community
-  const isMember = communityInfo.data?.members.some((member) => member.id === memberInfo.data?.id);
+  const isMember = user?.id && communityInfo.data?.members.some((member) => member.id === memberInfo.data?.id);
 
   const linksData = {
     twitter: communityInfo.data?.twitter ?? "",
@@ -218,7 +217,7 @@ export default function SingleCommunityPage() {
                   {communityInfo.data?.verified && (
                     <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                       <Text className="align-middle">
-                        <Checkmark  />
+                        <Checkmark />
                       </Text>
                     </Tooltip>
                   )}
@@ -250,29 +249,41 @@ export default function SingleCommunityPage() {
                 <div className="flex justify-between pt-5">
                   {/* CTA button */}
                   <div>
-                    {!isMember ? (
+                    <SignedIn>
+                      {!isMember ? (
+                        <CustomButton
+                          size="md"
+                          color="indigo"
+                          title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
+                          onClickHandler={() => {
+                            memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
+                          }}
+                        />
+                      ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
+                        <Link href="/communities/created">
+                          <CustomButton size="md" color="indigo" title={"Update Commununity"} />
+                        </Link>
+                      ) : (
+                        <CustomButton
+                          onClickHandler={() => {
+                            removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                          }}
+                          size="md"
+                          color="indigo"
+                          title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
+                        />
+                      )}
+                    </SignedIn>
+                    <SignedOut>
                       <CustomButton
                         size="md"
                         color="indigo"
-                        title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
+                        title="Join Community"
                         onClickHandler={() => {
-                          memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
+                          void router.push("/sign-up");
                         }}
                       />
-                    ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
-                      <Link href="/communities/created">
-                        <CustomButton size="md" color="indigo" title={"Update Commununity"} />
-                      </Link>
-                    ) : (
-                      <CustomButton
-                        onClickHandler={() => {
-                          removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
-                        }}
-                        size="md"
-                        color="indigo"
-                        title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
-                      />
-                    )}
+                    </SignedOut>
                   </div>
                   {/* Like button */}
                   <div>
