@@ -67,7 +67,7 @@ export default function PopularCommunities() {
           <button onClick={handlePrev}>
             <PrevIcon size={30} />
           </button>
-          <div ref={scrollContainer} className="hide-scrollbar flex gap-2 overflow-x-auto">
+          <div ref={scrollContainer} className="hide-scrollbar pb-2 flex gap-2 overflow-x-auto">
             <Chip.Group
               multiple
               value={selectedTechnlogies}
