@@ -8,6 +8,7 @@ import useMantineNotify from "@/hooks/useNotify";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import CustomButton from "../custom-components/button";
+import Image from "next/image";
 
 export default function NewsLetter() {
   const addSubscriber = api.newsletter.subscribeToNewsletter.useMutation();
@@ -73,7 +74,7 @@ export default function NewsLetter() {
             )}
           </div>
         </div>
-        <img src="/img/newsletter.svg" className=" order-first h-80 w-80  justify-self-end sm:order-last" alt="news letter" />
+        <Image src="/img/newsletter.svg" className=" order-first h-80 w-80  justify-self-end sm:order-last" alt="newsletter" width={500} height={500} />
       </div>
     </Container>
   );

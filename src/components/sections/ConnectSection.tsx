@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button } from "@mantine/core";
+import { Button, Title } from "@mantine/core";
 import Link from "next/link";
 import React from "react";
 import Container from "@/components/custom-components/container";
 import Shadow from "@/components/custom-components/shadow";
 import { useMantineColorScheme } from "@mantine/core";
+import Image from "next/image";
 
 
 export default function ConnectSection() {
@@ -29,12 +30,12 @@ export default function ConnectSection() {
         </div>
         <div className="order-1 lg:order-2 flex items-center gap-3 sm:order-2 p-4">
           <div className=" flex-[7]">
-            <img className="h-[40vh] w-full rounded-md object-cover sm:h-full" src="img/g-2.jpg" alt="long image" />
+            <Image className="h-[40vh] w-full rounded-md object-cover sm:h-full" src="/img/g-2.webp" alt="contrib-1" width={500} height={700} />
           </div>
           <div className=" flex h-full flex-[3] flex-col ">
-            <img className="mb-1 w-full flex-[25] rounded-md object-cover" src="img/g-3.jpg" alt="short image 1" />
-            <img className="mb-1 w-full flex-[50] rounded-md object-cover" src="img/kate.jpeg" alt="short image 2" />
-            <img className="w-full flex-[25] rounded-md object-cover" src="img/g-1.jpg" alt="short image 1" />
+            <Image className="mb-1 w-full flex-[25] rounded-md object-cover" src="/img/g-3.webp" alt="contrib-2" width={500} height={700}/>
+            <Image className="mb-1 w-full flex-[50] rounded-md object-cover" src="/img/g-4.webp" alt="contrib-3" width={500} height={700}/>
+            <Image className="w-full flex-[25] rounded-md object-cover" src="/img/g-1.webp" alt="contrib-4" width={500} height={700} />
           </div>
         </div>
       </section>

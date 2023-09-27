@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { techFocusAreas } from "@/utils/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Button, Chip, LoadingOverlay, Paper, rem, Text, Tooltip } from "@mantine/core";
+import { Button, Chip, LoadingOverlay, Paper, rem, Text, Title, Tooltip } from "@mantine/core";
 import React, { useRef, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import Link from "next/link";
@@ -17,6 +17,7 @@ import CustomButton from "@/components/custom-components/button";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
 import siteMetadata from "@/data/siteMetadata";
 import { NextIcon, PrevIcon } from "../custom-components/icons/navigationIcons";
+import Image from "next/image";
 
 export default function PopularCommunities() {
   const defaultList = ["All"];
@@ -55,12 +56,12 @@ export default function PopularCommunities() {
   return (
     <Container>
       <div id="popular" className="py-20 ">
-        <p className="flex w-full items-center justify-between text-xl font-bold">
+        <Title order={2} className="flex w-full items-center justify-between text-xl font-bold">
           <span className="">Popular Communities</span>{" "}
           <Link href="/communities">
             <CustomButton size="sm" variant="outline" title="Show All" />
           </Link>
-        </p>
+        </Title>
         {/* Scrollable chips */}
         <div className=" flex items-center gap-2 pt-4">
           <button onClick={handlePrev}>
@@ -191,7 +192,7 @@ function CommunityImage({ communityName }: { communityName: string }) {
   return (
     <div className="">
       {/* <LoadingOverlay visible={loading} /> */}
-      <img src={value ? value : "/img/twitter-card.svg"} alt="community log" className="h-60 w-full rounded-t-lg object-cover" />
+      <Image src={value ? value : "/img/twitter-card.webp"} alt="cover-image" className="h-60 w-full rounded-t-lg object-cover" width={500} height={500} priority={true}/>
     </div>
   );
 }
