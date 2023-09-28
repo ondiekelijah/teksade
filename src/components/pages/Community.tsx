@@ -204,7 +204,7 @@ export default function SingleCommunityPage() {
   return (
     <>
 <PageSEO 
-    title={communityInfo?.data?.name ? `Community - ${communityInfo.data.name}` : 'Community'}
+    title={communityInfo?.data?.name ? `${communityInfo.data.name}` : 'Community'}
     description={siteMetadata.community_description} 
 />
       <Container>
