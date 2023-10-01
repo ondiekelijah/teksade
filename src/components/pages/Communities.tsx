@@ -17,7 +17,7 @@ import CommunityCardSkeleton from "../custom-components/skeletons/Community/Comm
 import CustomButton from "../custom-components/button";
 
 export default function CommunitiesPage() {
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(10);
   const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined);
   const [filterByNewlyCreated, setFilterByNewlyCreated] = useState(false);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[] | undefined>(undefined);

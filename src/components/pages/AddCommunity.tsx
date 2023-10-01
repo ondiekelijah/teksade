@@ -141,7 +141,7 @@ export default function NewCommunityPage() {
 
   if (!getMemberInfo.isLoading && !(getMemberInfo.data?.name ?? getMemberInfo.data?.email)) {
     return (
-      <div className=" flex w-full flex-col items-center justify-center space-y-4 py-10 text-center">
+      <div className="flex w-full flex-col items-center justify-center space-y-4 py-10 text-center">
         <div className={`mb-4 flex items-center rounded-lg p-4 text-sm ${dark ? "border-blue-800 bg-gray-800 text-blue-400" : "border-blue-300 bg-blue-50 text-blue-800"}`} role="alert">
           <svg className="mr-3 inline h-10 w-10 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
