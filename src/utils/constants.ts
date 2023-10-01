@@ -65,6 +65,7 @@ export const countries: string[] = [
   "Georgia",
   "Germany",
   "Ghana",
+  "Global",
   "Greece",
   "Grenada",
   "Guatemala",
