@@ -28,7 +28,9 @@ export default function CommmunityCard(community: CommmunityCardProps) {
       <Paper key={community.id} className="group relative mb-8 rounded-lg shadow-lg">
         <div className="relative ">
           <LoadingOverlay visible={loading} />
-          <p className="absolute top-5 hidden w-full text-center group-hover:inline">{community.description}</p>
+            <Text size="sm" className="absolute top-5 hidden w-full px-2 text-center group-hover:line-clamp-[8]">
+              {community.description}
+            </Text>
           <img src={logoImage ?? "/img/twitter-card.webp"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
         </div>
 
