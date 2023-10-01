@@ -31,9 +31,9 @@ const useStyles = createStyles((theme) => ({
 
 export default function Footer() {
   const links = [
-    { link: "/communities", label: "Communities" },
     { link: "https://github.com/ondiekelijah/teksade", label: "Contribute" },
     { link: "/about", label: "About Us" },
+    { link: "/terms", label: "Terms & Privacy" },
   ];
 
   const socialLinks = [
