@@ -203,13 +203,19 @@ export default function SingleCommunityPage() {
 
   return (
     <>
-      <PageSEO
-        title={communityInfo.isLoading ? "Community" : communityInfo.data && communityInfo.data.name ? communityInfo.data.name : "Community"}
-        description={
-          communityInfo.isLoading ? siteMetadata.community_description : communityInfo.data && communityInfo.data.description ? communityInfo.data.description : siteMetadata.community_description
-        }
-        ogImage={logoImage}
-      />
+      {communityInfo.data && communityInfo.data.name && communityInfo.data.description && (
+        // <PageSEO title={communityInfo.data.name ?? communityInfo.data.name} description={communityInfo.data.description ?? communityInfo.data.description} ogImage={logoImage} />
+        <CommunitySEO
+          name={communityInfo.data.name ?? communityInfo.data.name}
+          description={communityInfo.data.description ?? communityInfo.data.description}
+          logoLink={logoImage ?? "/img/twitter-card.webp"}
+          website={communityInfo.data.website ?? ""}
+          technologies={communityInfo.data.technologies}
+          country={communityInfo.data.country}
+          location={communityInfo.data.location}
+          focusArea={communityInfo.data.focus_area}
+        />
+      )}
 
       <Container>
         {communityInfo.isLoading ? (
