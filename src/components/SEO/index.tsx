@@ -42,11 +42,12 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl 
 interface PageSEOProps {
   title: string;
   description: string;
+  ogImage?: string;
 }
 
-export const PageSEO = ({ title, description }: PageSEOProps) => {
-  const ogImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner;
-  const twImageUrl = siteMetadata.siteUrl + siteMetadata.socialBanner;
+export const PageSEO = ({ title, description, ogImage }: PageSEOProps) => {
+  const ogImageUrl = ogImage ? ogImage : siteMetadata.siteUrl + siteMetadata.socialBanner;
+  const twImageUrl = ogImage ? ogImage : siteMetadata.siteUrl + siteMetadata.socialBanner;
   return <CommonSEO title={title} description={description} ogType="website" ogImage={ogImageUrl} twImage={twImageUrl} />;
 };
 

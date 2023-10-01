@@ -203,10 +203,14 @@ export default function SingleCommunityPage() {
 
   return (
     <>
-<PageSEO 
-    title={communityInfo?.data?.name ? `${communityInfo.data.name}` : 'Community'}
-    description={siteMetadata.community_description} 
-/>
+      <PageSEO
+        title={communityInfo.isLoading ? "Community" : communityInfo.data && communityInfo.data.name ? communityInfo.data.name : "Community"}
+        description={
+          communityInfo.isLoading ? siteMetadata.community_description : communityInfo.data && communityInfo.data.description ? communityInfo.data.description : siteMetadata.community_description
+        }
+        ogImage={logoImage}
+      />
+
       <Container>
         {communityInfo.isLoading ? (
           <CommunitySkeleton />
@@ -249,61 +253,64 @@ export default function SingleCommunityPage() {
 
               {/* Description */}
               <div className="order-2 space-y-10 lg:order-3">
-                <div className="flex justify-between pt-5">
-                  {/* CTA button */}
-                  <div>
-                    <SignedIn>
-                      {!isMember ? (
-                        <CustomButton
-                          size="md"
-                          color="indigo"
-                          title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
-                          onClickHandler={() => {
-                            memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
-                          }}
-                        />
-                      ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
-                        <Link href="/communities/created">
-                          <CustomButton size="md" color="indigo" title={"Update Commununity"} />
-                        </Link>
-                      ) : (
-                        <CustomButton
-                          onClickHandler={() => {
-                            removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
-                          }}
-                          size="md"
-                          color="indigo"
-                          title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
-                        />
+                <div className="space-y-2">
+                  <div className="flex justify-between pt-5">
+                    <h2>Our Community</h2>
+                    <div>
+                      {communityId && memberInfo.data?.name && (
+                        <span className="flex items-center space-x-3">
+                          <LikeButton
+                            onClickHandler={() => {
+                              memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
+                            }}
+                            likes={getCommunityLikeCount.data?._count.likes ?? 0}
+                            disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
+                          />
+                        </span>
                       )}
-                    </SignedIn>
-                    <SignedOut>
+                    </div>
+                  </div>
+                  <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.description}</p>
+                </div>
+                {/* CTA button */}
+                <div>
+                  <SignedIn>
+                    {!isMember ? (
                       <CustomButton
                         size="md"
                         color="indigo"
-                        title="Join Community"
+                        title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
                         onClickHandler={() => {
-                          void router.push("/sign-up");
+                          memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
                         }}
                       />
-                    </SignedOut>
-                  </div>
-                  {/* Like button */}
-                  <div>
-                    {communityId && memberInfo.data?.name && (
-                      <span className="flex items-center space-x-3">
-                        <LikeButton
-                          onClickHandler={() => {
-                            memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
-                          }}
-                          likes={getCommunityLikeCount.data?._count.likes ?? 0}
-                          disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
-                        />
-                      </span>
+                    ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
+                      <Link href="/communities/created">
+                        <CustomButton size="md" color="indigo" title={"Update Commununity"} />
+                      </Link>
+                    ) : (
+                      <CustomButton
+                        onClickHandler={() => {
+                          removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                        }}
+                        size="md"
+                        color="indigo"
+                        title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
+                      />
                     )}
-                  </div>
+                  </SignedIn>
+                  <SignedOut>
+                    <CustomButton
+                      size="md"
+                      color="indigo"
+                      title="Join Community"
+                      onClickHandler={() => {
+                        void router.push("/sign-up");
+                      }}
+                    />
+                  </SignedOut>
                 </div>
-                <p className={`${dark ? "text-gray-300" : "text-gray-700"}`}>{communityInfo.data?.description}</p>
+                {/* Like button */}
               </div>
 
               {/* Right side content on larger screens, below image on smaller screens */}

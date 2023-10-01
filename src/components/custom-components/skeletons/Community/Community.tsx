@@ -26,7 +26,7 @@ function CommunitySkeleton() {
         {/* Description */}
         <div className="order-2 space-y-10 lg:order-3">
           <div className="flex justify-between pt-5">
-            <Skeleton height={40} width="150px" radius="xl" />
+            <Skeleton height={30} width="250px" radius="xl" />
             <div className="flex items-center space-x-2">
               <Skeleton height={16} width="24px" radius="xl" />
               <Skeleton height={40} width="40px" radius="xl" />
@@ -35,6 +35,7 @@ function CommunitySkeleton() {
           <Skeleton height={16} mt={6} width="90%" radius="xl" />
           <Skeleton height={16} mt={6} width="70%" radius="xl" />
           <Skeleton height={16} mt={6} width="80%" radius="xl" />
+          <Skeleton height={40} width="150px" radius="xl" />
         </div>
 
         {/* Right side content */}

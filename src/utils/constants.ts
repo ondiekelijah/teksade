@@ -256,6 +256,7 @@ export const techFocusAreas: string[] = [
   "SpaceTech",
   "TransportTech",
   "Tech Evangelism/Advocacy",
+  "Other",
 ];
 
 export const technologies = [

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { storageBucket } from "@/utils/firestoreConfig";
-import { LoadingOverlay, Paper, Text, Title, Tooltip } from "@mantine/core";
+import { Box, LoadingOverlay, Paper, Text, Title, Tooltip, useMantineColorScheme } from "@mantine/core";
 import { ref } from "firebase/storage";
 import Link from "next/link";
 import React from "react";
@@ -22,15 +22,18 @@ interface CommmunityCardProps {
   actionButtons?: React.ReactNode;
 }
 export default function CommmunityCard(community: CommmunityCardProps) {
+  const { colorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
+
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${community.logoUrl}`));
   return (
     <Link href={`/communities/${community.id}`}>
       <Paper key={community.id} className="group relative mb-8 rounded-lg shadow-lg">
         <div className="relative ">
           <LoadingOverlay visible={loading} />
-            <Text size="sm" className="absolute top-5 hidden w-full px-2 text-center group-hover:line-clamp-[8]">
-              {community.description}
-            </Text>
+          <Text size="sm" className="absolute top-5 hidden w-full px-2 text-center group-hover:line-clamp-[8]">
+            {community.description}
+          </Text>
           <img src={logoImage ?? "/img/twitter-card.webp"} alt="Cover Photo" className="h-56 w-full rounded-t-lg object-cover group-hover:opacity-20" />
         </div>
 
@@ -41,11 +44,11 @@ export default function CommmunityCard(community: CommmunityCardProps) {
           </Text>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1">
-              <Title order={1} size="h3" className="flex-grow">{community.name}</Title>
+              <h3 className={`flex-grow ${dark ? "text-slate-400" : "text-slate-600"}`}>{community.name}</h3>
               {community.verified && (
                 <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                   <Text className="align-middle">
-                    <Checkmark  />
+                    <Checkmark />
                   </Text>
                 </Tooltip>
               )}

@@ -157,7 +157,7 @@ export default function PopularCommunities() {
                           {community.country} , {community.location}
                         </Text>
                         <div className="flex items-center">
-                          <h3 className="mr-2 flex items-center justify-between">{community.name}</h3>
+                          <h3 className={`mr-2 flex items-center justify-between ${dark ? "text-slate-400" : "text-slate-600"}`}>{community.name}</h3>
                           {community.verified && (
                             <Tooltip withArrow label={siteMetadata.verificationTooltip} arrowSize={5}>
                               <Text>
