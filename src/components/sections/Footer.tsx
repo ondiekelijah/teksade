@@ -33,7 +33,7 @@ export default function Footer() {
   const links = [
     { link: "https://github.com/ondiekelijah/teksade", label: "Contribute" },
     { link: "/about", label: "About Us" },
-    { link: "/terms", label: "Terms & Privacy" },
+    { link: "/terms", label: "Terms" },
   ];
 
   const socialLinks = [
@@ -53,7 +53,7 @@ export default function Footer() {
       <div className={classes.footer}>
         <div className={classes.inner}>
           <h2>Teksade</h2>
-          <Group className={classes.links}>{items}</Group>
+          <Group className={`${classes.links} text-center text-base`}>{items}</Group>
           <Group spacing="xs" position="right" noWrap>
             {socialLinks.map((socialLink, index) => (
               <Link key={index} href={socialLink.href} passHref>
