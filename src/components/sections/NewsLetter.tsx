@@ -57,19 +57,19 @@ export default function NewsLetter() {
 
   return (
     <Container>
-      <div className="mx-auto flex w-full flex-col items-center gap-y-4 rounded-lg px-8 py-20 my-20">
-        <h1 className="whitespace-nowrap text-center text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
+      <div className="mx-auto my-20 flex w-full flex-col items-center gap-y-4 rounded-lg py-20">
+        <h1 className="text-center text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
         <p className={`text-center text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
           Teksade is your compass to global tech communities. Subscribe, and never lose your way in the digital realm!
         </p>
-        <div className="relative flex w-full max-w-lg items-center">
+        <div className="relative flex w-full max-w-lg flex-col items-center gap-y-4 sm:flex-row sm:gap-y-0">
           <TextInput radius="xl" size="lg" required error {...form.getInputProps("email")} className="w-full" placeholder="Your email" />
           {addSubscriber.isLoading ? (
-            <div className="absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center justify-center">
+            <div className="absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center justify-center sm:static">
               <Loader />
             </div>
           ) : (
-            <CustomButton size="md" className="absolute right-1 top-1 z-20 rounded-full" variant="gradient" title="Subscribe" onClickHandler={handleSubscribe} />
+            <CustomButton size="md" className="z-20 rounded-full sm:absolute sm:right-1 sm:top-1 sm:mt-0" variant="gradient" title="Subscribe" onClickHandler={handleSubscribe} />
           )}
         </div>
       </div>

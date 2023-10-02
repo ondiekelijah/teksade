@@ -10,7 +10,7 @@ export default function Contribute() {
 
   return (
     <Container>
-      <div className="flex flex-col items-center justify-center gap-y-10 p-5">
+      <div className="flex flex-col items-center justify-center gap-y-10 py-5">
         <h1 className="text-center text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Got passion? Fuel our vision!</h1>
         <Text className={`mx-auto text-center text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
           Make your mark on the open-source community. We are on the hunt for skilled developers and designers to contribute to our project. This is your chance to collaborate with a team of
