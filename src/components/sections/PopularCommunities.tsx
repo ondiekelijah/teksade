@@ -40,7 +40,7 @@ export default function PopularCommunities() {
       setScrollPosition(scrollContainer.current.scrollLeft);
     }
   };
-  
+
   const handlePrev = () => {
     if (scrollContainer.current) {
       const containerWidth = scrollContainer.current.offsetWidth;
@@ -51,7 +51,6 @@ export default function PopularCommunities() {
       setScrollPosition(scrollContainer.current.scrollLeft);
     }
   };
-  
 
   return (
     <Container>
@@ -63,11 +62,13 @@ export default function PopularCommunities() {
           </Link>
         </Title>
         {/* Scrollable chips */}
-        <div className=" flex items-center gap-2 pt-4">
-          <button onClick={handlePrev}>
+        <div className="relative flex items-center pt-4">
+          {/* Previous Button */}
+          <button onClick={handlePrev} className="mr-1">
             <PrevIcon size={30} />
           </button>
-          <div ref={scrollContainer} className="hide-scrollbar pb-2 flex gap-2 overflow-x-auto">
+
+          <div ref={scrollContainer} className="hide-scrollbar flex gap-2 overflow-x-auto">
             <Chip.Group
               multiple
               value={selectedTechnlogies}
@@ -192,7 +193,7 @@ function CommunityImage({ communityName }: { communityName: string }) {
   return (
     <div className="">
       {/* <LoadingOverlay visible={loading} /> */}
-      <Image src={value ? value : "/img/twitter-card.webp"} alt="cover-image" className="h-60 w-full rounded-t-lg object-cover" width={500} height={500} priority={true}/>
+      <Image src={value ? value : "/img/twitter-card.webp"} alt="cover-image" className="h-60 w-full rounded-t-lg object-cover" width={500} height={500} priority={true} />
     </div>
   );
 }
