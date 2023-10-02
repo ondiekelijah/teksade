@@ -57,24 +57,21 @@ export default function NewsLetter() {
 
   return (
     <Container>
-      <div className="mx-auto my-20 grid w-full grid-cols-1 gap-3 rounded-lg px-8 py-10 shadow-lg sm:grid-cols-2">
-        <div className=" flex  w-full grow flex-col  justify-center gap-y-4">
-          <h1 className="text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
-          <p className={`text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
-            Teksade is your compass to global tech communities. Subscribe, and never lose your way in the digital realm!{" "}
-          </p>
-          <div className="relative flex w-full items-center">
-            <TextInput radius="xl" size="lg" required error {...form.getInputProps("email")} className="w-full" placeholder="Your email" />
-            {addSubscriber.isLoading ? (
-              <div className="absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center justify-center">
-                <Loader />
-              </div>
-            ) : (
-              <CustomButton size="md" className="absolute right-1 top-1 z-20 rounded-full" variant="gradient" title="Subscribe" onClickHandler={handleSubscribe} />
-            )}
-          </div>
+      <div className="mx-auto flex w-full flex-col items-center gap-y-4 rounded-lg px-8 py-20 my-20">
+        <h1 className="whitespace-nowrap text-center text-4xl font-extrabold tracking-normal sm:text-5xl lg:text-6xl">Visionary Vibes & Voices</h1>
+        <p className={`text-center text-base sm:text-xl ${dark ? "text-slate-400" : "text-slate-600"}`}>
+          Teksade is your compass to global tech communities. Subscribe, and never lose your way in the digital realm!
+        </p>
+        <div className="relative flex w-full max-w-lg items-center">
+          <TextInput radius="xl" size="lg" required error {...form.getInputProps("email")} className="w-full" placeholder="Your email" />
+          {addSubscriber.isLoading ? (
+            <div className="absolute bottom-0 left-0 right-0 top-0 z-20 flex items-center justify-center">
+              <Loader />
+            </div>
+          ) : (
+            <CustomButton size="md" className="absolute right-1 top-1 z-20 rounded-full" variant="gradient" title="Subscribe" onClickHandler={handleSubscribe} />
+          )}
         </div>
-        <Image src="/img/newsletter.svg" className=" order-first h-80 w-80  justify-self-end sm:order-last" alt="newsletter" width={500} height={500} />
       </div>
     </Container>
   );
