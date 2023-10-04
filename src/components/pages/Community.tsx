@@ -281,7 +281,7 @@ export default function SingleCommunityPage() {
                         color="indigo"
                         title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
                         onClickHandler={() => {
-                          memberInfo.data?.id && addMember2Community(communityId as string, memberInfo.data.id);
+                          user?.id && addMember2Community(communityId as string, user.id);
                         }}
                       />
                     ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
