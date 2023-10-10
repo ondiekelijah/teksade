@@ -18,8 +18,11 @@ import CommunityCardSkeleton from "../custom-components/skeletons/Community/Comm
 import siteMetadata from "@/data/siteMetadata";
 import { NextIcon, PrevIcon } from "../custom-components/icons/navigationIcons";
 import Image from "next/image";
+import slugifyURL from "@/utils/slugifyURL";
+import { useRouter } from "next/router";
 
 export default function PopularCommunities() {
+  const router = useRouter();
   const defaultList = ["All"];
   const [selectedTechnlogies, setselectedTechnlogies] = useState(defaultList);
   const popularCommunities = api.communities.getPopularCommunities.useQuery({
@@ -147,7 +150,12 @@ export default function PopularCommunities() {
               )}
               {popularCommunities.data?.map((community) => (
                 <Carousel.Slide key={community.id} className="w-60 pb-10">
-                  <Link href={`/communities/${community.id}`}>
+                  <Link
+                    href={{
+                      pathname: `/communities/${slugifyURL(community.name)}`,
+                      query: { id: community.id },
+                    }}
+                  >
                     <Paper className="h-full rounded-lg shadow-lg">
                       <div className="">
                         <CommunityImage communityName={community.name.split(" ").join("")} />

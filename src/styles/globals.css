@@ -40,6 +40,8 @@ a:active {
   scrollbar-width: none; /* Firefox */
 }
 
+/* Add a fading effect to the end and start of scollable chips */
+
 /* Like like-button */
 .like-button {
   cursor: pointer;

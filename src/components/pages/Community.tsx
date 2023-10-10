@@ -25,6 +25,7 @@ import CategoryIcon from "../custom-components/icons/categoryIcon";
 import confetti from "canvas-confetti";
 import useMantineNotify from "@/hooks/useNotify";
 import siteMetadata from "@/data/siteMetadata";
+import { useViewportSize } from "@mantine/hooks";
 
 interface SocialLinksProps {
   links: {
@@ -99,7 +100,8 @@ export default function SingleCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   const router = useRouter();
-  const communityId = router.query.id;
+  const { id } = router.query;
+  const communityId = id;
   const { user } = useUser();
   const queryClient = api.useContext();
   const { notifyError, notifySuccess } = useMantineNotify();
@@ -119,6 +121,10 @@ export default function SingleCommunityPage() {
     },
   });
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${communityInfo.data?.logo_link}`));
+  // Detect smaller screens
+  const { width } = useViewportSize();
+  const displayedMembers = width && width < 640 ? 5 : 10;
+  const isLargeScreen = width && width > 1024;
 
   // Check if current member is already a member of the community
   const isMember = user?.id && communityInfo.data?.members.some((member) => member.id === memberInfo.data?.id);
@@ -215,7 +221,7 @@ export default function SingleCommunityPage() {
         {communityInfo.isLoading ? (
           <CommunitySkeleton />
         ) : (
-          <div className="py-10">
+          <div className="py-20">
             {/* Top info: Community name, focus area, and location */}
             <div className="mb-6 flex flex-col space-y-5">
               <div className="flex items-center">
@@ -244,94 +250,105 @@ export default function SingleCommunityPage() {
                 </dd>
               </span>
             </div>
-
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-x-20">
-              {/* Image */}
-              <div className="h-full w-full overflow-hidden rounded-lg shadow-lg">
-                <Image src={logoImage ?? "/img/twitter-card.webp"} alt="featured-image" className="h-full w-full object-cover object-center" width={900} height={500} loading="lazy" />
-              </div>
+              {/* Left Column: Image and Description */}
+              <div className="mt-5">
+                <Image
+                  src={logoImage ?? "/img/twitter-card.webp"}
+                  alt="featured-image"
+                  className="h-fit w-full rounded-lg shadow-lg"
+                  style={{ objectFit: isLargeScreen ? "scale-down" : "cover" }}
+                  width={900}
+                  height={500}
+                  loading="lazy"
+                />
 
-              {/* Description */}
-              <div className="order-2 space-y-10 lg:order-3">
-                <div className="space-y-2">
-                  <div className="flex justify-between pt-5">
+                <div className="mt-12 space-y-6">
+                  <div className="flex justify-between">
                     <h2>Our Community</h2>
-                    <div>
-                      {communityId && memberInfo.data?.name && (
-                        <span className="flex items-center space-x-3">
-                          <LikeButton
-                            onClickHandler={() => {
-                              memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
-                            }}
-                            likes={getCommunityLikeCount.data?._count.likes ?? 0}
-                            disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
-                          />
-                        </span>
-                      )}
-                    </div>
+
+                    {communityId && memberInfo.data?.name && (
+                      <span className="flex items-center space-x-3">
+                        <LikeButton
+                          onClickHandler={() => {
+                            memberInfo.data?.id && likeCommunity(communityId as string, memberInfo.data?.id);
+                          }}
+                          likes={getCommunityLikeCount.data?._count.likes ?? 0}
+                          disabled={addLikeToCommunity.isLoading || removeExistingLike.isLoading || getCommunityLikeCount.isLoading}
+                        />
+                      </span>
+                    )}
                   </div>
                   <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>{communityInfo.data?.description}</p>
-                </div>
-                {/* CTA button */}
-                <div>
-                  <SignedIn>
-                    {!isMember ? (
+                  {/* CTA button */}
+                  <div className="pt-2">
+                    <SignedIn>
+                      {!isMember ? (
+                        <CustomButton
+                          size="md"
+                          color="indigo"
+                          title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
+                          onClickHandler={() => {
+                            user?.id && addMember2Community(communityId as string, user.id);
+                          }}
+                        />
+                      ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
+                        <Link href="/communities/created">
+                          <CustomButton size="md" color="indigo" title={"Update Commununity"} />
+                        </Link>
+                      ) : (
+                        <CustomButton
+                          onClickHandler={() => {
+                            removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
+                          }}
+                          size="md"
+                          color="indigo"
+                          title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
+                        />
+                      )}
+                    </SignedIn>
+                    <SignedOut>
                       <CustomButton
                         size="md"
                         color="indigo"
-                        title={addMemberToCommunity.isLoading ? "Joining ..." : "Join Community"}
+                        title="Join Community"
                         onClickHandler={() => {
-                          user?.id && addMember2Community(communityId as string, user.id);
+                          void router.push("/sign-up");
                         }}
                       />
-                    ) : memberInfo.data?.id === communityInfo.data?.creatorId ? (
-                      <Link href="/communities/created">
-                        <CustomButton size="md" color="indigo" title={"Update Commununity"} />
-                      </Link>
-                    ) : (
-                      <CustomButton
-                        onClickHandler={() => {
-                          removeExistingMember(communityInfo.data?.id ?? "", user?.id ?? "");
-                        }}
-                        size="md"
-                        color="indigo"
-                        title={removeMemberFromCommunity.isLoading ? "Exiting ..." : "Exit Community"}
-                      />
-                    )}
-                  </SignedIn>
-                  <SignedOut>
-                    <CustomButton
-                      size="md"
-                      color="indigo"
-                      title="Join Community"
-                      onClickHandler={() => {
-                        void router.push("/sign-up");
-                      }}
-                    />
-                  </SignedOut>
+                    </SignedOut>
+                  </div>
+                  {/* Like button */}
                 </div>
-                {/* Like button */}
               </div>
 
-              {/* Right side content on larger screens, below image on smaller screens */}
-              <div className="order-3 space-y-5 lg:order-2">
-                {/* Social Media Links */}
+              {/* Right Column: Social Media Links, Technologies, and Member Info */}
+              <div className="space-y-6">
                 <div className="flex items-center  lg:items-end">
                   <SocialLinks links={linksData} />
                 </div>
+
                 <Technologies technologies={communityInfo.data?.technologies ?? []} dark={dark} />
-                {/* Contributor info */}
-                <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
-                <p className={dark ? "text-slate-400" : "text-slate-600"}>Members</p>
-                {/* Members */}
-                <div className="flex">
-                  <Tooltip.Group openDelay={300} closeDelay={100}>
-                    <Avatar.Group spacing="sm">
-                      {communityInfo.data?.members.map((member) => (
-                        <MemberCard key={member.id} isCreator={false} memberId={member.id} isMultiple />
-                      ))}
-                    </Avatar.Group>
-                  </Tooltip.Group>
+
+                <div>
+                  <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
+                </div>
+                <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>Members</p>
+
+                <div className="flex w-full flex-wrap items-center">
+                  <Avatar.Group spacing="sm">
+                    {communityInfo.data?.members.slice(0, displayedMembers).map((member) => (
+                      <MemberCard key={member.id} isCreator={false} memberId={member.id} isMultiple />
+                    ))}
+
+                    {communityInfo.data?.members && communityInfo.data.members.length > displayedMembers && (
+                      <div className="flex items-center">
+                        <Avatar variant="filled" radius="xl" size="lg">
+                          +{Math.max(0, communityInfo.data.members.length - displayedMembers)}
+                        </Avatar>
+                      </div>
+                    )}
+                  </Avatar.Group>
                 </div>
               </div>
             </div>

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { api } from "@/utils/api";
 import { Avatar, Popover, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import React from "react";
 import { FaGithub, FaPhoneAlt, FaTwitter } from "react-icons/fa";
@@ -13,6 +14,7 @@ interface MemberCardProps {
 }
 export default function MemberCard({ memberId, isCreator, isMultiple }: MemberCardProps) {
   const memberInfo = api.members.getMemberInfo.useQuery({ memberId: memberId });
+  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <div className={`flex items-center ${!isMultiple && "gap-x-4"}`}>
