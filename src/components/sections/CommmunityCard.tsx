@@ -9,6 +9,7 @@ import { BsPerson } from "react-icons/bs";
 import LocationIcon from "../custom-components/icons/locationIcon";
 import siteMetadata from "@/data/siteMetadata";
 import Checkmark from "../custom-components/icons/checkmark";
+import slugifyURL from "@/utils/slugifyURL";
 
 interface CommmunityCardProps {
   id: string;
@@ -27,7 +28,12 @@ export default function CommmunityCard(community: CommmunityCardProps) {
 
   const [logoImage, loading] = useDownloadURL(ref(storageBucket, `logos/${community.logoUrl}`));
   return (
-    <Link href={`/communities/${community.id}`}>
+    <Link
+      href={{
+        pathname: `/communities/${slugifyURL(community.name)}`,
+        query: { id: community.id },
+      }}
+    >
       <Paper key={community.id} className="group relative mb-8 rounded-lg shadow-lg">
         <div className="relative ">
           <LoadingOverlay visible={loading} />
