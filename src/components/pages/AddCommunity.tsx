@@ -20,6 +20,7 @@ import { FaUpload } from "react-icons/fa";
 import { technologies as techList } from "@/utils/constants";
 import SectionTitle from "../custom-components/sectionTitle";
 import useCheckImageType from "@/hooks/useCheckImageType";
+import slugifyURL from "@/utils/slugifyURL";
 
 export default function NewCommunityPage() {
   const createNewCommunity = api.communities.createNewCommunity.useMutation();
@@ -53,6 +54,8 @@ export default function NewCommunityPage() {
     youtube?: string;
     slack?: string;
     discord?: string;
+    meetup?: string;
+    telegram?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -71,6 +74,8 @@ export default function NewCommunityPage() {
         youtube: z.string().url().optional(),
         slack: z.string().url().optional(),
         discord: z.string().url().optional(),
+        meetup: z.string().url().optional(),
+        telegram: z.string().url().optional(),
       })
     ),
   });
@@ -114,6 +119,8 @@ export default function NewCommunityPage() {
             youtube: values.youtube,
             slack: values.slack,
             discord: values.discord,
+            meetup: values.meetup,
+            telegram: values.telegram,
           })
           .then((onfulfilledValue) => {
             if (onfulfilledValue?.country) {
@@ -123,7 +130,10 @@ export default function NewCommunityPage() {
               });
               setActive(3);
               setTimeout(() => {
-                void router.push(`/communities/${onfulfilledValue.id}`);
+                void router.push({
+                  pathname: `/communities/${slugifyURL(onfulfilledValue.name)}`,
+                  query: { id: onfulfilledValue.id },
+                });
               }, 4000);
             } else {
               notifyError({
@@ -195,12 +205,14 @@ export default function NewCommunityPage() {
                 <TextInput label="Phone Number" {...form.getInputProps("phone")} size="md" />
                 <TextInput label="GitHub Profile URL" {...form.getInputProps("github")} size="md" />
                 <TextInput label="Twitter Profile URL" {...form.getInputProps("twitter")} size="md" />
-                <TextInput label="Website or Meetup Page" {...form.getInputProps("website")} size="md" />
+                <TextInput label="Website" {...form.getInputProps("website")} size="md" />
                 <TextInput label="LinkedIn Profile URL" {...form.getInputProps("linkedin")} size="md" />
                 <TextInput label="WhatsApp Group Link" {...form.getInputProps("whatsapp")} size="md" />
                 <TextInput label="YouTube Channel Link" {...form.getInputProps("youtube")} size="md" />
                 <TextInput label="Slack Group Link" {...form.getInputProps("slack")} size="md" />
                 <TextInput label="Discord Group Link" {...form.getInputProps("discord")} size="md" />
+                <TextInput label="Meetup Group Link" {...form.getInputProps("meetup")} size="md" />
+                <TextInput label="Telegram Group Link" {...form.getInputProps("telegram")} size="md" />
               </div>
               <div className="flex justify-between ">
                 <CustomButton size="md" variant="filled" title="Prev" onClickHandler={() => setActive(0)} />

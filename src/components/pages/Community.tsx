@@ -10,7 +10,7 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import MemberCard from "@/components/sections/MemberCard";
 import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaSlack, FaDiscord, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaYoutube, FaMapPin, FaMeetup, FaTelegram, FaSlack, FaDiscord, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaUserFriends, FaMapMarkedAlt } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";
 import { useMantineColorScheme } from "@mantine/core";
@@ -38,6 +38,8 @@ interface SocialLinksProps {
     youtube: string;
     slack: string;
     discord: string;
+    meetup: string;
+    telegram: string;
     [key: string]: string | undefined;
   };
 }
@@ -58,6 +60,8 @@ const SocialLinks = ({ links }: SocialLinksProps) => {
     youtube: FaYoutube,
     slack: FaSlack,
     discord: FaDiscord,
+    meetup: FaMeetup,
+    telegram: FaTelegram,
   };
 
   return (
@@ -139,6 +143,8 @@ export default function SingleCommunityPage() {
     youtube: communityInfo.data?.youtube ?? "",
     slack: communityInfo.data?.slack ?? "",
     discord: communityInfo.data?.discord ?? "",
+    meetup: communityInfo.data?.meetup ?? "",
+    telegram: communityInfo.data?.telegram ?? "",
   };
 
   const likeCommunity = (communityId: string, memberId: string) => {
@@ -267,7 +273,7 @@ export default function SingleCommunityPage() {
                   <div className="flex justify-between">
                     <h2>Our Community</h2>
 
-                    {communityId && memberInfo.data?.name && (
+                    {communityId && memberInfo.data?.id && (
                       <span className="flex items-center space-x-3">
                         <LikeButton
                           onClickHandler={() => {
