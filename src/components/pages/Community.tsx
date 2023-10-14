@@ -267,7 +267,7 @@ export default function SingleCommunityPage() {
                   <div className="flex justify-between">
                     <h2>Our Community</h2>
 
-                    {communityId && memberInfo.data?.name && (
+                    {communityId && memberInfo.data?.id && (
                       <span className="flex items-center space-x-3">
                         <LikeButton
                           onClickHandler={() => {
