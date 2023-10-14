@@ -69,6 +69,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
     youtube?: string;
     slack?: string;
     discord?: string;
+    meetup?: string;
+    telegram?: string;
   }>({
     validateInputOnBlur: true,
     validate: zodResolver(
@@ -77,15 +79,17 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
         description: z.string().nonempty("Required").min(8, "Short Description"),
         location: z.string().nonempty("Provide a location"),
         focusArea: z.string().nonempty("Select a focus area"),
-        github: z.string().url().optional(),
-        twitter: z.string().url().optional(),
-        linkedin: z.string().url().optional(),
-        website: z.string().url().optional(),
-        whatsapp: z.string().url().optional(),
-        phone: z.string().min(10).optional(),
-        youtube: z.string().url().optional(),
-        slack: z.string().url().optional(),
-        discord: z.string().url().optional(),
+        github: z.string().url().optional().or(z.literal('')),
+        twitter: z.string().url().optional().or(z.literal('')),
+        linkedin: z.string().url().optional().or(z.literal('')),
+        website: z.string().url().optional().or(z.literal('')),
+        whatsapp: z.string().url().optional().or(z.literal('')),
+        phone: z.string().min(10).optional().or(z.literal('')),
+        youtube: z.string().url().optional().or(z.literal('')),
+        slack: z.string().url().optional().or(z.literal('')),
+        discord: z.string().url().optional().or(z.literal('')),
+        meetup: z.string().url().optional().or(z.literal('')),
+        telegram: z.string().url().optional().or(z.literal('')),
       })
     ),
   });
@@ -122,11 +126,13 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
       twitter: values.twitter,
       linkedin: values.linkedin,
       website: values.website,
-      whatsapp: values.website,
+      whatsapp: values.whatsapp,
       phone: values.phone,
       youtube: values.youtube,
       slack: values.slack,
       discord: values.discord,
+      telegram: values.telegram,
+      meetup: values.meetup,
     });
     // Refresh community info - not working
     void communityInfo.refetch();
@@ -171,6 +177,8 @@ export default function CommunityUpdateModal({ communityId }: CommunityUpdateMod
           <TextInput {...updateForm.getInputProps("youtube")} size="md" label="YouTube Channel Link" />
           <TextInput {...updateForm.getInputProps("slack")} size="md" label="Slack Group Link" />
           <TextInput {...updateForm.getInputProps("discord")} size="md" label="Discord Group Link" />
+          <TextInput {...updateForm.getInputProps("telegram")} size="md" label="Telegram Group Link" />
+          <TextInput {...updateForm.getInputProps("meetup")} size="md" label="Meetup Group Link" />
         </div>
 
         <div className="my-6 flex justify-center">

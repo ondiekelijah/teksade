@@ -57,6 +57,8 @@ model Community {
   published    Boolean? @default(false)
   slack       String?  @unique
   discord     String?  @unique
+  meetup      String?  @unique
+  telegram    String?  @unique
 
   creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
   creatorId String
