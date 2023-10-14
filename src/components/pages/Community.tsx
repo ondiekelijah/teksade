@@ -213,6 +213,8 @@ export default function SingleCommunityPage() {
     });
   };
 
+  console.log(communityInfo.data);
+
   return (
     <>
       <PageSEO
@@ -339,7 +341,7 @@ export default function SingleCommunityPage() {
                 <div>
                   <MemberCard memberId={communityInfo.data?.creatorId ?? ""} isCreator />
                 </div>
-                <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>Members</p>
+                <p className={`${dark ? "text-slate-400" : "text-slate-600"}`}>Members ({communityInfo.data?.members.length})</p>
 
                 <div className="flex w-full flex-wrap items-center">
                   <Avatar.Group spacing="sm">
