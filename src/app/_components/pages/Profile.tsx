@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { countries } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
