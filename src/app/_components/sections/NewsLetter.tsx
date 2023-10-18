@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { Loader, TextInput } from "@mantine/core";
 import React from "react";

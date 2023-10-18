@@ -1,3 +1,4 @@
+"use client";
 import { useUser } from "@clerk/nextjs";
 import { Text, Title } from "@mantine/core";
 import Link from "next/link";

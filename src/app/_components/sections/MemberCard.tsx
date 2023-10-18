@@ -1,6 +1,5 @@
 import { api } from "@/trpc/react";
 import { Avatar, Popover, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import React from "react";
 import { FaGithub, FaPhoneAlt, FaTwitter } from "react-icons/fa";
@@ -17,7 +16,6 @@ export default function MemberCard({
   isMultiple,
 }: MemberCardProps) {
   const memberInfo = api.members.getMemberInfo.useQuery({ memberId: memberId });
-  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <div className={`flex items-center ${!isMultiple && "gap-x-4"}`}>

@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { Button } from "@mantine/core";
 import Link from "next/link";

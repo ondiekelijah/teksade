@@ -20,8 +20,6 @@ import {
   FaWhatsapp,
   FaGlobe,
   FaPhone,
-  FaUserFriends,
-  FaMapMarkedAlt,
 } from "react-icons/fa";
 import { Group, ActionIcon, Tooltip, Chip } from "@mantine/core";
 import Image from "next/image";

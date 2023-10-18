@@ -31,7 +31,7 @@ export default function CommunityUpdateModal({
     communityId,
   });
   const { notifySuccess } = useMantineNotify();
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasInteracted] = useState(false);
 
   const updateCommunity = api.communities.updateCommunity.useMutation({
     onSuccess: () => {
@@ -143,10 +143,6 @@ export default function CommunityUpdateModal({
           console.log(error);
         });
     }
-  }
-  function handleImageChange(profileImage: File | null) {
-    setHasInteracted(true); // Add this line
-    setNewProfileImage(profileImage);
   }
 
   function handleUpdate(values: typeof updateForm.values) {

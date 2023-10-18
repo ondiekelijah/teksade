@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { techFocusAreas } from "@/utils/constants";
 
@@ -28,7 +29,7 @@ export default function PopularCommunities() {
   });
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [, setScrollPosition] = useState(0);
   const scrollContainer = useRef<HTMLDivElement>(null);
 
   const handleNext = () => {

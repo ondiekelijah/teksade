@@ -358,7 +358,7 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  getUnpulishedCommunities: publicProcedure.query(async ({ input, ctx }) => {
+  getUnpulishedCommunities: publicProcedure.query(async ({ ctx }) => {
     try {
       const unpulishedCommunities = await ctx.db.community.findMany({
         where: {

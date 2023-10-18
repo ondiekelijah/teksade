@@ -8,12 +8,7 @@ interface CategoryIconProps {
   fill?: string;
 }
 
-const CategoryIcon: React.FC<CategoryIconProps> = ({
-  className = "",
-  width = 24,
-  height = 24,
-  fill = "none",
-}) => {
+const CategoryIcon: React.FC<CategoryIconProps> = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

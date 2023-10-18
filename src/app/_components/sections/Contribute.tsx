@@ -1,13 +1,10 @@
+"use client";
 import { Button, Text } from "@mantine/core";
 import Link from "next/link";
 import React from "react";
-import { useMantineColorScheme } from "@mantine/core";
 import Container from "../custom-components/container";
 
 export default function Contribute() {
-  const { colorScheme } = useMantineColorScheme();
-  const dark = colorScheme === "dark";
-
   return (
     <Container>
       <div className="flex flex-col items-center justify-center gap-y-10 py-5">
@@ -16,7 +13,7 @@ export default function Contribute() {
         </h1>
         <Text
           className={`mx-auto text-center text-base sm:text-xl ${
-            dark ? "text-slate-400" : "text-slate-600"
+            true ? "text-slate-400" : "text-slate-600"
           }`}
         >
           Make your mark on the open-source community. We are on the hunt for
@@ -33,10 +30,10 @@ export default function Contribute() {
             <Button
               variant="default"
               className={`w-full rounded-full tracking-wide sm:w-auto ${
-                dark ? " text-white" : "bg-white text-black"
+                true ? " text-white" : "bg-white text-black"
               }`}
               size="md"
-              leftSection={<GitHub dark={dark} />}
+              leftSection={<GitHub dark={true} />}
             >
               Contribute on Github
             </Button>
@@ -49,11 +46,11 @@ export default function Contribute() {
             <Button
               variant="default"
               className={`w-full rounded-full tracking-wide sm:w-auto ${
-                dark ? " text-white" : "bg-white text-black"
+                true ? " text-white" : "bg-white text-black"
               }`}
               size="md"
               leftSection={<Twitter />}
-              color={dark ? "white" : "black"}
+              color={true ? "white" : "black"}
             >
               Follow on Twitter
             </Button>

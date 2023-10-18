@@ -1,9 +1,5 @@
 import React from "react";
 
-interface IconProps {
-  fill?: string;
-}
-
 // SuccessIcon with a white tick
 export const SuccessIcon: React.FC = () => {
   return (

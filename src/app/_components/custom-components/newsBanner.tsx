@@ -11,9 +11,7 @@ const StickyBanner = () => {
   const announcement = announcements.data?.[0];
 
   // Initialize a state variable for the last closed announcement
-  const [lastClosedAnnouncement, setLastClosedAnnouncement] = useState<
-    string | null
-  >(null);
+  const [, setLastClosedAnnouncement] = useState<string | null>(null);
 
   // Only show the banner if the latest announcement hasn't been closed yet
   const [showBanner, setShowBanner] = useState(true);

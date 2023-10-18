@@ -123,7 +123,7 @@ export default function NewCommunityPage() {
   async function handleNewCommunity(values: typeof form.values) {
     if (user) {
       try {
-        const onfulfilledValue = await createNewCommunity
+        await createNewCommunity
           .mutateAsync({
             creatorId: user.id,
             creatorEmail:
