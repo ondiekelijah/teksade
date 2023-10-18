@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 
 import { ColorSchemeScript } from "@mantine/core";
 import MainProvider from "./_components/providers/main-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,13 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <ColorSchemeScript />
-      </head>
-      <body className={`font-sans ${inter.variable}`}>
-        <MainProvider>{children}</MainProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <ColorSchemeScript />
+        </head>
+        <body className={`font-sans ${inter.variable}`}>
+          <MainProvider>{children}</MainProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
