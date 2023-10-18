@@ -7,7 +7,11 @@ interface AppProps {
   likes?: number;
 }
 
-const App: React.FC<AppProps> = ({ onClickHandler, disabled, likes }) => {
+const LikeButton: React.FC<AppProps> = ({
+  onClickHandler,
+  disabled,
+  likes,
+}) => {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   return (
@@ -27,4 +31,4 @@ const App: React.FC<AppProps> = ({ onClickHandler, disabled, likes }) => {
   );
 };
 
-export default App;
+export default LikeButton;
