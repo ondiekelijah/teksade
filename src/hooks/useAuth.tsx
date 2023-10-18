@@ -1,3 +1,4 @@
+"use client";
 import { api } from "@/trpc/react";
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";

@@ -1,4 +1,6 @@
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+import "@mantine/carousel/styles.css";
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
@@ -6,6 +8,7 @@ import { Inter } from "next/font/google";
 import { ColorSchemeScript } from "@mantine/core";
 import MainProvider from "./_components/providers/main-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import MainLayout from "./_components/layouts/MainLayout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,7 +40,9 @@ export default function RootLayout({
           <ColorSchemeScript />
         </head>
         <body className={`font-sans ${inter.variable}`}>
-          <MainProvider>{children}</MainProvider>
+          <MainProvider>
+            <MainLayout>{children}</MainLayout>
+          </MainProvider>
         </body>
       </html>
     </ClerkProvider>

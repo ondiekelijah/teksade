@@ -6,7 +6,11 @@ export default function ThemeToggle() {
   const dark = colorScheme === "dark";
 
   return (
-    <ActionIcon onClick={() => toggleColorScheme()} title="Toggle color scheme">
+    <ActionIcon
+      onClick={() => toggleColorScheme()}
+      title="Toggle color scheme"
+      className=" rounded-full"
+    >
       {dark ? <DarkIcon /> : <LightIcon />}
     </ActionIcon>
   );

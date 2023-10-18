@@ -28,11 +28,11 @@ export default function Footer() {
 
   return (
     <Container>
-      <div className="">
-        <div className="">
+      <div className=" w-full">
+        <div className=" flex w-full flex-col items-center justify-between gap-y-4 sm:flex-row">
           <h2>Teksade</h2>
           <Group className={` text-center text-base`}>{items}</Group>
-          <div>
+          <div className=" flex gap-x-2">
             {socialLinks.map((socialLink, index) => (
               <Link key={index} href={socialLink.href} passHref>
                 <ActionIcon size="lg" variant="default" radius="xl">

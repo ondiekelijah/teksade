@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { Box, useMantineColorScheme } from "@mantine/core";
 import { api } from "@/trpc/react";

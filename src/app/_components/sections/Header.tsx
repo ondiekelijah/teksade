@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Burger,
@@ -47,7 +48,10 @@ export default function Header() {
     >
       <Burger opened={false} className="text-2xl sm:hidden" onClick={open} />
 
-      <Link href="/" className="items-center space-x-2 text-2xl font-bold">
+      <Link
+        href="/"
+        className="flex items-center space-x-2 text-2xl  font-bold"
+      >
         <Image
           src={`${siteMetadata.siteLogo}`}
           width={45}
