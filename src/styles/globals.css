@@ -1,3 +1,4 @@
-@tailwind base;
+ /* To contributors :Tailwiind base styles are commented out to avoid conflict with Maintine base styles */
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
