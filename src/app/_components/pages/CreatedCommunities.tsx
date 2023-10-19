@@ -1,3 +1,4 @@
+"use client";
 import Container from "../custom-components/container";
 import { useUser } from "@clerk/nextjs";
 import CommmunityCard from "../sections/CommmunityCard";
@@ -13,7 +14,7 @@ import { useEffect, useState } from "react";
 import CustomButton from "../custom-components/button";
 import SectionTitle from "../custom-components/sectionTitle";
 import CommunityCardSkeleton from "../custom-components/skeletons/Community/CommunityCard";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { BsSearch } from "react-icons/bs";
 import { useDebounce } from "use-debounce";
 import { api } from "@/trpc/react";
