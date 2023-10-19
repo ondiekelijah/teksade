@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { countries, techFocusAreas } from "@/utils/constants";
@@ -20,12 +21,10 @@ import { storageBucket } from "@/utils/firestoreConfig";
 import { ref } from "firebase/storage";
 import Link from "next/link";
 import { useMantineColorScheme } from "@mantine/core";
-import { useRouter } from "next/router";
 import { FaUpload } from "react-icons/fa";
 import { technologies as techList } from "@/utils/constants";
 import SectionTitle from "../custom-components/sectionTitle";
 import useCheckImageType from "@/hooks/useCheckImageType";
-import slugifyURL from "@/utils/slugifyURL";
 import { api } from "@/trpc/react";
 import useMantineNotify from "@/hooks/useNotify";
 import Container from "../custom-components/container";
@@ -44,7 +43,6 @@ export default function NewCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   const { notifyError, notifySuccess } = useMantineNotify();
-  const router = useRouter();
   const { isValidImageType } = useCheckImageType(profileImage);
 
   const nextStep = () =>
@@ -155,12 +153,16 @@ export default function NewCommunityPage() {
                 message: "Community successfully set up!",
               });
               setActive(3);
-              setTimeout(() => {
-                void router.push({
-                  pathname: `/communities/${slugifyURL(onfulfilledValue.name)}`,
-                  query: { id: onfulfilledValue.id },
-                });
-              }, 4000);
+              // TODO : Routing Implementation has been changed in Next 13
+              //Update the following to the app router implementation with refrence to  :
+              //https://nextjs.org/docs/app/api-reference/functions/use-router#migrating-from-nextrouter
+              //
+              // setTimeout(() => {
+              //   void router.push({
+              //     pathname: `/communities/${slugifyURL(onfulfilledValue.name)}`,
+              //     query: { id: onfulfilledValue.id },
+              //   });
+              // }, 4000);
             } else {
               notifyError({
                 message:
@@ -283,7 +285,8 @@ export default function NewCommunityPage() {
               withAsterisk
               placeholder="Select your major focus Area"
             />
-            <MultiSelect
+            {/* TODO:This  components in causing a runtime error that needs fixing */}
+            {/* <MultiSelect
               label="Related Technologies"
               data={techList}
               placeholder="Pick your technologies"
@@ -291,7 +294,7 @@ export default function NewCommunityPage() {
               clearable
               {...form.getInputProps("technologies")}
               size="md"
-            />
+            /> */}
             <div className="my-4 flex justify-end ">
               <CustomButton
                 size="md"
