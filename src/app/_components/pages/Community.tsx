@@ -1,7 +1,8 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @next/next/no-img-element */
 import { Avatar, Text } from "@mantine/core";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
@@ -115,8 +116,9 @@ export default function SingleCommunityPage() {
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
   const router = useRouter();
-  const { id } = router.query;
-  const communityId = id;
+
+  const searchParams = useSearchParams();
+  const communityId = searchParams.get("id");
   const { user } = useUser();
   const queryClient = api.useContext();
   const { notifyError, notifySuccess } = useMantineNotify();
@@ -124,12 +126,12 @@ export default function SingleCommunityPage() {
     memberId: user?.id ?? "",
   });
   const communityInfo = api.communities.getCommunityInfo.useQuery({
-    communityId: communityId as string,
+    communityId: communityId!,
   });
   const addLikeToCommunity = api.likes.addLikeToCommunity.useMutation();
   const removeExistingLike = api.likes.removeExistingLike.useMutation();
   const getCommunityLikeCount = api.likes.getCommunintyLikes.useQuery({
-    communityId: communityId as string,
+    communityId: communityId!,
   });
   const addMemberToCommunity =
     api.communities.addMemberToCommunity.useMutation();
@@ -137,7 +139,7 @@ export default function SingleCommunityPage() {
     api.communities.removeMemberFromCommunity.useMutation({
       onSuccess: () => {
         void queryClient.communities.getCommunityInfo.refetch({
-          communityId: communityId as string,
+          communityId: communityId!,
         });
         notifySuccess({
           title: "Goodbye for now!",
@@ -336,10 +338,7 @@ export default function SingleCommunityPage() {
                         <LikeButton
                           onClickHandler={() => {
                             memberInfo.data?.id &&
-                              likeCommunity(
-                                communityId as string,
-                                memberInfo.data?.id,
-                              );
+                              likeCommunity(communityId, memberInfo.data?.id);
                           }}
                           likes={getCommunityLikeCount.data?._count.likes ?? 0}
                           disabled={
@@ -370,10 +369,7 @@ export default function SingleCommunityPage() {
                           }
                           onClickHandler={() => {
                             user?.id &&
-                              addMember2Community(
-                                communityId as string,
-                                user.id,
-                              );
+                              addMember2Community(communityId!, user.id);
                           }}
                         />
                       ) : memberInfo.data?.id ===
