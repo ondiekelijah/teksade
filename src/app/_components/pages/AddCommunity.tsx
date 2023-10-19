@@ -7,7 +7,6 @@ import {
   Button,
   FileInput,
   LoadingOverlay,
-  MultiSelect,
   Select,
   Stepper,
   TextInput,
@@ -22,7 +21,6 @@ import { ref } from "firebase/storage";
 import Link from "next/link";
 import { useMantineColorScheme } from "@mantine/core";
 import { FaUpload } from "react-icons/fa";
-import { technologies as techList } from "@/utils/constants";
 import SectionTitle from "../custom-components/sectionTitle";
 import useCheckImageType from "@/hooks/useCheckImageType";
 import { api } from "@/trpc/react";
