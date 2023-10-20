@@ -1,19 +1,18 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Resend } from "resend";
-import CommunityPublishedEmail from "@/components/emails/CommunityPublishedEmail";
-import { log } from "console";
+import CommunityPublishedEmail from "@/app/_components/emails/community-published-email";
 const resend = new Resend(process.env.RESEND_EMAIL_API_KEY);
 export const emailsRouter = createTRPCRouter({
   publishAndsendCommunityPublishedEmail: publicProcedure
     .input(
       z.object({
         communityId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const communityToPublish = await ctx.prisma.community.update({
+        const communityToPublish = await ctx.db.community.update({
           where: {
             id: input.communityId,
           },

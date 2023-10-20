@@ -2,25 +2,27 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const communitiesRouter = createTRPCRouter({
-  getCommunityInfo: publicProcedure.input(z.object({ communityId: z.string() })).query(async ({ input, ctx }) => {
-    try {
-      const communityInfo = ctx.prisma.community.findUnique({
-        where: {
-          id: input.communityId,
-        },
-        include: {
-          members: {
-            select: {
-              id: true,
+  getCommunityInfo: publicProcedure
+    .input(z.object({ communityId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const communityInfo = ctx.db.community.findUnique({
+          where: {
+            id: input.communityId,
+          },
+          include: {
+            members: {
+              select: {
+                id: true,
+              },
             },
           },
-        },
-      });
-      return communityInfo;
-    } catch (error) {
-      console.log(error);
-    }
-  }),
+        });
+        return communityInfo;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
   getCommunitiesList: publicProcedure
     .input(
       z.object({
@@ -30,11 +32,11 @@ export const communitiesRouter = createTRPCRouter({
         technologies: z.string().array().optional(),
         focusAreas: z.string().array().optional(),
         searchTerm: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
-        const communityList = await ctx.prisma.community.findMany({
+        const communityList = await ctx.db.community.findMany({
           where: {
             AND: [
               input.country
@@ -97,7 +99,7 @@ export const communitiesRouter = createTRPCRouter({
     .input(
       z.object({
         focus_area: z.string().array(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       interface WhereConditionType {
@@ -120,7 +122,7 @@ export const communitiesRouter = createTRPCRouter({
       }
 
       try {
-        const popularCommnitiesFetch = await ctx.prisma.community.findMany({
+        const popularCommnitiesFetch = await ctx.db.community.findMany({
           where: whereCondition,
           orderBy: {
             members: {
@@ -140,11 +142,11 @@ export const communitiesRouter = createTRPCRouter({
     .input(
       z.object({
         communityId: z.string(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
-        const communityDetails = await ctx.prisma.community.findUnique({
+        const communityDetails = await ctx.db.community.findUnique({
           where: {
             id: input.communityId,
           },
@@ -183,15 +185,15 @@ export const communitiesRouter = createTRPCRouter({
         whatsapp: z.string().url().optional(),
         phone: z.string().optional(),
         youtube: z.string().url().optional(),
-        slack : z.string().optional(),
-        discord : z.string().optional(),
+        slack: z.string().optional(),
+        discord: z.string().optional(),
         meetup: z.string().optional(),
         telegram: z.string().optional(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const newCommunityCreation = await ctx.prisma.community.create({
+        const newCommunityCreation = await ctx.db.community.create({
           data: {
             name: input.communityName,
             description: input.communityDescription,
@@ -245,11 +247,11 @@ export const communitiesRouter = createTRPCRouter({
       z.object({
         memberId: z.string(),
         communityId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const addMember = await ctx.prisma.community.update({
+        const addMember = await ctx.db.community.update({
           where: {
             id: input.communityId,
           },
@@ -294,15 +296,15 @@ export const communitiesRouter = createTRPCRouter({
         whatsapp: z.string().url().optional(),
         phone: z.string().optional(),
         youtube: z.string().url().optional(),
-        slack : z.string().optional(),
-        discord : z.string().optional(),
+        slack: z.string().optional(),
+        discord: z.string().optional(),
         meetup: z.string().optional(),
         telegram: z.string().optional(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const communityUpdate = await ctx.prisma.community.update({
+        const communityUpdate = await ctx.db.community.update({
           where: {
             id: input.communityID,
           },
@@ -335,11 +337,11 @@ export const communitiesRouter = createTRPCRouter({
       z.object({
         memberID: z.string(),
         communityID: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const memberRemoval = await ctx.prisma.community.update({
+        const memberRemoval = await ctx.db.community.update({
           where: {
             id: input.communityID,
           },
@@ -356,9 +358,9 @@ export const communitiesRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  getUnpulishedCommunities: publicProcedure.query(async ({ input, ctx }) => {
+  getUnpulishedCommunities: publicProcedure.query(async ({ ctx }) => {
     try {
-      const unpulishedCommunities = await ctx.prisma.community.findMany({
+      const unpulishedCommunities = await ctx.db.community.findMany({
         where: {
           published: false,
         },
@@ -373,11 +375,11 @@ export const communitiesRouter = createTRPCRouter({
     .input(
       z.object({
         communityID: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const communityDeletion = await ctx.prisma.community.delete({
+        const communityDeletion = await ctx.db.community.delete({
           where: {
             id: input.communityID,
           },

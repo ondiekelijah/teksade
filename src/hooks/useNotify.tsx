@@ -1,4 +1,7 @@
-import { ErrorIcon, SuccessIcon } from "@/components/custom-components/icons/actionIcons";
+import {
+  ErrorIcon,
+  SuccessIcon,
+} from "@/app/_components/custom-components/icons/actionIcons";
 import { showNotification } from "@mantine/notifications";
 
 interface NotificationOptions {
@@ -7,7 +10,10 @@ interface NotificationOptions {
 }
 
 const useMantineNotify = () => {
-  const notifySuccess = ({ message, title = "Success" }: NotificationOptions) => {
+  const notifySuccess = ({
+    message,
+    title = "Success",
+  }: NotificationOptions) => {
     showNotification({
       title,
       message,
@@ -16,7 +22,10 @@ const useMantineNotify = () => {
     });
   };
 
-  const notifyError = ({ message, title = "That didn't work" }: NotificationOptions) => {
+  const notifyError = ({
+    message,
+    title = "That didn't work",
+  }: NotificationOptions) => {
     showNotification({
       title,
       message,

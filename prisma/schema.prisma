@@ -2,98 +2,98 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }
 
 model Member {
-  id                  String      @id @unique
-  created_at          DateTime    @default(now())
-  updated_at          DateTime    @default(now()) @updatedAt
-  name                String?
-  email               String?     @unique
-  phone               String?     @unique
-  about               String?
-  institution         String?
-  role                String?     
-  db_role             String?     @default("member")
-  country             String?
-  location            String?
-  github              String?     @unique
-  twitter             String?     @unique
-  linkedin            String?     @unique
-  website             String?     @unique
-  techstack           String[]
-  verified            Boolean?    @default(false)
-  approved            Boolean     @default(false)
-  communities_created Community[] @relation(name: "creator")
-  communities_joined  Community[]
+    id                  String      @id @unique
+    created_at          DateTime    @default(now())
+    updated_at          DateTime    @default(now()) @updatedAt
+    name                String?
+    email               String?     @unique
+    phone               String?     @unique
+    about               String?
+    institution         String?
+    role                String?
+    db_role             String?     @default("member")
+    country             String?
+    location            String?
+    github              String?     @unique
+    twitter             String?     @unique
+    linkedin            String?     @unique
+    website             String?     @unique
+    techstack           String[]
+    verified            Boolean?    @default(false)
+    approved            Boolean     @default(false)
+    communities_created Community[] @relation(name: "creator")
+    communities_joined  Community[]
 }
 
 model Community {
-  id           String   @id @default(uuid())
-  created_at   DateTime @default(now())
-  updated_at   DateTime @default(now()) @updatedAt
-  name         String
-  description  String
-  country      String
-  location     String
-  focus_area   String
-  technologies String[] @default([])
-  verified     Boolean? @default(false)
-  github       String?  @unique
-  twitter      String?  @unique
-  linkedin     String?  @unique
-  website      String?  @unique
-  whatsapp     String?
-  phone        String?  @unique
-  youtube      String?  @unique
-  logo_link    String
-  published    Boolean? @default(false)
-  slack       String?  @unique
-  discord     String?  @unique
-  meetup      String?  @unique
-  telegram    String?  @unique
+    id           String   @id @default(uuid())
+    created_at   DateTime @default(now())
+    updated_at   DateTime @default(now()) @updatedAt
+    name         String
+    description  String
+    country      String
+    location     String
+    focus_area   String
+    technologies String[] @default([])
+    verified     Boolean? @default(false)
+    github       String?  @unique
+    twitter      String?  @unique
+    linkedin     String?  @unique
+    website      String?  @unique
+    whatsapp     String?
+    phone        String?  @unique
+    youtube      String?  @unique
+    logo_link    String
+    published    Boolean? @default(false)
+    slack        String?  @unique
+    discord      String?  @unique
+    meetup       String?  @unique
+    telegram     String?  @unique
 
-  creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
-  creatorId String
+    creator   Member @relation(name: "creator", fields: [creatorId], references: [id])
+    creatorId String
 
-  members Member[]
-  likes   Like[]
+    members Member[]
+    likes   Like[]
 }
 
 model Like {
-  id          Int       @id @default(autoincrement())
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId String
-  memberId    String
+    id          Int       @id @default(autoincrement())
+    community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+    communityId String
+    memberId    String
 
-  @@unique([communityId, memberId])
+    @@unique([communityId, memberId])
 }
 
 model Newsletter {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-  email      String   @unique
-  subscribed Boolean  @default(true)
+    id         Int      @id @default(autoincrement())
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now()) @updatedAt
+    email      String   @unique
+    subscribed Boolean  @default(true)
 }
 
 model Announcements {
-  id              Int      @id @default(autoincrement())
-  created_at      DateTime @default(now())
-  updated_at      DateTime @default(now()) @updatedAt
-  title           String
-  content         String
-  link            String
-  published       Boolean  @default(false)
-  isAdvertisement Boolean  @default(false) // Is this an advertisement or an announcement
-  targetPage      String // The page to display the announcement on
-  duration        Int // How long should the announcement be displayed in days
-  linkedText      String // The text to display on the link
+    id              Int      @id @default(autoincrement())
+    created_at      DateTime @default(now())
+    updated_at      DateTime @default(now()) @updatedAt
+    title           String
+    content         String
+    link            String
+    published       Boolean  @default(false)
+    isAdvertisement Boolean  @default(false) // Is this an advertisement or an announcement
+    targetPage      String // The page to display the announcement on
+    duration        Int // How long should the announcement be displayed in days
+    linkedText      String // The text to display on the link
 }

@@ -7,7 +7,7 @@ import { announcementsRouter } from "./routers/announcements";
 import { emailsRouter } from "./routers/emails";
 
 /**
- * This is the primary router for our backend.
+ * This is the primary router for your server.
  *
  * All routers added in /api/routers should be manually added here.
  */

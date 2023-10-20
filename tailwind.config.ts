@@ -1,12 +1,16 @@
-import { withAnimations } from 'animated-tailwindcss';
+import { fontFamily } from "tailwindcss/defaultTheme";
+import { withAnimations } from "animated-tailwindcss";
 
 export default withAnimations({
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
       colors: {
-        "teksade": "#1A56DB"
-      }
+        teksade: "#1A56DB",
+      },
     },
   },
   plugins: [],

@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 
 // Handle email subscriptions
@@ -9,11 +8,11 @@ export const newsletterRouter = createTRPCRouter({
     .input(
       z.object({
         email: z.string().email(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const newSubscriber = await ctx.prisma.newsletter.create({
+        const newSubscriber = await ctx.db.newsletter.create({
           data: {
             email: input.email,
           },

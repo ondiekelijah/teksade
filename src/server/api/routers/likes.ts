@@ -7,11 +7,11 @@ export const likesRouter = createTRPCRouter({
       z.object({
         memberId: z.string(),
         communityId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const newLike = await ctx.prisma.like.create({
+        const newLike = await ctx.db.like.create({
           data: {
             communityId: input.communityId,
             memberId: input.memberId,
@@ -32,11 +32,11 @@ export const likesRouter = createTRPCRouter({
     .input(
       z.object({
         communityId: z.string(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
-        const getNumberOfLikes = await ctx.prisma.community.findUnique({
+        const getNumberOfLikes = await ctx.db.community.findUnique({
           where: {
             id: input.communityId,
           },
@@ -63,11 +63,11 @@ export const likesRouter = createTRPCRouter({
     .input(
       z.object({
         likeId: z.number(),
-      })
+      }),
     )
     .mutation(async ({ input, ctx }) => {
       try {
-        const deletedLike = await ctx.prisma.like.delete({
+        const deletedLike = await ctx.db.like.delete({
           where: {
             id: input.likeId,
           },

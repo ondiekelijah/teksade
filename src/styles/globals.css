@@ -1,11 +1,8 @@
-/* @tailwind base; Tailwind base styles are muted to avoid conflicts with Normalize Css Used in Mantine*/
+ /* To contributors :Tailwiind base styles are commented out to avoid conflict with Maintine base styles */
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-}
 
 a,
 a:hover,

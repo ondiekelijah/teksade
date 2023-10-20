@@ -7,12 +7,12 @@ export const membersRouter = createTRPCRouter({
     .input(
       z.object({
         memberId: z.string(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
         const authInfo = await clerkClient.users.getUser(input.memberId);
-        const memberInfo = await ctx.prisma.member.findUnique({
+        const memberInfo = await ctx.db.member.findUnique({
           where: {
             id: input.memberId,
           },
@@ -42,11 +42,11 @@ export const membersRouter = createTRPCRouter({
         twitter: z.string().nullable().optional(),
         linkedin: z.string().nullable().optional(),
         website: z.string().nullable().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const updateMemberDetails = await ctx.prisma.member.upsert({
+        const updateMemberDetails = await ctx.db.member.upsert({
           where: {
             id: input.memberId,
           },
@@ -90,11 +90,11 @@ export const membersRouter = createTRPCRouter({
       z.object({
         memberId: z.string(),
         searchTerm: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
-        const createdCommunities = await ctx.prisma.community.findMany({
+        const createdCommunities = await ctx.db.community.findMany({
           where: {
             creatorId: input.memberId,
             name: {
@@ -120,11 +120,11 @@ export const membersRouter = createTRPCRouter({
       z.object({
         memberId: z.string(),
         searchTerm: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ input, ctx }) => {
       try {
-        const joinedCommunites = await ctx.prisma.member.findUnique({
+        const joinedCommunites = await ctx.db.member.findUnique({
           where: {
             id: input.memberId,
           },
