@@ -1,8 +1,9 @@
-import { techFocusAreas } from "@/utils/constants";
+import { techFocusAreas, technologies } from "@/utils/constants";
 import { storageBucket } from "@/utils/firestoreConfig";
 import {
   FileInput,
   LoadingOverlay,
+  MultiSelect,
   Select,
   TextInput,
   Textarea,
@@ -227,15 +228,14 @@ export default function CommunityUpdateModal({
           searchable
           clearable
         />
-        {/* TODO this components causes a runtime error which need fixing */}
-        {/* <MultiSelect
+        <MultiSelect
           {...updateForm.getInputProps("technologies")}
           size="md"
           data={technologies}
           label="Technologies"
           searchable
           clearable
-        /> */}
+        />
         <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
           <TextInput
             {...updateForm.getInputProps("github")}

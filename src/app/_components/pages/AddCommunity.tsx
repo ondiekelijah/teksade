@@ -1,12 +1,13 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { countries, techFocusAreas } from "@/utils/constants";
+import { countries, techFocusAreas, technologies } from "@/utils/constants";
 import { useUser } from "@clerk/nextjs";
 import {
   Button,
   FileInput,
   LoadingOverlay,
+  MultiSelect,
   Select,
   Stepper,
   TextInput,
@@ -283,16 +284,15 @@ export default function NewCommunityPage() {
               withAsterisk
               placeholder="Select your major focus Area"
             />
-            {/* TODO:This  components in causing a runtime error that needs fixing */}
-            {/* <MultiSelect
+            <MultiSelect
               label="Related Technologies"
-              data={techList}
+              data={technologies}
               placeholder="Pick your technologies"
               searchable
               clearable
               {...form.getInputProps("technologies")}
               size="md"
-            /> */}
+            />
             <div className="my-4 flex justify-end ">
               <CustomButton
                 size="md"
