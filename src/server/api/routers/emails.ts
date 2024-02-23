@@ -11,41 +11,37 @@ export const emailsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      try {
-        const communityToPublish = await ctx.db.community.update({
-          where: {
-            id: input.communityId,
-          },
-          data: {
-            published: true,
-          },
-          select: {
-            name: true,
-            id: true,
-            creator: {
-              select: {
-                email: true,
-              },
+      const communityToPublish = await ctx.db.community.update({
+        where: {
+          id: input.communityId,
+        },
+        data: {
+          published: true,
+        },
+        select: {
+          name: true,
+          id: true,
+          creator: {
+            select: {
+              email: true,
             },
           },
-        });
-        const sendCommunityPublishedEmail = await resend.emails.send({
-          from: "Teksade <contact@teksade.com>",
-          to: communityToPublish.creator.email ?? "teksadeproject@gmail.com",
-          subject: "🎉 Hooray! Your community is now live!",
-          react: CommunityPublishedEmail({
-            communityName: communityToPublish.name,
-            communityId: communityToPublish.id,
-          }),
-        });
-        if (sendCommunityPublishedEmail.id) {
-          console.log("Sent to", communityToPublish.creator.email);
-        } else {
-          console.log(" Not Sent", communityToPublish.creator.email);
-        }
-        return sendCommunityPublishedEmail.id;
-      } catch (error) {
-        console.log(error);
+        },
+      });
+      const sendCommunityPublishedEmail = await resend.emails.send({
+        from: "Teksade <contact@teksade.com>",
+        to: communityToPublish.creator.email ?? "teksadeproject@gmail.com",
+        subject: "🎉 Hooray! Your community is now live!",
+        react: CommunityPublishedEmail({
+          communityName: communityToPublish.name,
+          communityId: communityToPublish.id,
+        }),
+      });
+      if (sendCommunityPublishedEmail.data?.id) {
+        console.log("Sent to", communityToPublish.creator.email);
+      } else {
+        console.log(" Not Sent", communityToPublish.creator.email);
       }
+      return sendCommunityPublishedEmail.data?.id;
     }),
 });
