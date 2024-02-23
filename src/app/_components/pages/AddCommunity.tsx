@@ -386,7 +386,6 @@ export default function NewCommunityPage() {
           <Stepper.Step label="Step 3" description="Image Upload">
             <div className="flex flex-col gap-4 pt-4">
               <FileInput
-                placeholder="Got a perfect community snapshot? Share it here!"
                 value={profileImage}
                 onChange={handleImageChange}
                 error={

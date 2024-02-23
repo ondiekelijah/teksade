@@ -187,7 +187,6 @@ export default function CommunityUpdateModal({
           />
         </div>
         <FileInput
-          placeholder="Update cover image"
           value={newProfileImage}
           onChange={setNewProfileImage}
           error={
