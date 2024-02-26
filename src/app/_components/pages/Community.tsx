@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @next/next/no-img-element */
 import { Avatar, Text } from "@mantine/core";
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { ref } from "firebase/storage";
 import { storageBucket } from "@/utils/firestoreConfig";
@@ -38,6 +37,7 @@ import LocationIcon from "../custom-components/icons/locationIcon";
 import CustomButton from "../custom-components/button";
 import MemberCard from "../sections/MemberCard";
 import LikeButton from "../custom-components/likeButton";
+import { LinkedinShareButton, TwitterShareButton } from "react-share";
 
 interface SocialLinksProps {
   links: {
@@ -254,7 +254,8 @@ export default function SingleCommunityPage() {
     });
   };
 
-  console.log(communityInfo.data);
+  const pathname = usePathname();
+  const currentUrl = `${pathname}?${searchParams.toString()}`;
 
   return (
     <>
@@ -416,8 +417,39 @@ export default function SingleCommunityPage() {
 
               {/* Right Column: Social Media Links, Technologies, and Member Info */}
               <div className="space-y-6">
-                <div className="flex items-center  lg:items-end">
-                  <SocialLinks links={linksData} />
+                <div className="mt-0 flex items-center justify-between">
+                  <div className="flex flex-col items-center space-x-2">
+                    <div className="mt-0 flex items-center lg:items-end">
+                      <SocialLinks links={linksData} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center space-x-2">
+                    <div className="mb-2 flex flex-col items-end text-sm text-slate-400">
+                      Share your Community!
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <LinkedinShareButton
+                        url={`https://teksade.vercel.app${currentUrl}`}
+                        title={communityInfo.data?.name}
+                        summary="Check out this amazing community!"
+                        source="TekSadeHq"
+                      >
+                        <ActionIcon size="lg" variant="default" radius="xl">
+                          <FaLinkedin />
+                        </ActionIcon>
+                      </LinkedinShareButton>
+                      <TwitterShareButton
+                        url={`https://teksade.vercel.app${currentUrl}`}
+                        hashtags={["DevsUnited", "CodingCommunity"]}
+                        related={["@teksade"]}
+                        title={`Join me at ${communityInfo.data?.name}, a vibrant community of passionate developers! We share ideas, collaborate on projects, and help each other grow. `}
+                      >
+                        <ActionIcon size="lg" variant="default" radius="xl">
+                          <FaTwitter />
+                        </ActionIcon>
+                      </TwitterShareButton>
+                    </div>
+                  </div>
                 </div>
 
                 <Technologies
